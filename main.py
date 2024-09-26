@@ -9,9 +9,17 @@ class Main(QtWidgets.QMainWindow):
         var.ui=Ui_venPrincipal()
         var.ui.setupUi(self)
 
+        '''
+        
+        
+        zona de eventos del menubar
+        '''
+
+
+
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])
     window=Main()
-    window.show()
+    window.showMaximized()
     sys.exit(app.exec())
