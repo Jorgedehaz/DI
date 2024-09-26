@@ -1,6 +1,7 @@
 from venPrincipal import*
 import sys
 import var
+import eventos
 
 class Main(QtWidgets.QMainWindow):
 
@@ -14,7 +15,7 @@ class Main(QtWidgets.QMainWindow):
         
         zona de eventos del menubar
         '''
-
+        var.ui.actionSalir.triggered.connect(eventos.Eventos.mensajeSalir)
 
 
 
