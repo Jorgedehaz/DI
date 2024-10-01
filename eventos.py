@@ -22,6 +22,8 @@ class Eventos():
 
     def validarDNI(dni):
         try:
+            dni = str(dni).upper()
+            var.ui.txtDnicli.setText(str(dni))
             tabla = "TRWAGMYFPDXBNJZSQVHLCKE"
             dig_ext = "XYZ"
             reemp_dig_ext = {'X': '0', 'Y': '1', 'Z': '2'}

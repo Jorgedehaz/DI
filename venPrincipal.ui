@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1024</width>
+    <width>1039</width>
     <height>768</height>
    </rect>
   </property>
@@ -99,6 +99,12 @@
           </item>
           <item row="2" column="1">
            <widget class="QLineEdit" name="txtEmailcli">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="minimumSize">
              <size>
               <width>300</width>
@@ -126,6 +132,12 @@
           </item>
           <item row="1" column="1">
            <widget class="QLineEdit" name="txtDnicli_2">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="minimumSize">
              <size>
               <width>300</width>
@@ -171,6 +183,12 @@
           </item>
           <item row="3" column="1" colspan="3">
            <widget class="QLineEdit" name="txtDircli">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="minimumSize">
              <size>
               <width>300</width>
@@ -423,7 +441,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1024</width>
+     <width>1039</width>
      <height>21</height>
     </rect>
    </property>

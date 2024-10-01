@@ -10,9 +10,9 @@ class Clientes:
             var.ui.txtDnicli.setText(str(dni))
             check=eventos.Eventos.validarDNI(dni)
             if check:
-                var.ui.txtDnicli.setStyleSheet('background-color: rgb(255, 255, 255);')
+                var.ui.txtDnicli.setStyleSheet('background-color: green;')
             else:
-                var.ui.txtDnicli.setStyleSheet('background-color:#FFC0CB')
+                var.ui.txtDnicli.setStyleSheet('background-color: red')
                 var.ui.txtDnicli.setText(None)
                 var.ui.txtDnicli.setFocus()
         except Exception as e:
