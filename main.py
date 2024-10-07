@@ -1,10 +1,12 @@
 import clientes
 from venPrincipal import*
+from venAux import *
 import sys
 import var
 import eventos
 import conexion
 import styles
+
 
 class Main(QtWidgets.QMainWindow):
 
@@ -12,17 +14,24 @@ class Main(QtWidgets.QMainWindow):
         super(Main,self).__init__()
         var.ui=Ui_venPrincipal()
         var.ui.setupUi(self)
+        var.uicalendar = Calendar()
+        conexion.Conexion.db_conexion(self)
+
+
+
 
         '''
         zona de eventos del menubar
         '''
         var.ui.actionSalir.triggered.connect(eventos.Eventos.mensajeSalir)
 
+
         '''
         eventos de botones
         '''
 
         var.ui.btnGrabarcli.clicked.connect(clientes.Clientes.altaCliente)
+        var.ui.btnAltacli.clicked.connect(lambda: eventos.Eventos.abrirCalendar(0))
 
         '''
         eventos de cajas de texto
@@ -30,6 +39,13 @@ class Main(QtWidgets.QMainWindow):
 
         var.ui.txtDnicli.editingFinished.connect(lambda:clientes.Clientes.checkDNI(var.ui.txtDnicli.text()))
 
+        '''
+        eventos de comobox
+        '''
+
+'''
+        var.ui.cmbProvcli.currentIndexChanged.connect(eventos.Eventos.cargamunicli)
+'''
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])

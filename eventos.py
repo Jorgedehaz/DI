@@ -1,4 +1,7 @@
 import sys , var
+import time
+import conexion
+
 from PyQt6 import QtWidgets, QtGui
 
 
@@ -19,6 +22,16 @@ class Eventos():
             sys.exit()
         else:
             mbox.hide()
+
+    def cargarProv(self):
+        var.ui.cmbProvicli.clear()
+        listado=conexion.Conexion.listaProv(self)
+        var.ui.cmbProvcli.addItems(listado)
+
+    def cargaMuniCli(self):
+        provincia= var.ui.cmbProvCli.currentText()
+        listado= conexion.Conexion.listaMuniprov(provincia)
+        var.ui.cmbMunicli.addItems(listado)
 
     def validarDNI(dni):
         try:
@@ -41,3 +54,21 @@ class Eventos():
                 return False
         except Exception as error:
             print("error en validar dni ", error)
+
+    def abrirCalendar(op):
+        try:
+            var.panel = op
+            var.uicalendar.show()
+        except Exception as error:
+            print("error en abrir calendar ", error)
+
+    def cargaFecha(qDate):
+        try:
+            data = ('{:02d}/{:02d}/{:4d}'.format(qDate.day(), qDate.month(), qDate.year()))
+            if var.panel == var.ui.panPrincipal.currentIndex():
+                var.ui.txtAltacli.setText(str(data))
+            time.sleep(0.5)
+            var.uicalendar.hide()
+            return data
+        except Exception as error:
+            print("error en cargar fecha: ", error)
