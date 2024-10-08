@@ -21,7 +21,6 @@ class Main(QtWidgets.QMainWindow):
 
 
 
-
         '''
         zona de eventos del menubar
         '''
@@ -35,6 +34,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui.btnGrabarcli.clicked.connect(clientes.Clientes.altaCliente)
         var.ui.btnAltacli.clicked.connect(lambda: eventos.Eventos.abrirCalendar(0))
 
+
         '''
         eventos de cajas de texto
         '''
@@ -46,7 +46,7 @@ class Main(QtWidgets.QMainWindow):
         eventos de comobox
         '''
 
-        var.ui.cmbProvcli.currentIndexChanged.connect(eventos.Eventos.cargaMunicli)
+        var.ui.cmbProvicli.currentIndexChanged.connect(eventos.Eventos.cargaMunicli)
 
 
 

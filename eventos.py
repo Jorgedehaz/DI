@@ -25,13 +25,14 @@ class Eventos():
             mbox.hide()
 
     def cargarProv(self):
-        var.ui.cmbProvcli.clear()
+        var.ui.cmbProvicli.clear()
         listado=conexion.Conexion.listaProv(self)
-        var.ui.cmbProvcli.addItems(listado)
+        var.ui.cmbProvicli.addItems(listado)
 
     def cargaMunicli(self):
-        provincia= var.ui.cmbProvcli.currentText()
+        provincia= var.ui.cmbProvicli.currentText()
         listado= conexion.Conexion.listaMuniprov(provincia)
+        var.ui.cmbMunicli.clear()
         var.ui.cmbMunicli.addItems(listado)
 
     def validarDNI(dni):
