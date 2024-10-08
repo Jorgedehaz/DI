@@ -1,6 +1,7 @@
 import sys , var
 import time
 import conexion
+import re
 
 from PyQt6 import QtWidgets, QtGui
 
@@ -24,12 +25,12 @@ class Eventos():
             mbox.hide()
 
     def cargarProv(self):
-        var.ui.cmbProvicli.clear()
+        var.ui.cmbProvcli.clear()
         listado=conexion.Conexion.listaProv(self)
         var.ui.cmbProvcli.addItems(listado)
 
-    def cargaMuniCli(self):
-        provincia= var.ui.cmbProvCli.currentText()
+    def cargaMunicli(self):
+        provincia= var.ui.cmbProvcli.currentText()
         listado= conexion.Conexion.listaMuniprov(provincia)
         var.ui.cmbMunicli.addItems(listado)
 
@@ -72,3 +73,11 @@ class Eventos():
             return data
         except Exception as error:
             print("error en cargar fecha: ", error)
+
+    def validarMail(mail):
+        mail = mail.lower()
+        regex = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w+$'
+        if re.match(regex, mail):
+            return True
+        else:
+            return False

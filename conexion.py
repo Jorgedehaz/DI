@@ -48,12 +48,13 @@ class Conexion:
         if query.exec():
             while query.next():
                 listaprov.append(query.value(1))
+        print(listaprov)
         return listaprov
 
     def listaMuniprov(provincia):
         listamunicipios = []
         query = QtSql.QSqlQuery()
-        query.prepare("SELECT * FROM municipios where idprov = (select idprov from provincias where provincia = ?)")
+        query.prepare("SELECT * FROM municipios where idprov = (select idprov from provincias  where provincia = ?)")
         query.bindValue(0, provincia)
         if query.exec():
             while query.next():

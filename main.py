@@ -8,6 +8,7 @@ import conexion
 import styles
 
 
+
 class Main(QtWidgets.QMainWindow):
 
     def __init__(self):
@@ -16,6 +17,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui.setupUi(self)
         var.uicalendar = Calendar()
         conexion.Conexion.db_conexion(self)
+        eventos.Eventos.cargarProv(self)
 
 
 
@@ -38,14 +40,15 @@ class Main(QtWidgets.QMainWindow):
         '''
 
         var.ui.txtDnicli.editingFinished.connect(lambda:clientes.Clientes.checkDNI(var.ui.txtDnicli.text()))
+        var.ui.txtEmailcli.editingFinished.connect(lambda: clientes.Clientes.checkEmail(var.ui.txtEmailcli.text()))
 
         '''
         eventos de comobox
         '''
 
-'''
-        var.ui.cmbProvcli.currentIndexChanged.connect(eventos.Eventos.cargamunicli)
-'''
+        var.ui.cmbProvcli.currentIndexChanged.connect(eventos.Eventos.cargaMunicli)
+
+
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])
