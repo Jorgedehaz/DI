@@ -1,5 +1,5 @@
-from PyQt6 import QtWidgets
-from PyQt6.uic.properties import QtGui
+from PyQt6 import QtWidgets, QtGui
+
 
 import conexion
 import eventos
@@ -37,9 +37,16 @@ class Clientes:
                     QtWidgets.QMessageBox.StandardButton.Ok)
                 mbox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.Ok)
                 mbox.button(QtWidgets.QMessageBox.StandardButton.Ok).setText('Aceptar')
+                mbox.exec()
             else:
-                QtWidgets.QMessageBox.critical(None, 'Error',
-                                               QtWidgets.QMessageBox.StandardButton.Cancel)
+                mbox= QtWidgets.QMessageBox()
+                mbox.setWindowTitle("Aviso")
+                mbox.setIcon(QtWidgets.QMessageBox.Icon.Critical)
+                mbox.setWindowIcon(QtGui.QIcon('./img/iconoInmo.ico'))
+                mbox.setText("Error faltan datos o cliente existe")
+                mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Cancel)
+                mbox.exec()
+
         except Exception as e:
             print("error alta cliente", e)
 

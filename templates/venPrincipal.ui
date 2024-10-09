@@ -19,6 +19,10 @@
   <property name="windowTitle">
    <string>InmoTeis</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../img/iconoInmo.ico</normaloff>../img/iconoInmo.ico</iconset>
+  </property>
   <property name="layoutDirection">
    <enum>Qt::LeftToRight</enum>
   </property>
@@ -151,6 +155,12 @@
               <height>0</height>
              </size>
             </property>
+            <property name="maximumSize">
+             <size>
+              <width>300</width>
+              <height>16777215</height>
+             </size>
+            </property>
            </widget>
           </item>
           <item row="2" column="5">
@@ -236,16 +246,9 @@
             </property>
             <property name="minimumSize">
              <size>
-              <width>120</width>
+              <width>150</width>
               <height>0</height>
              </size>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="12">
-           <widget class="QCheckBox" name="chkHistoriacli">
-            <property name="text">
-             <string>Histórico</string>
             </property>
            </widget>
           </item>
@@ -366,7 +369,7 @@
             </property>
             <property name="minimumSize">
              <size>
-              <width>300</width>
+              <width>200</width>
               <height>0</height>
              </size>
             </property>
@@ -439,6 +442,13 @@
              </size>
             </property>
            </spacer>
+          </item>
+          <item row="3" column="10">
+           <widget class="QCheckBox" name="chkHistoriacli">
+            <property name="text">
+             <string>Histórico</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
