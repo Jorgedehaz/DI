@@ -27,17 +27,18 @@ class Clientes:
             nuevocli= [var.ui.txtDnicli.text(), var.ui.txtAltacli.text(), var.ui.txtApelcli.text(), var.ui.txtNomcli.text(),
                     var.ui.txtEmailcli.text(), var.ui.txtMovilcli.text(), var.ui.txtDircli.text(), var.ui.cmbProvicli.currentText(),
                     var.ui.cmbMunicli.currentText()]
-            if conexion.Conexion.altaCliente(nuevocli):
-                mbox = QtWidgets.QMessageBox()
-                mbox.setIcon(QtWidgets.QMessageBox.Icon.Warning)
-                mbox.setWindowIcon(QtGui.QIcon('./img/iconoInmo.ico'))
-                mbox.setWindowTitle('Aviso')
-                mbox.setText("Cliente dado de alta en la BBDD")
-                mbox.setStandardButtons(
-                    QtWidgets.QMessageBox.StandardButton.Ok)
-                mbox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.Ok)
-                mbox.button(QtWidgets.QMessageBox.StandardButton.Ok).setText('Aceptar')
-                mbox.exec()
+            if (var.ui.txtDnicli.text()!=""):
+                if conexion.Conexion.altaCliente(nuevocli):
+                    mbox = QtWidgets.QMessageBox()
+                    mbox.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                    mbox.setWindowIcon(QtGui.QIcon('./img/iconoInmo.ico'))
+                    mbox.setWindowTitle('Aviso')
+                    mbox.setText("Cliente dado de alta en la BBDD")
+                    mbox.setStandardButtons(
+                        QtWidgets.QMessageBox.StandardButton.Ok)
+                    mbox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.Ok)
+                    mbox.button(QtWidgets.QMessageBox.StandardButton.Ok).setText('Aceptar')
+                    mbox.exec()
             else:
                 mbox= QtWidgets.QMessageBox()
                 mbox.setWindowTitle("Aviso")
