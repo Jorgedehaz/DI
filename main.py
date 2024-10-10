@@ -5,6 +5,7 @@ import sys
 import var
 import eventos
 import conexion
+
 import styles
 
 
@@ -18,6 +19,8 @@ class Main(QtWidgets.QMainWindow):
         var.uicalendar = Calendar()
         conexion.Conexion.db_conexion(self)
         eventos.Eventos.cargarProv(self)
+        clientes.Clientes.cargaTablaClientes(self)
+        eventos.Eventos.resizeTablaClientes(self)
 
 
 
