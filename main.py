@@ -1,12 +1,16 @@
-import clientes
-from venPrincipal import*
+from calendar import Calendar
+
+import conexionserver
+from venPrincipal import *
 from venAux import *
+
+import clientes
+import conexion
+import eventos
+import styles
+
 import sys
 import var
-import eventos
-import conexion
-
-import styles
 
 
 
@@ -20,15 +24,21 @@ class Main(QtWidgets.QMainWindow):
         conexion.Conexion.db_conexion(self)
         eventos.Eventos.cargarProv(self)
         clientes.Clientes.cargaTablaClientes(self)
+        self.setStyleSheet(styles.load_stylesheet())
+
+        '''
+        Eventos de Tablas
+        '''
+        clientes.Clientes.cargaTablaClientes(self)
         eventos.Eventos.resizeTablaClientes(self)
-
-
+        var.ui.tablaClientes.clicked.connect(clientes.Clientes.cargaOneCliente)
 
         '''
         zona de eventos del menubar
         '''
         var.ui.actionSalir.triggered.connect(eventos.Eventos.mensajeSalir)
-
+        var.ui.actionCrear_Backup.triggered.connect(eventos.Eventos.crearBackup)
+        var.ui.actionRestaurar_Backup.triggered.connect(eventos.Eventos.restauraraBackup)
 
         '''
         eventos de botones
@@ -36,6 +46,9 @@ class Main(QtWidgets.QMainWindow):
 
         var.ui.btnGrabarcli.clicked.connect(clientes.Clientes.altaCliente)
         var.ui.btnAltacli.clicked.connect(lambda: eventos.Eventos.abrirCalendar(0))
+        var.ui.btnBajacli.clicked.connect(lambda: eventos.Eventos.abrirCalendar(0))
+        var.ui.btnModifcli.clicked.connect(clientes.Clientes.modifCliente)
+        var.ui.btnDelecli.clicked.connect(clientes.Clientes.bajaCliente)
 
 
         '''
@@ -48,9 +61,15 @@ class Main(QtWidgets.QMainWindow):
         '''
         eventos de comobox
         '''
-
+        eventos.Eventos.cargarProv(self)
+        eventos.Eventos.cargaMunicli(self)
         var.ui.cmbProvicli.currentIndexChanged.connect(eventos.Eventos.cargaMunicli)
 
+        '''
+        Eventos ToolBar
+        '''
+        var.ui.actionSalir.triggered.connect(eventos.Eventos.mensajeSalir)
+        var.ui.actionBorrar.triggered.connect(eventos.Eventos.limpiarPanel)
 
 
 if __name__ == '__main__':
