@@ -2,7 +2,7 @@ from operator import index
 
 from PyQt6 import QtWidgets, QtGui, QtCore
 from PyQt6.QtGui import QIcon
-
+import clientes
 import conexion
 import eventos
 import var
@@ -54,66 +54,6 @@ class Clientes:
         except Exception as e:
             print("error alta cliente", e)
 
-    def checkEmail(mail):
-        try:
-            mail = str(var.ui.txtEmailcli.text())
-            if eventos.Eventos.validarMail(mail):
-                var.ui.txtEmailcli.setStyleSheet('background-color: green;')
-                var.ui.txtEmailcli.setText(mail.lower())
-
-            else:
-                var.ui.txtEmailcli.setStyleSheet('background-color:red; font-style: italic;')
-                var.ui.txtEmailcli.setText(None)
-                var.ui.txtEmailcli.setText("correo no válido")
-                var.ui.txtEmailcli.setFocus()
-
-        except Exception as error:
-            print("error check cliente", error)
-
-    def cargaTablaClientes(self):
-        try:
-            listado = conexion.Conexion.listadoClientes(self)
-            index=0
-            print(listado)
-            for registro in listado:
-                var.ui.tablaClientes.setRowCount(index + 1)
-                var.ui.tablaClientes.setItem(index,0, QtWidgets.QTableWidgetItem(registro[2]))
-                var.ui.tablaClientes.setItem(index,1, QtWidgets.QTableWidgetItem(registro[3]))
-                var.ui.tablaClientes.setItem(index,2, QtWidgets.QTableWidgetItem("  " + registro[5] + "  "))
-                var.ui.tablaClientes.setItem(index,3, QtWidgets.QTableWidgetItem(registro[7]))
-                var.ui.tablaClientes.setItem(index,4, QtWidgets.QTableWidgetItem(registro[8]))
-                var.ui.tablaClientes.setItem(index,5, QtWidgets.QTableWidgetItem(registro[9]))
-                var.ui.tablaClientes.item(index,0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-                var.ui.tablaClientes.item(index,1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-                var.ui.tablaClientes.item(index,2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
-                var.ui.tablaClientes.item(index,3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-                var.ui.tablaClientes.item(index,4).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-                var.ui.tablaClientes.item(index,5).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
-
-                index+=1
-
-        except Exception as e:
-            print("error cargaTablaClientes", e)
-
-    def cargaOneCliente(self):
-        try:
-            fila = var.ui.tabClientes.selectedItems()
-            datos = [dato.text() for dato in fila]
-            registro = conexion.Conexion.datosOneCliente(str(datos[0]))
-            listado = [var.ui.txtDnicli, var.ui.txtAltacli, var.ui.txtApelcli,
-                       var.ui.txtNomcli, var.ui.txtEmailcli, var.ui.txtMovilcli,
-                       var.ui.txtDircli,
-                       var.ui.cmbProvicli, var.ui.cmbMunicli]
-
-            for i in range(len(listado)):
-                if i == 7 or i == 8:
-                    listado[i].setCurrentText(registro[i])
-                else:
-                    listado[i].setText(registro[i])
-
-        except Exception as error:
-            print("Error cargando datos del cliente", error)
-
     def modifCliente(self):
         try:
             modifCli = [var.ui.txtDnicli.text(), var.ui.txtAltacli.text(), var.ui.txtApelcli.text(),
@@ -153,6 +93,7 @@ class Clientes:
 
     def bajaCliente(self):
         try:
+            op = True
             datos = [var.ui.txtDniCliente.text(), var.ui.txtBajaCliente.text()]
 
             if conexion.Conexion.bajaCliente(datos):
@@ -184,3 +125,78 @@ class Clientes:
 
         except Exception as e:
             print("Error baja de clientes", e)
+
+    def checkEmail(mail):
+        try:
+            mail = str(var.ui.txtEmailcli.text())
+            if eventos.Eventos.validarMail(mail):
+                var.ui.txtEmailcli.setStyleSheet('background-color: green;')
+                var.ui.txtEmailcli.setText(mail.lower())
+
+            else:
+                var.ui.txtEmailcli.setStyleSheet('background-color:red; font-style: italic;')
+                var.ui.txtEmailcli.setText(None)
+                var.ui.txtEmailcli.setText("correo no válido")
+                var.ui.txtEmailcli.setFocus()
+
+        except Exception as error:
+            print("error check cliente", error)
+
+    def cargaTablaClientes(self):
+        try:
+            listado = conexion.Conexion.listadoClientes(self)
+            index=0
+            print(listado)
+            for registro in listado:
+                var.ui.tablaClientes.setRowCount(index + 1)
+                var.ui.tablaClientes.setItem(index, 0, QtWidgets.QTableWidgetItem("  " + registro[0] + "  "))
+                var.ui.tablaClientes.setItem(index, 1, QtWidgets.QTableWidgetItem("  " + registro[2] + "  "))
+                var.ui.tablaClientes.setItem(index, 2, QtWidgets.QTableWidgetItem("  " + registro[3] + "  "))
+                var.ui.tablaClientes.setItem(index, 3, QtWidgets.QTableWidgetItem("   " + registro[5] + "   "))
+                var.ui.tablaClientes.setItem(index, 4, QtWidgets.QTableWidgetItem("  " + registro[7] + "  "))
+                var.ui.tablaClientes.setItem(index, 5, QtWidgets.QTableWidgetItem("  " + registro[8] + "  "))
+                var.ui.tablaClientes.setItem(index, 6, QtWidgets.QTableWidgetItem("  " + registro[9] + "  "))
+
+                var.ui.tablaClientes.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                var.ui.tablaClientes.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                var.ui.tablaClientes.item(index, 2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                var.ui.tablaClientes.item(index, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                var.ui.tablaClientes.item(index, 4).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                var.ui.tablaClientes.item(index, 5).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                var.ui.tablaClientes.item(index, 6).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+
+                index+=1
+
+        except Exception as e:
+            print("error cargaTablaClientes", e)
+
+    def cargaOneCliente(self):
+        try:
+            fila = var.ui.tabClientes.selectedItems()
+            datos = [dato.text() for dato in fila]
+            registro = conexion.Conexion.datosOneCliente(str(datos[0]))
+            listado = [var.ui.txtDnicli, var.ui.txtAltacli, var.ui.txtApelcli,
+                       var.ui.txtNomcli, var.ui.txtEmailcli, var.ui.txtMovilcli,
+                       var.ui.txtDircli,
+                       var.ui.cmbProvicli, var.ui.cmbMunicli]
+
+            for i in range(len(listado)):
+                if i == 7 or i == 8:
+                    listado[i].setCurrentText(registro[i])
+                else:
+                    listado[i].setText(registro[i])
+
+        except Exception as error:
+            print("Error cargando datos del cliente", error)
+
+
+
+    def historicoCli(self):
+        try:
+            if var.ui.chkHistoriacli.isChecked():
+                var.historico = 0
+            else:
+                var.historico = 1
+            Clientes.cargaTablaClientes(self)
+        except Exception as e:
+            print("checkbox historico", e)

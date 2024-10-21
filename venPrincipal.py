@@ -160,7 +160,7 @@ class Ui_venPrincipal(object):
         self.btnAltacli.setMinimumSize(QtCore.QSize(25, 25))
         self.btnAltacli.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(".\\\\templates\\../../../../../.designer/img/calendar.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon1.addPixmap(QtGui.QPixmap(".\\\\templates\\../img/calendar.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.btnAltacli.setIcon(icon1)
         self.btnAltacli.setIconSize(QtCore.QSize(24, 24))
         self.btnAltacli.setObjectName("btnAltacli")

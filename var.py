@@ -5,5 +5,9 @@ fichero de variables globales
 '''
 
 global ui
-global uicalendar
-global op
+global uiCalendar
+global panel
+global dlgabrir
+global btn
+global historico
+

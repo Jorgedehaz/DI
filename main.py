@@ -4,13 +4,13 @@ import conexionserver
 from venPrincipal import *
 from venAux import *
 
+import var
 import clientes
 import conexion
 import eventos
 import styles
-
 import sys
-import var
+
 
 
 
@@ -20,8 +20,9 @@ class Main(QtWidgets.QMainWindow):
         super(Main,self).__init__()
         var.ui=Ui_venPrincipal()
         var.ui.setupUi(self)
-        var.uicalendar = Calendar()
+        var.uiCalendar = Calendar()
         conexion.Conexion.db_conexion(self)
+        var.historico = 1
         eventos.Eventos.cargarProv(self)
         clientes.Clientes.cargaTablaClientes(self)
         self.setStyleSheet(styles.load_stylesheet())
@@ -45,8 +46,8 @@ class Main(QtWidgets.QMainWindow):
         '''
 
         var.ui.btnGrabarcli.clicked.connect(clientes.Clientes.altaCliente)
-        var.ui.btnAltacli.clicked.connect(lambda: eventos.Eventos.abrirCalendar(0))
-        var.ui.btnBajacli.clicked.connect(lambda: eventos.Eventos.abrirCalendar(0))
+        var.ui.btnAltacli.clicked.connect(lambda: eventos.Eventos.abrirCalendar(0,0))
+        var.ui.btnBajacli.clicked.connect(lambda: eventos.Eventos.abrirCalendar(0,1))
         var.ui.btnModifcli.clicked.connect(clientes.Clientes.modifCliente)
         var.ui.btnDelecli.clicked.connect(clientes.Clientes.bajaCliente)
 
@@ -71,6 +72,10 @@ class Main(QtWidgets.QMainWindow):
         var.ui.actionSalir.triggered.connect(eventos.Eventos.mensajeSalir)
         var.ui.actionBorrar.triggered.connect(eventos.Eventos.limpiarPanel)
 
+        '''
+        Eventos Checkbox
+        '''
+        var.ui.chkHistoriacli.stateChanged.connect(clientes.Clientes.historicoCli)
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])

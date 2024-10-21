@@ -5,6 +5,7 @@ import time
 import zipfile
 import eventos
 import clientes
+import var
 
 from PyQt6.QtGui import QIcon
 from datetime import datetime
@@ -75,7 +76,7 @@ class Eventos():
             elif var.panel == var.ui.panPrincipal.currentIndex() and var.btn==1:
                 var.ui.txtBajacli.setText(str(data))
             time.sleep(0.5)
-            var.uicalendar.hide()
+            var.uiCalendar.hide()
             return data
         except Exception as error:
             print("error en cargar fecha: ", error)
