@@ -72,8 +72,8 @@ class Conexion:
 
             query = QtSql.QSqlQuery()
             query.prepare("INSERT into CLIENTES (dnicli,altacli,apelcli,nomecli,emailcli,movilcli,dircli,"
-                          " provcli,municli) VALUES (:dnicli,:altacli,:apelcli,:nomecli,:emailcli,:movilcli,:dircli,"
-                          " :provcli,:municli)")
+                          " provcli,municli,bajacli) VALUES (:dnicli,:altacli,:apelcli,:nomecli,:emailcli,:movilcli,:dircli,"
+                          " :provcli,:municli,:bajacli)")
             query.bindValue(":dnicli", str(nuevocli[0]))
             query.bindValue(":altacli", str(nuevocli[1]))
             query.bindValue(":apelcli", str(nuevocli[2]))
@@ -83,9 +83,10 @@ class Conexion:
             query.bindValue(":dircli",str(nuevocli[6]))
             query.bindValue(":provcli",str(nuevocli[7]))
             query.bindValue(":municli", str(nuevocli[8]))
+            query.bindValue(":bajacli", str(nuevocli[9]))
 
             if query.exec():
-                print(nuevocli)
+                print("Cliente añadido")
                 return True
 
             else:
@@ -98,26 +99,27 @@ class Conexion:
 
     def listadoClientes(self):
         try:
-            listado=[]
-            if var.historico==1:
-                print("hola")
-                query=QtSql.QSqlQuery()
-                query.prepare("SELECT * FROM CLIENTES WHERE bajacli is NULL ORDER BY apelcli,nomecli ASC")
+            listado = []
+            if var.historico == 0:
+                query = QtSql.QSqlQuery()
+                query.prepare("SELECT * FROM CLIENTES WHERE bajacli is NULL ORDER BY apelcli, nomecli ASC")
 
                 if query.exec():
                     while query.next():
-                        fila = [query.value(i) for i in range (query.record().count())]
+                        fila = [query.value(i) for i in range(query.record().count())]
                         listado.append(fila)
-                return listado
-            elif var.historico==0:
-                query=QtSql.QSqlQuery()
-                query.prepare("SELECT * FROM CLIENTES ORDER BY apelcli,nomecli ASC")
-                query.bindValue(":dato", QtCore.QVariant())
+                    return listado
+            elif var.historico == 1:
+                query = QtSql.QSqlQuery()
+                query.prepare("SELECT * FROM CLIENTES ORDER BY apelcli, nomecli ASC")
+
                 if query.exec():
                     while query.next():
-                        fila = [query.value(i) for i in range (query.record().count())]
+                        fila = [query.value(i) for i in range(query.record().count())]
                         listado.append(fila)
-                return listado
+                    return listado
+        except Exception as e:
+            print("error listado cliente", e)
 
         except Exception as e:
             print("error listado en conexión", e)
@@ -161,6 +163,7 @@ class Conexion:
                         query.bindValue(":dircli", str(registro[6]))
                         query.bindValue(":provcli", str(registro[7]))
                         query.bindValue(":municli", str(registro[8]))
+                        query.bindValue(":bajacli", str(registro[9]))
                         if registro[9] == "":
                             query.bindValue(":bajacli", QtCore.QVariant())
                         else:

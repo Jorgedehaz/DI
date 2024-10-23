@@ -28,7 +28,7 @@ class Clientes:
         try:
             nuevocli= [var.ui.txtDnicli.text(), var.ui.txtAltacli.text(), var.ui.txtApelcli.text(), var.ui.txtNomcli.text(),
                     var.ui.txtEmailcli.text(), var.ui.txtMovilcli.text(), var.ui.txtDircli.text(), var.ui.cmbProvicli.currentText(),
-                    var.ui.cmbMunicli.currentText()]
+                    var.ui.cmbMunicli.currentText(),var.ui.txtBajacli.currentText()]
             if (var.ui.txtDnicli.text()!=""):
                 if conexion.Conexion.altaCliente(nuevocli):
                     mbox = QtWidgets.QMessageBox()
@@ -59,7 +59,7 @@ class Clientes:
             modifCli = [var.ui.txtDnicli.text(), var.ui.txtAltacli.text(), var.ui.txtApelcli.text(),
                         var.ui.txtNomcli.text(), var.ui.txtEmailcli.text(), var.ui.txtMovilcli.text(),
                         var.ui.txtDircli.text(),
-                        var.ui.cmbProvicli.currentText(), var.ui.cmbMunicli.currentText()]
+                        var.ui.cmbProvicli.currentText(), var.ui.cmbMunicli.currentText(),var.ui.txtBajacli().text()]
 
             if conexion.Conexion.modifCliente(modifCli):
                 mbox = QtWidgets.QMessageBox()
@@ -94,7 +94,7 @@ class Clientes:
     def bajaCliente(self):
         try:
             op = True
-            datos = [var.ui.txtDniCliente.text(), var.ui.txtBajaCliente.text()]
+            datos = [var.ui.txtDnicli.text(), var.ui.txtBajacli.text()]
 
             if conexion.Conexion.bajaCliente(datos):
                 mbox = QtWidgets.QMessageBox()
@@ -148,23 +148,24 @@ class Clientes:
             index=0
             print(listado)
             for registro in listado:
-                var.ui.tablaClientes.setRowCount(index + 1)
-                var.ui.tablaClientes.setItem(index, 0, QtWidgets.QTableWidgetItem("  " + registro[0] + "  "))
-                var.ui.tablaClientes.setItem(index, 1, QtWidgets.QTableWidgetItem("  " + registro[2] + "  "))
-                var.ui.tablaClientes.setItem(index, 2, QtWidgets.QTableWidgetItem("  " + registro[3] + "  "))
-                var.ui.tablaClientes.setItem(index, 3, QtWidgets.QTableWidgetItem("   " + registro[5] + "   "))
-                var.ui.tablaClientes.setItem(index, 4, QtWidgets.QTableWidgetItem("  " + registro[7] + "  "))
-                var.ui.tablaClientes.setItem(index, 5, QtWidgets.QTableWidgetItem("  " + registro[8] + "  "))
-                var.ui.tablaClientes.setItem(index, 6, QtWidgets.QTableWidgetItem("  " + registro[9] + "  "))
-
-                var.ui.tablaClientes.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-                var.ui.tablaClientes.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-                var.ui.tablaClientes.item(index, 2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-                var.ui.tablaClientes.item(index, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-                var.ui.tablaClientes.item(index, 4).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-                var.ui.tablaClientes.item(index, 5).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-                var.ui.tablaClientes.item(index, 6).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-
+                var.ui.tablaClientes.setRowCount(index+1)
+                var.ui.tablaClientes.setItem(index,0, QtWidgets.QTableWidgetItem("  " + registro[0] + "  "))
+                var.ui.tablaClientes.setItem(index,1, QtWidgets.QTableWidgetItem("  " + registro[2] + "  "))
+                var.ui.tablaClientes.setItem(index,2, QtWidgets.QTableWidgetItem("  " + registro[3] + "  "))
+                var.ui.tablaClientes.setItem(index,3, QtWidgets.QTableWidgetItem("   " + registro[5] + "   "))
+                var.ui.tablaClientes.setItem(index,4, QtWidgets.QTableWidgetItem("  " + registro[7] + "  "))
+                var.ui.tablaClientes.setItem(index,5, QtWidgets.QTableWidgetItem("  " + registro[8] + "  "))
+                var.ui.tablaClientes.setItem(index,6, QtWidgets.QTableWidgetItem("  " + registro[9] + "  "))
+                print("hola1")
+                '''
+                var.ui.tablaClientes.item(index,0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                var.ui.tablaClientes.item(index,1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                var.ui.tablaClientes.item(index,2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                var.ui.tablaClientes.item(index,3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                var.ui.tablaClientes.item(index,4).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                var.ui.tablaClientes.item(index,5).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                var.ui.tablaClientes.item(index,6).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                '''
                 index+=1
 
         except Exception as e:
@@ -172,13 +173,13 @@ class Clientes:
 
     def cargaOneCliente(self):
         try:
-            fila = var.ui.tabClientes.selectedItems()
+            fila = var.ui.tablaClientes.selectedItems()
             datos = [dato.text() for dato in fila]
             registro = conexion.Conexion.datosOneCliente(str(datos[0]))
             listado = [var.ui.txtDnicli, var.ui.txtAltacli, var.ui.txtApelcli,
                        var.ui.txtNomcli, var.ui.txtEmailcli, var.ui.txtMovilcli,
                        var.ui.txtDircli,
-                       var.ui.cmbProvicli, var.ui.cmbMunicli]
+                       var.ui.cmbProvicli, var.ui.cmbMunicli,var.ui.txtBajacli]
 
             for i in range(len(listado)):
                 if i == 7 or i == 8:
