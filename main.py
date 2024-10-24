@@ -21,6 +21,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui=Ui_venPrincipal()
         var.ui.setupUi(self)
         var.uiCalendar = Calendar()
+        var.dlggestion= dlgGestionprop()
         conexion.Conexion.db_conexion(self)
         var.historico = 1
         eventos.Eventos.cargarProv(self)
@@ -40,6 +41,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui.actionSalir.triggered.connect(eventos.Eventos.mensajeSalir)
         var.ui.actionCrear_Backup.triggered.connect(eventos.Eventos.crearBackup)
         var.ui.actionRestaurar_Backup.triggered.connect(eventos.Eventos.restauraraBackup)
+        var.ui.actionTipo_Propiedades.triggered.connect(eventos.Eventos.abritTipoprop)
 
         '''
         eventos de botones

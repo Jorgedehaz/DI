@@ -45,6 +45,17 @@ class Eventos():
         var.ui.cmbMunicli.clear()
         var.ui.cmbMunicli.addItems(listado)
 
+    def cargarProv(self):
+        var.ui.cmbProviprop.clear()
+        listado=conexion.Conexion.listaProv(self)
+        var.ui.cmbProviprop.addItems(listado)
+
+    def cargaMunicli(self):
+        provincia= var.ui.cmbProviprop.currentText()
+        listado= conexion.Conexion.listaMuniprov(provincia)
+        var.ui.cmbMuniprop.clear()
+        var.ui.cmbMuniprop.addItems(listado)
+
     def validarDNI(dni):
         try:
             dni = str(dni).upper()
@@ -107,6 +118,11 @@ class Eventos():
         except Exception as e:
             print("error en resize tabla clientes: ", e)
 
+    def abrirTipoprop(self):
+        try:
+            var.dlggestion.show()
+        except Exception as error:
+            print("error en abrir gestión propiedades: ", error)
 
 
 
