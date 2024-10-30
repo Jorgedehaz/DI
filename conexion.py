@@ -1,5 +1,6 @@
 import os
 import sqlite3
+from logging import exception
 
 from PyQt6 import QtSql, QtWidgets
 from PyQt6.uic.properties import QtGui, QtCore
@@ -201,3 +202,60 @@ class Conexion:
     '''
     BLOQUE METODOS CONEXION PROPIEDADES
     '''
+    def altaTipoprop(tipo):
+        try:
+            registro = []
+            query = QtSql.QSqlQuery()
+            query.prepare("INSERT into TIPOPROPIEDAD (TIPO) VALUES (:tipo)")
+            query.bindValue(":tipo", str(tipo))
+            if query.exec():
+                registro=Conexion.cargarTipoprop(self = None)
+                return registro
+            else:
+                return registro
+        except Exception as error:
+            print("error alta tipoprop", error)
+
+    def bajaTipoprop(tipo):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT count(*) from TIPOPROPIEDAD WHERE tipo = :tipo")
+            query.bindValue(":tipo", str(tipo))
+            if query.exec():
+                if query.next() and query.value(0) > 0:
+                    query = QtSql.QSqlQuery()
+                    query.prepare("DELETE from TIPOPROPIEDAD where tipo = :tipo")
+                    query.bindValue(":tipo", str(tipo))
+                    if query.exec():
+                        return True
+                else:
+                    return False
+
+        except Exception as e:
+            print("Error baja tipoprop", e)
+
+    def cargarTipoprop(self):
+        try:
+            registro = []
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * from TIPOPROPIEDAD ASC")
+            if query.exec():
+                while query.next():
+                    registro.append(str(query.value(0)))
+            return registro
+        except Exception as error:
+            print("Error cargar tipoprop", error)
+
+    def altaPropiedad(propiedad):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("INSERT into PROPIEDADES (altaprop,dirprop,provprop,muniprop,tipoprop,"
+                          "habitaprop,banprop,superprop,prealquiprop,prevenprop,cpprop,observaprop,"
+                          "tipooper,estadoprop,nombreprop,movilprop)"
+                          "VALUES (:altaprop,:dirprop,:provprop,:muniprop,:tipoprop,"
+                          ":habitaprop,:banprop,:superprop,:prealquiprop,:prevenprop,:cpprop,:observaprop,"
+                          ":tipooper,:estadoprop,:nombreprop,:movilprop)"
+            )
+
+        except Exception as error:
+            print("Error alta propiedad en conexion", error)

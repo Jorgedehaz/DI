@@ -45,12 +45,12 @@ class Eventos():
         var.ui.cmbMunicli.clear()
         var.ui.cmbMunicli.addItems(listado)
 
-    def cargarProv(self):
+    def cargarProvprop(self):
         var.ui.cmbProviprop.clear()
         listado=conexion.Conexion.listaProv(self)
         var.ui.cmbProviprop.addItems(listado)
 
-    def cargaMunicli(self):
+    def cargaMuniprop(self):
         provincia= var.ui.cmbProviprop.currentText()
         listado= conexion.Conexion.listaMuniprov(provincia)
         var.ui.cmbMuniprop.clear()
@@ -82,10 +82,14 @@ class Eventos():
     def cargaFecha(qDate):
         try:
             data = ('{:02d}/{:02d}/{:4d}'.format(qDate.day(), qDate.month(), qDate.year()))
-            if var.panel == var.ui.panPrincipal.currentIndex() and var.btn==0:
+            if var.ui.panPrincipal.currentIndex() == 0 and var.btn==0:
                 var.ui.txtAltacli.setText(str(data))
-            elif var.panel == var.ui.panPrincipal.currentIndex() and var.btn==1:
+            elif var.ui.panPrincipal.currentIndex() == 0 and var.btn==1:
                 var.ui.txtBajacli.setText(str(data))
+            elif var.ui.panPrincipal.currentIndex() == 1 and var.btn==2:
+                var.ui.txtAltaprop.setText(str(data))
+            elif var.ui.panPrincipal.currentIndex() == 1 and var.btn==3:
+                var.ui.txtBajaprop.setText(str(data))
             time.sleep(0.5)
             var.uiCalendar.hide()
             return data
@@ -109,6 +113,24 @@ class Eventos():
                 else:
                     header.setSectionResizeMode(i,QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
                 header_items =var.ui.tablaClientes.horizontalHeaderItem(i)
+                font=header_items.font()
+                font.setBold(True)
+                header_items.setFont(font)
+
+
+
+        except Exception as e:
+            print("error en resize tabla clientes: ", e)
+
+    def resizeTablaPropiedades(self):
+        try:
+            header = var.ui.tablaPropiedades.horizontalHeader()
+            for i in range(header.count()):
+                if (i==0 or i==1 or i==3 or i==4):
+                    header.setSectionResizeMode(i,QtWidgets.QHeaderView.ResizeMode.Stretch)
+                else:
+                    header.setSectionResizeMode(i,QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+                header_items =var.ui.tablaPropiedades.horizontalHeaderItem(i)
                 font=header_items.font()
                 font.setBold(True)
                 header_items.setFont(font)
@@ -187,9 +209,8 @@ class Eventos():
     OTROS
     '''
 
-    def abrirCalendar(pan, btn):
+    def abrirCalendar(btn):
         try:
-            var.panel = pan
             var.btn = btn
             var.uiCalendar.show()
         except Exception as error:
@@ -208,3 +229,14 @@ class Eventos():
                 dato.setText("")
 
             eventos.Eventos.cargarProv(self)
+
+    def abrirTipoprop(self):
+        try:
+            var.dlggestion.show()
+        except Exception as error:
+            print("error en abrir tipoprop: ", error)
+
+    def cargarTipoprop(self):
+        registro=conexion.Conexion.cargarTipoprop(self)
+        var.ui.cmbTipoprop.clear()
+        var.ui.cmbTipoprop.addItems(registro)

@@ -2,7 +2,8 @@ from datetime import datetime
 from dlgCalendar import *
 import var
 import eventos
-from dlgGestion import Ui_dlgTipoprop
+from dlgGestion import *
+import propiedades
 
 
 class Calendar(QtWidgets.QDialog):
@@ -17,10 +18,18 @@ class Calendar(QtWidgets.QDialog):
         var.uicalendar.Calendar.setSelectedDate((QtCore.QDate(ano,mes,dia)))
         var.uicalendar.Calendar.clicked.connect(eventos.Eventos.cargaFecha)
 
+class FileDialogAbrir(QtWidgets.QDialog):
+    def __init__(self):
+        super(FileDialogAbrir,self).__init__()
+
+
 class dlgGestionprop(QtWidgets.QDialog):
     def __init__(self):
-        super(Ui_dlgTipoprop, self).__init__()
-        var.dlggestion = Ui_dlgTipoprop()
-        var.dlggestion.setupUi(self)
+        super(dlgGestionprop, self).__init__()
+        self.ui = Ui_dlgTipoprop()
+        self.ui.setupUi(self)
+        self.ui.btnAltaprop.clicked.connect(propiedades.Propiedades.altaTipopropiedad)
+        self.ui.btnDeltipoprop.clicked.connect(propiedades.Propiedades.bajaTipopropiedad)
+
 
 

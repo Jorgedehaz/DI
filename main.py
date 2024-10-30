@@ -10,9 +10,7 @@ import conexion
 import eventos
 import styles
 import sys
-
-
-
+import propiedades
 
 class Main(QtWidgets.QMainWindow):
 
@@ -21,7 +19,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui=Ui_venPrincipal()
         var.ui.setupUi(self)
         var.uiCalendar = Calendar()
-        var.dlggestion= dlgGestionprop()
+        var.dlggestion = dlgGestionprop()
         conexion.Conexion.db_conexion(self)
         var.historico = 1
         eventos.Eventos.cargarProv(self)
@@ -33,6 +31,7 @@ class Main(QtWidgets.QMainWindow):
         '''
         clientes.Clientes.cargaTablaClientes(self)
         eventos.Eventos.resizeTablaClientes(self)
+        eventos.Eventos.resizeTablaPropiedades(self)
         var.ui.tablaClientes.clicked.connect(clientes.Clientes.cargaOneCliente)
 
         '''
@@ -41,17 +40,21 @@ class Main(QtWidgets.QMainWindow):
         var.ui.actionSalir.triggered.connect(eventos.Eventos.mensajeSalir)
         var.ui.actionCrear_Backup.triggered.connect(eventos.Eventos.crearBackup)
         var.ui.actionRestaurar_Backup.triggered.connect(eventos.Eventos.restauraraBackup)
-        var.ui.actionTipo_Propiedades.triggered.connect(eventos.Eventos.abritTipoprop)
+        var.ui.actionTipo_Propiedades.triggered.connect(eventos.Eventos.abrirTipoprop)
 
         '''
         eventos de botones
         '''
 
         var.ui.btnGrabarcli.clicked.connect(clientes.Clientes.altaCliente)
-        var.ui.btnAltacli.clicked.connect(lambda: eventos.Eventos.abrirCalendar(0,0))
-        var.ui.btnBajacli.clicked.connect(lambda: eventos.Eventos.abrirCalendar(0,1))
+        var.ui.btnAltacli.clicked.connect(lambda: eventos.Eventos.abrirCalendar(0))
+        var.ui.btnBajacli.clicked.connect(lambda: eventos.Eventos.abrirCalendar(1))
+        var.ui.btnPubliprop.clicked.connect(lambda: eventos.Eventos.abrirCalendar(2))
+        var.ui.btnBajaprop.clicked.connect(lambda: eventos.Eventos.abrirCalendar(3))
         var.ui.btnModifcli.clicked.connect(clientes.Clientes.modifCliente)
         var.ui.btnDelecli.clicked.connect(clientes.Clientes.bajaCliente)
+        var.ui.btnGrabarprop.clicked.connect(propiedades.Propiedades.altaPropiedad)
+
 
 
         '''
@@ -66,7 +69,11 @@ class Main(QtWidgets.QMainWindow):
         '''
         eventos.Eventos.cargarProv(self)
         eventos.Eventos.cargaMunicli(self)
+        eventos.Eventos.cargarProvprop(self)
+        eventos.Eventos.cargaMuniprop(self)
         var.ui.cmbProvicli.currentIndexChanged.connect(eventos.Eventos.cargaMunicli)
+        var.ui.cmbProviprop.currentIndexChanged.connect(eventos.Eventos.cargaMuniprop)
+        eventos.Eventos.cargarTipoprop(self)
 
         '''
         Eventos ToolBar
