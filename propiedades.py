@@ -56,10 +56,11 @@ class Propiedades():
     def altaPropiedad(self):
         try:
             propiedad=[var.ui.txtAltaprop.text(),var.ui.txtDirprop.text(),
-                       var.ui.cmbProviprop.currentText(),var.ui.cmbMuniprop.currentText(),var.ui.cmbTipoprop.text(),
-                       var.ui.spinHabitaprop.text(),var.ui.spinBanosprop.text(), var.ui.txtSuperprop.text(),
+                       var.ui.cmbProviprop.currentText(),var.ui.cmbMuniprop.currentText(),var.ui.cmbTipoprop.currentText(),
+                       var.ui.spinHabitaprop.value(),var.ui.spinBanosprop.value(), var.ui.txtSuperprop.text(),
                        var.ui.txtPrecioalquilerprop.text(),var.ui.txtPrecioventaprop.text(),
-                       var.ui.txtCodigopostalprop.text(),var.ui.txtObservaprop.toPlainText(),]
+                       var.ui.txtCodigopostalprop.text(),var.ui.txtObservaprop.toPlainText()]
+
             tipooperacion = []
             if var.ui.chkAlquilerprop.isChecked():
                 tipooperacion.append(var.ui.chkAlquilerprop.text())
@@ -67,6 +68,7 @@ class Propiedades():
                 tipooperacion.append(var.ui.chkVentaprop.text())
             if var.ui.chkIntercambioprop.isChecked():
                 tipooperacion.append(var.ui.chkIntercambioprop.text())
+            tipooperacion = "-".join(tipooperacion)
             propiedad.append(tipooperacion)
 
             if var.ui.radioDispoprop.isChecked():
@@ -78,7 +80,15 @@ class Propiedades():
 
             propiedad.append(var.ui.txtPropietarioprop.text())
             propiedad.append(var.ui.txtMovilprop.text())
-            conexion.Conexion.altaPropiedad(propiedad)
+            if conexion.Conexion.altaPropiedad(propiedad):
+                mbox = QtWidgets.QMessageBox(self)
+                mbox.setWindowTitle("Aviso")
+                mbox.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                mbox.setWindowIcon(QtGui.QIcon('./img/iconoInmo.ico'))
+                mbox.setText("Propiedad Dada de Alta")
+                mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Cancel)
+                mbox.exec()
+
             print(propiedad)
         except Exception as e:
-            print("error alta propiedad")
+            print("error alta propiedad" + str(e))

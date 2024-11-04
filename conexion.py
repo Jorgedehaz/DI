@@ -249,13 +249,36 @@ class Conexion:
     def altaPropiedad(propiedad):
         try:
             query = QtSql.QSqlQuery()
-            query.prepare("INSERT into PROPIEDADES (altaprop,dirprop,provprop,muniprop,tipoprop,"
-                          "habitaprop,banprop,superprop,prealquiprop,prevenprop,cpprop,observaprop,"
-                          "tipooper,estadoprop,nombreprop,movilprop)"
-                          "VALUES (:altaprop,:dirprop,:provprop,:muniprop,:tipoprop,"
-                          ":habitaprop,:banprop,:superprop,:prealquiprop,:prevenprop,:cpprop,:observaprop,"
-                          ":tipooper,:estadoprop,:nombreprop,:movilprop)"
+            query.prepare("INSERT into PROPIEDADES (altaprop,dirprop,provprop,muniprop,tipoprop, "
+                          " habitaprop,banprop,superprop,prealquiprop,prevenprop,cpprop,observaprop, "
+                          " tipooper,estadoprop,nombreprop,movilprop)"
+                          " VALUES (:altaprop,:dirprop,:provprop,:muniprop,:tipoprop, "
+                          " :habitaprop,:banprop,:superprop,:prealquiprop,:prevenprop,:cpprop,:observaprop, "
+                          " :tipooper,:estadoprop,:nombreprop,:movilprop)"
             )
+            query.bindValue(":altraprop", str(propiedad[0]))
+            query.bindValue(":dirprop", str(propiedad[1]))
+            query.bindValue(":provprop", str(propiedad[2]))
+            query.bindValue(":muniprop", str(propiedad[3]))
+            query.bindValue(":tipoprop", str(propiedad[4]))
+            query.bindValue(":habitaprop", int(propiedad[5]))
+            query.bindValue(":banprop", int(propiedad[6]))
+            query.bindValue(":superprop", float(propiedad[7]))
+            query.bindValue(":prealquiprop", float(propiedad[8]))
+            query.bindValue(":prevenprop", float(propiedad[9]))
+            query.bindValue(":cpprop", str(propiedad[10]))
+            query.bindValue(":observaprop", str(propiedad[11]))
+            query.bindValue(":tipooper", str(propiedad[12]))
+            query.bindValue(":estadoprop", str(propiedad[13]))
+            query.bindValue(":nombreprop", str(propiedad[14]))
+            query.bindValue(":movilprop", str(propiedad[15]))
+
+            if query.exec():
+                print("Propiedad añadida")
+                return True
+
+            else:
+                return False
 
         except Exception as error:
             print("Error alta propiedad en conexion", error)

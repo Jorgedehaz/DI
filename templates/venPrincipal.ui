@@ -1380,7 +1380,7 @@
             <enum>QAbstractItemView::SingleSelection</enum>
            </property>
            <property name="columnCount">
-            <number>7</number>
+            <number>8</number>
            </property>
            <column>
             <property name="text">
@@ -1409,7 +1409,12 @@
            </column>
            <column>
             <property name="text">
-             <string>Precio</string>
+             <string>Precio Alquiler</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Precio Venta</string>
             </property>
            </column>
            <column>
