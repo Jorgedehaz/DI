@@ -67,6 +67,7 @@ class Ui_venPrincipal(object):
         self.gridLayout_3.addLayout(self.horizontalLayout, 2, 1, 1, 1)
         self.tablaClientes = QtWidgets.QTableWidget(parent=self.pesClientes)
         self.tablaClientes.setEditTriggers(QtWidgets.QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.tablaClientes.setAlternatingRowColors(True)
         self.tablaClientes.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.SingleSelection)
         self.tablaClientes.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectionBehavior.SelectRows)
         self.tablaClientes.setTextElideMode(QtCore.Qt.TextElideMode.ElideRight)
@@ -531,7 +532,9 @@ class Ui_venPrincipal(object):
         self.tablaPropiedades.setMinimumSize(QtCore.QSize(1250, 400))
         self.tablaPropiedades.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.tablaPropiedades.setEditTriggers(QtWidgets.QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.tablaPropiedades.setAlternatingRowColors(True)
         self.tablaPropiedades.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.SingleSelection)
+        self.tablaPropiedades.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectionBehavior.SelectRows)
         self.tablaPropiedades.setColumnCount(8)
         self.tablaPropiedades.setObjectName("tablaPropiedades")
         self.tablaPropiedades.setRowCount(0)
@@ -610,7 +613,7 @@ class Ui_venPrincipal(object):
         self.toolBar.addAction(self.actionSalir)
 
         self.retranslateUi(venPrincipal)
-        self.panPrincipal.setCurrentIndex(1)
+        self.panPrincipal.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(venPrincipal)
 
     def retranslateUi(self, venPrincipal):

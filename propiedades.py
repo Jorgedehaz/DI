@@ -116,7 +116,7 @@ class Propiedades():
 
     def modifPropiedad(self):
         try:
-            modifProp = [var.ui.txtAltaprop.text(),var.ui.txtDirprop.text(),
+            modifProp = [var.ui.txtAltaprop.text(),var.ui.txtBajaprop,var.ui.txtDirprop.text(),
                        var.ui.cmbProviprop.currentText(),var.ui.cmbMuniprop.currentText(),var.ui.cmbTipoprop.currentText(),
                        var.ui.spinHabitaprop.value(),var.ui.spinBanosprop.value(), var.ui.txtSuperprop.text(),
                        var.ui.txtPrecioalquilerprop.text(),var.ui.txtPrecioventaprop.text(),
@@ -186,3 +186,45 @@ class Propiedades():
 
         except Exception as e:
             print("Error baja de clientes", e)
+
+
+    def cargaOnePropiedad(self):
+        try:
+            var.ui.chkIntercambioprop.setChecked(False)
+            var.ui.chkVentaprop.setChecked(False)
+            var.ui.chkAlquilerprop.setChecked(False)
+
+            fila = var.ui.tablaPropiedades.selectedItems()
+            datos = [dato.text() for dato in fila]
+            registro = conexion.Conexion.datosOnePropiedad(str(datos[0]))
+            listado = [var.ui.txtAltaprop,var.ui.txtBajaprop,var.ui.txtDirprop,
+                       var.ui.cmbProviprop,var.ui.cmbMuniprop,var.ui.cmbTipoprop,
+                       var.ui.spinHabitaprop,var.ui.spinBanosprop, var.ui.txtSuperprop,
+                       var.ui.txtPrecioalquilerprop,var.ui.txtPrecioventaprop,
+                       var.ui.txtCodigopostalprop,var.ui.txtObservaprop]
+
+            for i in range(len(listado)):
+                if i == 3 or i == 4 or i==5:
+                    listado[i].setCurrentText(registro[i+1])
+                elif i==6 or i==7:
+                        listado[i].setValue(int(registro[i + 1]))
+                else:
+                    listado[i].setText(registro[i+1])
+            if "Alquiler" in registro[14]:
+                var.ui.chkAlquilerprop.setChecked(True)
+            if "Venta" in registro[14]:
+                var.ui.chkVentaprop.setChecked(True)
+            if "Intercambio" in registro[14]:
+                var.ui.chkIntercambioprop.setChecked(True)
+            if registro [15] == "Disponible":
+                var.ui.radioDispoprop.setChecked(True)
+            elif registro [15] == "Alquilado":
+                var.ui.radioAlquilerprop.setChecked(True)
+            elif registro [15] == "Vendido":
+                var.ui.radioVentaprop.setChecked(True)
+
+            var.ui.txtPropietarioprop.setText(str(registro[16]))
+            var.ui.txtMovilprop.setText(str(registro[17]))
+        except Exception as error:
+            print("Error cargando datos de la Propiedad", error)
+

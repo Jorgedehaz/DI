@@ -371,3 +371,21 @@ class Conexion:
 
         except Exception as e:
             print("Error baja propiedad bd", e)
+
+    def datosOnePropiedad(id):
+        try:
+            registro = []
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM propiedades WHERE codigo = :codigo")
+
+            query.bindValue(":codigo", str(id))
+
+            if query.exec():
+                while query.next():
+                    for i in range(query.record().count()):
+                        registro.append(str(query.value(i)))
+            print(registro)
+            return registro
+
+        except Exception as e:
+            print("Error recuperando datos de clientes", e)
