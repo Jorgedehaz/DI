@@ -50,7 +50,7 @@ class Propiedades():
                 mbox.exec()
             registro= conexion.Conexion.cargarTipoprop(self)
             var.ui.cmbTipoprop.clear()
-            var.ui.cmbTipoprop.addItem(registro)
+            var.ui.cmbTipoprop.addItems(registro)
         except Exception as e:
             print(f"Error: {e}")
 
@@ -116,11 +116,31 @@ class Propiedades():
 
     def modifPropiedad(self):
         try:
-            modifProp = [var.ui.txtAltaprop.text(),var.ui.txtBajaprop,var.ui.txtDirprop.text(),
+            modifProp = [var.ui.txtCodigoprop.text(),var.ui.txtAltaprop.text(),var.ui.txtBajaprop.text(),var.ui.txtDirprop.text(),
                        var.ui.cmbProviprop.currentText(),var.ui.cmbMuniprop.currentText(),var.ui.cmbTipoprop.currentText(),
                        var.ui.spinHabitaprop.value(),var.ui.spinBanosprop.value(), var.ui.txtSuperprop.text(),
                        var.ui.txtPrecioalquilerprop.text(),var.ui.txtPrecioventaprop.text(),
-                       var.ui.txtCodigopostalprop.text(),var.ui.txtObservaprop.toPlainText()]
+                       var.ui.txtCodigopostalprop.text(),var.ui.txtObservaprop.toPlainText() , var.ui.txtPropietarioprop.text(),
+                       var.ui.txtMovilprop.text()]
+
+            tipooper = []
+            if var.ui.chkVentaprop.isChecked():
+                tipooper.append(var.ui.chkVentaprop.text())
+            if var.ui.chkAlquilerprop.isChecked():
+                tipooper.append(var.ui.chkAlquilerprop.text())
+            if var.ui.chkIntercambioprop.isChecked():
+                tipooper.append(var.ui.chkIntercambioprop.text())
+            tipooper = "-".join(tipooper)
+            modifProp.append(tipooper)
+
+            if var.ui.radioDispoprop.isChecked():
+                modifProp.append(var.ui.radioDispoprop.text())
+            elif var.ui.radioAlquiladoprop.isChecked():
+                modifProp.append(var.ui.radioAlquiladoprop.text())
+            elif var.ui.radioVendidoprop.isChecked():
+                modifProp.append(var.ui.radioVendidoprop.text())
+            else:
+                modifProp.append(None)
 
             if conexion.Conexion.modifPropiedad(modifProp):
                 mbox = QtWidgets.QMessageBox()
@@ -150,7 +170,7 @@ class Propiedades():
                 mbox.exec()
 
         except Exception as error:
-            print("Error cargando la tabla de clientes", error)
+            print("Error modifPropiedad", error)
 
     def bajaPropiedades(self):
         try:
@@ -197,19 +217,19 @@ class Propiedades():
             fila = var.ui.tablaPropiedades.selectedItems()
             datos = [dato.text() for dato in fila]
             registro = conexion.Conexion.datosOnePropiedad(str(datos[0]))
-            listado = [var.ui.txtAltaprop,var.ui.txtBajaprop,var.ui.txtDirprop,
+            listado = [var.ui.txtCodigoprop,var.ui.txtAltaprop,var.ui.txtBajaprop,var.ui.txtDirprop,
                        var.ui.cmbProviprop,var.ui.cmbMuniprop,var.ui.cmbTipoprop,
                        var.ui.spinHabitaprop,var.ui.spinBanosprop, var.ui.txtSuperprop,
                        var.ui.txtPrecioalquilerprop,var.ui.txtPrecioventaprop,
                        var.ui.txtCodigopostalprop,var.ui.txtObservaprop]
 
             for i in range(len(listado)):
-                if i == 3 or i == 4 or i==5:
-                    listado[i].setCurrentText(registro[i+1])
-                elif i==6 or i==7:
-                        listado[i].setValue(int(registro[i + 1]))
+                if i == 4 or i == 5 or i==6:
+                    listado[i].setCurrentText(str(registro[i]))
+                elif i==7 or i==8:
+                        listado[i].setValue(int(registro[i]))
                 else:
-                    listado[i].setText(registro[i+1])
+                    listado[i].setText(str(registro[i]))
             if "Alquiler" in registro[14]:
                 var.ui.chkAlquilerprop.setChecked(True)
             if "Venta" in registro[14]:
