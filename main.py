@@ -49,14 +49,16 @@ class Main(QtWidgets.QMainWindow):
         '''
 
         var.ui.btnGrabarcli.clicked.connect(clientes.Clientes.altaCliente)
+        var.ui.btnModifcli.clicked.connect(clientes.Clientes.modifCliente)
+        var.ui.btnDelecli.clicked.connect(clientes.Clientes.bajaCliente)
         var.ui.btnAltacli.clicked.connect(lambda: eventos.Eventos.abrirCalendar(0))
         var.ui.btnBajacli.clicked.connect(lambda: eventos.Eventos.abrirCalendar(1))
         var.ui.btnPubliprop.clicked.connect(lambda: eventos.Eventos.abrirCalendar(2))
         var.ui.btnBajaprop.clicked.connect(lambda: eventos.Eventos.abrirCalendar(3))
-        var.ui.btnModifcli.clicked.connect(clientes.Clientes.modifCliente)
-        var.ui.btnDelecli.clicked.connect(clientes.Clientes.bajaCliente)
         var.ui.btnGrabarprop.clicked.connect(propiedades.Propiedades.altaPropiedad)
         var.ui.btnModificarprop.clicked.connect(propiedades.Propiedades.modifPropiedad)
+        var.ui.btnDeleteprop.clicked.connect(propiedades.Propiedades.bajaPropiedades)
+        var.ui.btnBuscar.clicked.connect(propiedades.Propiedades.filtrarProp)
 
 
 
@@ -88,6 +90,7 @@ class Main(QtWidgets.QMainWindow):
         Eventos Checkbox
         '''
         var.ui.chkHistoriacli.stateChanged.connect(clientes.Clientes.historicoCli)
+        var.ui.chkHosticoprop.stateChanged.connect(propiedades.Propiedades.historicoProp)
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])

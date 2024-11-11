@@ -120,8 +120,7 @@ class Propiedades():
                        var.ui.cmbProviprop.currentText(),var.ui.cmbMuniprop.currentText(),var.ui.cmbTipoprop.currentText(),
                        var.ui.spinHabitaprop.value(),var.ui.spinBanosprop.value(), var.ui.txtSuperprop.text(),
                        var.ui.txtPrecioalquilerprop.text(),var.ui.txtPrecioventaprop.text(),
-                       var.ui.txtCodigopostalprop.text(),var.ui.txtObservaprop.toPlainText() , var.ui.txtPropietarioprop.text(),
-                       var.ui.txtMovilprop.text()]
+                       var.ui.txtCodigopostalprop.text(),var.ui.txtObservaprop.toPlainText()]
 
             tipooper = []
             if var.ui.chkVentaprop.isChecked():
@@ -141,6 +140,9 @@ class Propiedades():
                 modifProp.append(var.ui.radioVendidoprop.text())
             else:
                 modifProp.append(None)
+
+            modifProp.append(var.ui.txtPropietarioprop.text())
+            modifProp.append(var.ui.txtMovilprop.text())
 
             if conexion.Conexion.modifPropiedad(modifProp):
                 mbox = QtWidgets.QMessageBox()
@@ -205,7 +207,7 @@ class Propiedades():
                 mbox.exec()
 
         except Exception as e:
-            print("Error baja de clientes", e)
+            print("Error baja de propiedad", e)
 
 
     def cargaOnePropiedad(self):
@@ -248,3 +250,42 @@ class Propiedades():
         except Exception as error:
             print("Error cargando datos de la Propiedad", error)
 
+    def historicoProp(self):
+        try:
+            if var.ui.chkHosticoprop.isChecked():
+                var.historico = 0
+            else:
+                var.historico = 1
+            Propiedades.cargaTablaPropiedades(self)
+        except Exception as e:
+            print("checkbox historico", e)
+
+    def filtrarProp(self):
+        try:
+            tipo_prop = var.ui.cmbTipoprop.currentText()
+            municipio = var.ui.cmbMuniprop.currentText()
+
+            print(f"[DEBUG] Filtro seleccionado - Tipo de propiedad: '{tipo_prop}', Municipio: '{municipio}'")
+
+            datos = [tipo_prop, municipio]
+            listado_filtrado = conexion.Conexion.buscarProp(datos)
+
+            print(f"[DEBUG] Propiedades filtradas: {len(listado_filtrado)} resultados encontrados.")
+
+            var.ui.tablaPropiedades.setRowCount(0)
+            index = 0
+
+            for registro in listado_filtrado:
+                var.ui.tablaPropiedades.setRowCount(index + 1)
+                var.ui.tablaPropiedades.setItem(index, 0, QtWidgets.QTableWidgetItem("  " + str(registro[0]) + "  "))
+                var.ui.tablaPropiedades.setItem(index, 1, QtWidgets.QTableWidgetItem("  " + registro[5] + "  "))
+                var.ui.tablaPropiedades.setItem(index, 2, QtWidgets.QTableWidgetItem("  " + registro[6] + "  "))
+                var.ui.tablaPropiedades.setItem(index, 3, QtWidgets.QTableWidgetItem("  " + str(registro[7]) + "  "))
+                var.ui.tablaPropiedades.setItem(index, 4, QtWidgets.QTableWidgetItem("  " + str(registro[8]) + "  "))
+                var.ui.tablaPropiedades.setItem(index, 5, QtWidgets.QTableWidgetItem("  " + str(registro[10]) + " € "))
+                var.ui.tablaPropiedades.setItem(index, 6, QtWidgets.QTableWidgetItem("  " + str(registro[11]) + " € "))
+                var.ui.tablaPropiedades.setItem(index, 7, QtWidgets.QTableWidgetItem("  " + registro[14] + "  "))
+                index += 1
+
+        except Exception as e:
+            print("Error al filtrar propiedades:", e)

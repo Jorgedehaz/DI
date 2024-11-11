@@ -104,7 +104,7 @@ class Conexion:
     def listadoClientes(self):
         try:
             listado = []
-            if var.historico == 0:
+            if var.historico == 1:
                 query = QtSql.QSqlQuery()
                 query.prepare("SELECT * FROM CLIENTES WHERE bajacli is NULL ORDER BY apelcli, nomecli ASC")
 
@@ -113,7 +113,7 @@ class Conexion:
                         fila = [query.value(i) for i in range(query.record().count())]
                         listado.append(fila)
                     return listado
-            elif var.historico == 1:
+            else:
                 query = QtSql.QSqlQuery()
                 query.prepare("SELECT * FROM CLIENTES ORDER BY apelcli, nomecli ASC")
 
@@ -198,6 +198,7 @@ class Conexion:
 
         except Exception as e:
             print("Error baja cliente bd", e)
+
 
     '''
     BLOQUE METODOS CONEXION PROPIEDADES
@@ -285,16 +286,16 @@ class Conexion:
     def listadoPropiedades(self):
         try:
             listado = []
-            if var.historico == 0:
+            if var.historico == 1:
                 query = QtSql.QSqlQuery()
-                query.prepare("SELECT * FROM PROPIEDADES WHERE bajacli is NULL ORDER BY muniprop ASC")
+                query.prepare("SELECT * FROM PROPIEDADES WHERE bajaprop is NULL ORDER BY muniprop ASC")
 
                 if query.exec():
                     while query.next():
                         fila = [query.value(i) for i in range(query.record().count())]
                         listado.append(fila)
                     return listado
-            elif var.historico == 1:
+            else:
                 query = QtSql.QSqlQuery()
                 query.prepare("SELECT * FROM PROPIEDADES ORDER BY muniprop ASC")
 
@@ -303,8 +304,6 @@ class Conexion:
                         fila = [query.value(i) for i in range(query.record().count())]
                         listado.append(fila)
                     return listado
-        except Exception as e:
-            print("error listado propiedades", e)
 
         except Exception as e:
             print("error listado en conexión", e)
@@ -314,9 +313,9 @@ class Conexion:
             query = QtSql.QSqlQuery()
             query.prepare( "UPDATE propiedades set altaprop = :altaprop, bajaprop = :bajaprop, dirprop = :dirprop, provprop = :provprop,"
                 "muniprop = :muniprop, tipoprop = :tipoprop, habitaprop = :habitaprop, banprop = :banprop,"
-                "superprop = :superprop, prealquiprop = :prealquilerprop, prevenprop = :prevenprop,"
-                "cpprop = :cprop, observaprop = :observaprop, tipooper = :tipooper, estadoprop = :estadoprop,"
-                "nombreprop = :nombreprop, movilprop = :movilrpop where codigo = :codigo")
+                "superprop = :superprop, prealquiprop = :prealquiprop, prevenprop = :prevenprop,"
+                "cpprop = :cpprop, observaprop = :observaprop, tipooper = :tipooper, estadoprop = :estadoprop,"
+                "nombreprop = :nombreprop, movilprop = :movilprop where codigo = :codigo")
 
             query.bindValue(":codigo", int(registro[0]))
             query.bindValue(":altaprop", str(registro[1]))
@@ -379,3 +378,22 @@ class Conexion:
 
         except Exception as e:
             print("Error recuperando datos de clientes", e)
+
+    def buscarProp(datos):
+        try:
+            registro=[]
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM propiedades WHERE tipoprop = :tipoprop and muniprop = :muniprop ORDER BY codigo")
+            query.bindValue("tipoprop",str(datos[0]))
+            query.bindValue("muniprop", str(datos[1]))
+            if query.exec():
+                while query.next():
+                    prop= []
+                    for i in range(query.record().count()):
+                        prop.append(str(query.value(i)))
+                    registro.append(prop)
+            print (registro)
+            return registro
+        except Exception as e:
+            print("Error buscar propiedad", e)
+
