@@ -85,6 +85,8 @@ class Main(QtWidgets.QMainWindow):
         '''
         var.ui.actionSalir.triggered.connect(eventos.Eventos.mensajeSalir)
         var.ui.actionBorrar.triggered.connect(eventos.Eventos.limpiarPanel)
+        var.ui.actionBuscar.triggered.connect(propiedades.Propiedades.filtrarProp)
+        var.ui.actionGestion.triggered.connect(eventos.Eventos.abrirTipoprop)
 
         '''
         Eventos Checkbox

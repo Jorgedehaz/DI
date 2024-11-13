@@ -262,15 +262,11 @@ class Propiedades():
 
     def filtrarProp(self):
         try:
-            tipo_prop = var.ui.cmbTipoprop.currentText()
             municipio = var.ui.cmbMuniprop.currentText()
+            tipoprop = var.ui.cmbTipoprop.currentText()
 
-            print(f"[DEBUG] Filtro seleccionado - Tipo de propiedad: '{tipo_prop}', Municipio: '{municipio}'")
-
-            datos = [tipo_prop, municipio]
+            datos = [municipio,tipoprop]
             listado_filtrado = conexion.Conexion.buscarProp(datos)
-
-            print(f"[DEBUG] Propiedades filtradas: {len(listado_filtrado)} resultados encontrados.")
 
             var.ui.tablaPropiedades.setRowCount(0)
             index = 0

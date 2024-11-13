@@ -44,6 +44,22 @@
       </property>
      </spacer>
     </item>
+    <item row="0" column="1">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Fixed</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
     <item row="0" column="3">
      <widget class="QTabWidget" name="panPrincipal">
       <property name="sizePolicy">
@@ -72,6 +88,79 @@
         <string>CLIENTES</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_3">
+        <item row="1" column="1">
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="4" column="1">
+         <widget class="QTableWidget" name="tablaClientes">
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="alternatingRowColors">
+           <bool>true</bool>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
+          <property name="textElideMode">
+           <enum>Qt::ElideRight</enum>
+          </property>
+          <attribute name="verticalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
+          <column>
+           <property name="text">
+            <string>DNI/NIE</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Apellidos</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Nombre</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Móvil</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Provincia</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Municipio</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Fecha Baja</string>
+           </property>
+          </column>
+         </widget>
+        </item>
         <item row="3" column="1">
          <widget class="Line" name="line">
           <property name="frameShadow">
@@ -85,10 +174,10 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="1">
-         <spacer name="verticalSpacer">
+        <item row="3" column="2">
+         <spacer name="horizontalSpacer_10">
           <property name="orientation">
-           <enum>Qt::Vertical</enum>
+           <enum>Qt::Horizontal</enum>
           </property>
           <property name="sizeType">
            <enum>QSizePolicy::Fixed</enum>
@@ -151,79 +240,6 @@
            </spacer>
           </item>
          </layout>
-        </item>
-        <item row="4" column="1">
-         <widget class="QTableWidget" name="tablaClientes">
-          <property name="editTriggers">
-           <set>QAbstractItemView::NoEditTriggers</set>
-          </property>
-          <property name="alternatingRowColors">
-           <bool>true</bool>
-          </property>
-          <property name="selectionMode">
-           <enum>QAbstractItemView::SingleSelection</enum>
-          </property>
-          <property name="selectionBehavior">
-           <enum>QAbstractItemView::SelectRows</enum>
-          </property>
-          <property name="textElideMode">
-           <enum>Qt::ElideRight</enum>
-          </property>
-          <attribute name="verticalHeaderVisible">
-           <bool>false</bool>
-          </attribute>
-          <column>
-           <property name="text">
-            <string>DNI/NIE</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Apellidos</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Nombre</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Móvil</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Provincia</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Municipio</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Fecha Baja</string>
-           </property>
-          </column>
-         </widget>
-        </item>
-        <item row="3" column="2">
-         <spacer name="horizontalSpacer_10">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
         </item>
         <item row="2" column="0">
          <spacer name="horizontalSpacer_9">
@@ -1493,22 +1509,6 @@
       </widget>
      </widget>
     </item>
-    <item row="0" column="1">
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Fixed</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -1530,8 +1530,17 @@
     <property name="title">
      <string>Herramientas</string>
     </property>
+    <widget class="QMenu" name="menuExportar_Datos">
+     <property name="title">
+      <string>Exportar Datos</string>
+     </property>
+     <addaction name="actionExportar_Clientes_CSV"/>
+     <addaction name="actionExportar_Clientes_Json"/>
+    </widget>
     <addaction name="actionCrear_Backup"/>
     <addaction name="actionRestaurar_Backup"/>
+    <addaction name="separator"/>
+    <addaction name="menuExportar_Datos"/>
    </widget>
    <widget class="QMenu" name="menuGestion">
     <property name="title">
@@ -1560,7 +1569,9 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionGestion"/>
    <addaction name="actionBorrar"/>
+   <addaction name="actionBuscar"/>
    <addaction name="separator"/>
    <addaction name="actionSalir"/>
   </widget>
@@ -1584,6 +1595,9 @@
   <action name="actionCrear_Backup">
    <property name="text">
     <string>Crear Backup</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+B</string>
    </property>
   </action>
   <action name="actionRestaurar_Backup">
@@ -1609,6 +1623,40 @@
   <action name="actionTipo_Propiedades">
    <property name="text">
     <string>Tipo Propiedades</string>
+   </property>
+  </action>
+  <action name="actionExportar_Clientes_CSV">
+   <property name="text">
+    <string>Exportar Clientes CSV</string>
+   </property>
+  </action>
+  <action name="actionExportar_Clientes_Json">
+   <property name="text">
+    <string>Exportar Clientes Json</string>
+   </property>
+  </action>
+  <action name="actionBuscar">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/lupa.ico</normaloff>../img/lupa.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Buscar</string>
+   </property>
+   <property name="toolTip">
+    <string>Buscar</string>
+   </property>
+  </action>
+  <action name="actionGestion">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/iconoInmo.ico</normaloff>../img/iconoInmo.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Gestion</string>
+   </property>
+   <property name="toolTip">
+    <string>Gestion</string>
    </property>
   </action>
  </widget>

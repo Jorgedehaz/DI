@@ -1,7 +1,7 @@
 import os
 import sqlite3
 from logging import exception
-
+from datetime import datetime
 from PyQt6 import QtSql, QtWidgets, QtCore
 
 
@@ -58,7 +58,7 @@ class Conexion:
         if query.exec():
             while query.next():
                 listaprov.append(query.value(1))
-        print(listaprov)
+
         return listaprov
 
     def listaMuniprov(provincia):
@@ -172,6 +172,17 @@ class Conexion:
                             query.bindValue(":bajacli", QtCore.QVariant())
                         else:
                             query.bindValue(":bajacli", str(registro[9]))
+
+                        fecha_str1 = str(registro[1])
+                        fecha_str2 = str(registro[9])
+
+                        # Convertir cadenas a objetos datetime usando strptime
+                        fecha1 = datetime.strptime(fecha_str1, "%d/%m/%Y")
+                        fecha2 = datetime.strptime(fecha_str2, "%d/%m/%Y")
+
+                        if fecha1>fecha2:
+                            return False
+
                         if query.exec():
                             return True
                         else:
@@ -338,7 +349,18 @@ class Conexion:
             query.bindValue(":estadoprop", str(registro[15]))
             query.bindValue(":nombreprop", str(registro[16]))
             query.bindValue(":movilprop", str(registro[17]))
-            print(registro)
+
+
+            fecha_str1 = str(registro[1])
+            fecha_str2 = str(registro[2])
+
+            # Convertir cadenas a objetos datetime usando strptime
+            fecha1 = datetime.strptime(fecha_str1, "%d/%m/%Y")
+            fecha2 = datetime.strptime(fecha_str2, "%d/%m/%Y")
+
+            if fecha1>fecha2:
+                return False
+
             if query.exec():
                 return True
             else:
@@ -383,16 +405,16 @@ class Conexion:
         try:
             registro=[]
             query = QtSql.QSqlQuery()
-            query.prepare("SELECT * FROM propiedades WHERE tipoprop = :tipoprop and muniprop = :muniprop ORDER BY codigo")
-            query.bindValue("tipoprop",str(datos[0]))
-            query.bindValue("muniprop", str(datos[1]))
+            query.prepare("SELECT * FROM propiedades WHERE muniprop = :muniprop and tipoprop = :tipoprop ORDER BY codigo")
+            query.bindValue(":muniprop",str(datos[0]))
+            query.bindValue(":tipoprop", str(datos[1]))
             if query.exec():
                 while query.next():
-                    prop= []
+                    prop=[]
                     for i in range(query.record().count()):
                         prop.append(str(query.value(i)))
+                        print(prop)
                     registro.append(prop)
-            print (registro)
             return registro
         except Exception as e:
             print("Error buscar propiedad", e)
