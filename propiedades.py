@@ -108,6 +108,7 @@ class Propiedades():
                 var.ui.tablaPropiedades.setItem(index,5, QtWidgets.QTableWidgetItem("  " + str(registro[10]) + " € "))
                 var.ui.tablaPropiedades.setItem(index, 6, QtWidgets.QTableWidgetItem("  " + str(registro[11]) + " € "))
                 var.ui.tablaPropiedades.setItem(index, 7, QtWidgets.QTableWidgetItem("  " + registro[14] + "  "))
+                var.ui.tablaPropiedades.setItem(index, 8, QtWidgets.QTableWidgetItem("  " + str(registro[2]) + "  "))
 
                 index+=1
 
@@ -285,3 +286,19 @@ class Propiedades():
 
         except Exception as e:
             print("Error al filtrar propiedades:", e)
+
+    def checkVenta(self):
+        try:
+            var.ui.chkVentaprop.setChecked(True)
+            if var.ui.txtVentaprop.text() == "":
+                var.ui.chkVentaprop.setChecked(False)
+        except Exception as e:
+            print(e)
+
+    def checkAlquiler(self):
+        try:
+            var.ui.chkAlquilerprop.setChecked(True)
+            if var.ui.txtPrecioalquilerprop.text() == "":
+                var.ui.chkAlquilerprop.setChecked(False)
+        except Exception as e:
+            print(e)

@@ -376,6 +376,7 @@ class Conexion:
             query.bindValue(":codigo", str(datos[0]).strip())
             query.bindValue(":bajaprop", str(datos[1]))
 
+
             if query.exec():
                 return True
             else:

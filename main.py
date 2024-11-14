@@ -19,6 +19,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui=Ui_venPrincipal()
         var.ui.setupUi(self)
         var.uiCalendar = Calendar()
+        var.dlgabrir = FileDialogAbrir()
         var.dlggestion = dlgGestionprop()
         conexion.Conexion.db_conexion(self)
         var.historico = 1
@@ -65,9 +66,11 @@ class Main(QtWidgets.QMainWindow):
         '''
         eventos de cajas de texto
         '''
-
+        var.ui.txtDnicli.editingFinished.connect(lambda: clientes.Clientes.checkDNI(var.ui.txtDnicli.text()))
         var.ui.txtDnicli.editingFinished.connect(lambda:clientes.Clientes.checkDNI(var.ui.txtDnicli.text()))
         var.ui.txtEmailcli.editingFinished.connect(lambda: clientes.Clientes.checkEmail(var.ui.txtEmailcli.text()))
+        var.ui.txtPrecioventaprop.textChanged.connect(propiedades.Propiedades.checkVenta)
+        var.ui.txtPrecioalquilerprop.textChanged.connect(propiedades.Propiedades.checkAlquiler)
 
         '''
         eventos de comobox
@@ -87,12 +90,17 @@ class Main(QtWidgets.QMainWindow):
         var.ui.actionBorrar.triggered.connect(eventos.Eventos.limpiarPanel)
         var.ui.actionBuscar.triggered.connect(propiedades.Propiedades.filtrarProp)
         var.ui.actionGestion.triggered.connect(eventos.Eventos.abrirTipoprop)
+        var.ui.actionExportar_Propiedades_CSV.triggered.connect(eventos.Eventos.exportCSVprop)
+        var.ui.actionExportar_Propiedades_Json.triggered.connect(eventos.Eventos.exportJSONprop)
+
 
         '''
         Eventos Checkbox
         '''
         var.ui.chkHistoriacli.stateChanged.connect(clientes.Clientes.historicoCli)
         var.ui.chkHosticoprop.stateChanged.connect(propiedades.Propiedades.historicoProp)
+        var.ui.chkVentaprop.setEnabled(False)
+        var.ui.chkAlquilerprop.setEnabled(False)
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])

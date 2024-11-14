@@ -1,6 +1,8 @@
+import csv
+import json
 import os
 import shutil
-import sys , var
+import sys
 import time
 import zipfile
 import eventos
@@ -17,6 +19,8 @@ from PyQt6 import QtWidgets, QtGui
 
 
 class Eventos():
+
+
     def mensajeSalir(self=None):
         mbox=QtWidgets.QMessageBox()
         mbox.setIcon(QtWidgets.QMessageBox.Icon.Warning)
@@ -188,7 +192,7 @@ class Eventos():
                 bbdd.close()
 
                 mbox = QtWidgets.QMessageBox()
-                mbox.setWindowIcon(QIcon('./img/house.svg'))
+                mbox.setWindowIcon(QIcon('./img/iconoInmo.ico'))
                 mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
                 mbox.setWindowTitle('Copia de seguridad')
                 mbox.setText('Copia de seguridad restaurada')
@@ -204,6 +208,72 @@ class Eventos():
 
         except Exception as e:
             print("error en restaurar backup: ", e)
+
+    '''
+    EXPORTS
+    '''
+
+    def exportCSVprop(self):
+        try:
+            var.historico = 0
+            fecha=datetime.today()
+            fecha=fecha.strftime("%Y_%m_%d_%H_%M_%S")
+            file=(str(fecha) + 'Datospropiedades.csv')
+            directorio,fichero= var.dlgabrir.getSaveFileName(None, "Exportar CSV", file, '.csv')
+            if fichero:
+                registros=conexion.Conexion.listadoPropiedades(self)
+                with open(fichero, 'w', newline='') as csvfile:
+                    writer=csv.writer(csvfile) #creo el puntero de almacenamiento
+                    writer.writerow(["Codigo","Alta","Baja","Dirección","Provincia","Municipio","Tipo",
+                                     "Nº Habitaciones", "Nº Baños","Superficie", "Precio Alquiler", "Precio Compra",
+                                     "Código Postal","Observaciones","Operación","Estado","Propietario","Móvil"])
+                    for registro in registros:
+                        writer.writerow(registro)
+                shutil.move(fichero, directorio)
+            else:
+                mbox = QtWidgets.QMessageBox()
+                mbox.setWindowIcon(QIcon('./img/iconoInmo.ico'))
+                mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
+                mbox.setWindowTitle('Copia de seguridad')
+                mbox.setText('Error Exportación de Datos Propiedades')
+                mbox.setStandardButtons(
+                    QtWidgets.QMessageBox.StandardButton.Ok)
+                mbox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.Ok)
+                mbox.button(QtWidgets.QMessageBox.StandardButton.Ok).setText('Aceptar')
+                mbox.exec()
+        except Exception as e:
+            print(e)
+
+    def exportJSONprop(self):
+        try:
+            var.historico = 0
+            fecha=datetime.today()
+            fecha=fecha.strftime("%Y_%m_%d_%H_%M_%S")
+            file=(str(fecha) + 'Datospropiedades.json')
+            directorio,fichero = var.dlgabrir.getSaveFileName(None, "Exportar JSON", file, '.json')
+            if fichero:
+                keys = ["Codigo","Alta","Baja","Dirección","Provincia","Municipio","Tipo",
+                                     "Nº Habitaciones", "Nº Baños","Superficie", "Precio Alquiler", "Precio Compra",
+                                     "Código Postal","Observaciones","Operación","Estado","Propietario","Móvil"]
+                registros = conexion.Conexion.listadoPropiedades(self)
+                lista_propiedades= [dict(zip(keys,registro))for registro in registros]
+                with open(fichero, 'w', newline='',encoding='utf-8') as jsonfile:
+                    json.dump(lista_propiedades, jsonfile,ensure_ascii=False, indent=4)
+                shutil.move(fichero, directorio)
+            else:
+                mbox = QtWidgets.QMessageBox()
+                mbox.setWindowIcon(QIcon('./img/iconoInmo.ico'))
+                mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
+                mbox.setWindowTitle('Copia de seguridad')
+                mbox.setText('Error Exportación de Datos Propiedades')
+                mbox.setStandardButtons(
+                    QtWidgets.QMessageBox.StandardButton.Ok)
+                mbox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.Ok)
+                mbox.button(QtWidgets.QMessageBox.StandardButton.Ok).setText('Aceptar')
+                mbox.exec()
+
+        except Exception as e:
+            print(e)
 
     '''
     OTROS

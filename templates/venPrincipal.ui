@@ -81,7 +81,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="pesClientes">
        <attribute name="title">
@@ -1045,128 +1045,12 @@
            </property>
           </widget>
          </item>
-         <item row="2" column="12" colspan="2">
-          <layout class="QHBoxLayout" name="horizontalLayout_2">
-           <item>
-            <widget class="QLineEdit" name="txtPrecioalquilerprop">
-             <property name="minimumSize">
-              <size>
-               <width>100</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>120</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color:rgb(255, 255, 255);</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="placeholderText">
-              <string>Precio Alquiler €</string>
-             </property>
-            </widget>
-           </item>
-           <item alignment="Qt::AlignHCenter">
-            <widget class="QLabel" name="lblseparador">
-             <property name="text">
-              <string>/</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="txtPrecioventaprop">
-             <property name="minimumSize">
-              <size>
-               <width>100</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>120</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color:rgb(255, 255, 255);</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="placeholderText">
-              <string>Precio Venta €</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
          <item row="5" column="9">
           <widget class="QCheckBox" name="chkHosticoprop">
            <property name="text">
             <string>Histórico</string>
            </property>
           </widget>
-         </item>
-         <item row="0" column="9">
-          <layout class="QHBoxLayout" name="horizontalLayout_3">
-           <item>
-            <widget class="QLineEdit" name="txtAltaprop">
-             <property name="minimumSize">
-              <size>
-               <width>150</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>150</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color:rgb(246, 255, 187);</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="btnPubliprop">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>25</width>
-               <height>25</height>
-              </size>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="icon">
-              <iconset>
-               <normaloff>../img/calendar.ico</normaloff>../img/calendar.ico</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>24</width>
-               <height>24</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-          </layout>
          </item>
          <item row="0" column="8">
           <widget class="QLabel" name="lblPubliprop">
@@ -1219,31 +1103,6 @@
             <string>Estado:</string>
            </property>
           </widget>
-         </item>
-         <item row="3" column="9">
-          <layout class="QHBoxLayout" name="horizontalLayout_7">
-           <item>
-            <widget class="QCheckBox" name="chkVentaprop">
-             <property name="text">
-              <string>Venta</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="chkAlquilerprop">
-             <property name="text">
-              <string>Alquiler</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="chkIntercambioprop">
-             <property name="text">
-              <string>Intercambio</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
          </item>
          <item row="3" column="8">
           <widget class="QLabel" name="lblTipooperacionprop">
@@ -1330,6 +1189,147 @@
             </size>
            </property>
           </widget>
+         </item>
+         <item row="0" column="9" colspan="2">
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <item>
+            <widget class="QLineEdit" name="txtAltaprop">
+             <property name="minimumSize">
+              <size>
+               <width>150</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>150</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color:rgb(246, 255, 187);</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btnPubliprop">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>25</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>../img/calendar.ico</normaloff>../img/calendar.ico</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="3" column="9" colspan="2">
+          <layout class="QHBoxLayout" name="horizontalLayout_7">
+           <item>
+            <widget class="QCheckBox" name="chkVentaprop">
+             <property name="text">
+              <string>Venta</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="chkAlquilerprop">
+             <property name="text">
+              <string>Alquiler</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="chkIntercambioprop">
+             <property name="text">
+              <string>Intercambio</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="2" column="12" colspan="2">
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QLineEdit" name="txtPrecioalquilerprop">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>120</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color:rgb(255, 255, 255);</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="placeholderText">
+              <string>Precio Alquiler €</string>
+             </property>
+            </widget>
+           </item>
+           <item alignment="Qt::AlignHCenter">
+            <widget class="QLabel" name="lblseparador">
+             <property name="text">
+              <string>/</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="txtPrecioventaprop">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>120</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color:rgb(255, 255, 255);</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="placeholderText">
+              <string>Precio Venta €</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </widget>
@@ -1428,7 +1428,7 @@
             <enum>QAbstractItemView::SelectRows</enum>
            </property>
            <property name="columnCount">
-            <number>8</number>
+            <number>9</number>
            </property>
            <column>
             <property name="text">
@@ -1468,6 +1468,11 @@
            <column>
             <property name="text">
              <string>Tipo Operación</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Fecha Baja</string>
             </property>
            </column>
           </widget>
@@ -1534,8 +1539,8 @@
      <property name="title">
       <string>Exportar Datos</string>
      </property>
-     <addaction name="actionExportar_Clientes_CSV"/>
-     <addaction name="actionExportar_Clientes_Json"/>
+     <addaction name="actionExportar_Propiedades_CSV"/>
+     <addaction name="actionExportar_Propiedades_Json"/>
     </widget>
     <addaction name="actionCrear_Backup"/>
     <addaction name="actionRestaurar_Backup"/>
@@ -1625,14 +1630,14 @@
     <string>Tipo Propiedades</string>
    </property>
   </action>
-  <action name="actionExportar_Clientes_CSV">
+  <action name="actionExportar_Propiedades_CSV">
    <property name="text">
-    <string>Exportar Clientes CSV</string>
+    <string>Exportar Propiedades CSV</string>
    </property>
   </action>
-  <action name="actionExportar_Clientes_Json">
+  <action name="actionExportar_Propiedades_Json">
    <property name="text">
-    <string>Exportar Clientes Json</string>
+    <string>Exportar Propiedades Json</string>
    </property>
   </action>
   <action name="actionBuscar">
