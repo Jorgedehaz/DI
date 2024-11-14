@@ -350,17 +350,6 @@ class Conexion:
             query.bindValue(":nombreprop", str(registro[16]))
             query.bindValue(":movilprop", str(registro[17]))
 
-
-            fecha_str1 = str(registro[1])
-            fecha_str2 = str(registro[2])
-
-            # Convertir cadenas a objetos datetime usando strptime
-            fecha1 = datetime.strptime(fecha_str1, "%d/%m/%Y")
-            fecha2 = datetime.strptime(fecha_str2, "%d/%m/%Y")
-
-            if fecha1>fecha2:
-                return False
-
             if query.exec():
                 return True
             else:
