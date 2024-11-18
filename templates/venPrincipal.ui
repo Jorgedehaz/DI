@@ -1557,6 +1557,7 @@
     <property name="title">
      <string>Ayuda</string>
     </property>
+    <addaction name="action_Acercade"/>
    </widget>
    <addaction name="menuArchivo"/>
    <addaction name="menuGestion"/>
@@ -1662,6 +1663,12 @@
    </property>
    <property name="toolTip">
     <string>Gestion</string>
+   </property>
+  </action>
+  <action name="action_Acercade">
+   <property name="text">
+    <string>
+Acerca de</string>
    </property>
   </action>
  </widget>

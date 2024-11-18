@@ -616,6 +616,8 @@ class Ui_venPrincipal(object):
         icon5.addPixmap(QtGui.QPixmap(".\\\\templates\\../img/iconoInmo.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.actionGestion.setIcon(icon5)
         self.actionGestion.setObjectName("actionGestion")
+        self.action_Acercade = QtGui.QAction(parent=venPrincipal)
+        self.action_Acercade.setObjectName("action_Acercade")
         self.menuArchivo.addAction(self.actionSalir)
         self.menuExportar_Datos.addAction(self.actionExportar_Propiedades_CSV)
         self.menuExportar_Datos.addAction(self.actionExportar_Propiedades_Json)
@@ -624,6 +626,7 @@ class Ui_venPrincipal(object):
         self.menuHerramientas.addSeparator()
         self.menuHerramientas.addAction(self.menuExportar_Datos.menuAction())
         self.menuGestion.addAction(self.actionTipo_Propiedades)
+        self.menuAyuda.addAction(self.action_Acercade)
         self.menubar.addAction(self.menuArchivo.menuAction())
         self.menubar.addAction(self.menuGestion.menuAction())
         self.menubar.addAction(self.menuHerramientas.menuAction())
@@ -742,3 +745,5 @@ class Ui_venPrincipal(object):
         self.actionBuscar.setToolTip(_translate("venPrincipal", "Buscar"))
         self.actionGestion.setText(_translate("venPrincipal", "Gestion"))
         self.actionGestion.setToolTip(_translate("venPrincipal", "Gestion"))
+        self.action_Acercade.setText(_translate("venPrincipal", "\n"
+"Acerca de"))

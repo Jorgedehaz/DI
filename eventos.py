@@ -310,3 +310,9 @@ class Eventos():
         registro=conexion.Conexion.cargarTipoprop(self)
         var.ui.cmbTipoprop.clear()
         var.ui.cmbTipoprop.addItems(registro)
+
+    def abrirAbout(self):
+        try:
+            var.dlgabout.show()
+        except Exception as error:
+            print ("error en abrir About", error)
