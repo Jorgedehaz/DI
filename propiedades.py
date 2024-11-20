@@ -272,6 +272,10 @@ class Propiedades():
             var.ui.tablaPropiedades.setRowCount(0)
             index = 0
 
+            if len(listado_filtrado) == 0:
+                var.ui.tablaPropiedades.setRowCount(index + 1)
+                var.ui.tablaPropiedades.setItem(index, 2, QtWidgets.QTableWidgetItem("  No hay resultados  "))
+
             for registro in listado_filtrado:
                 var.ui.tablaPropiedades.setRowCount(index + 1)
                 var.ui.tablaPropiedades.setItem(index, 0, QtWidgets.QTableWidgetItem("  " + str(registro[0]) + "  "))
@@ -282,6 +286,7 @@ class Propiedades():
                 var.ui.tablaPropiedades.setItem(index, 5, QtWidgets.QTableWidgetItem("  " + str(registro[10]) + " € "))
                 var.ui.tablaPropiedades.setItem(index, 6, QtWidgets.QTableWidgetItem("  " + str(registro[11]) + " € "))
                 var.ui.tablaPropiedades.setItem(index, 7, QtWidgets.QTableWidgetItem("  " + registro[14] + "  "))
+                var.ui.tablaPropiedades.setItem(index, 8, QtWidgets.QTableWidgetItem("  " + str(registro[2]) + "  "))
                 index += 1
 
         except Exception as e:

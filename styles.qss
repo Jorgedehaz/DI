@@ -21,7 +21,12 @@ QPushButton {
     font-weight: bold;
     color: white;
     border-radius: 5px;
+    min-width: 20px; /* Ancho mínimo */
+    min-height: 10px; /* Altura mínima */
+    font-size: 11px; /* Tamaño de la fuente */
+    padding: 3px; /* Relleno interno */
 }
+
 QTableWidget{
     background-color: whitesmoke;
     color: black;

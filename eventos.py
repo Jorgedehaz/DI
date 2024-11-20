@@ -291,9 +291,20 @@ class Eventos():
         camposPanel = [var.ui.txtDnicli, var.ui.txtAltacli, var.ui.txtApelcli,
                        var.ui.txtNomcli, var.ui.txtEmailcli, var.ui.txtMovilcli,
                        var.ui.txtDircli, var.ui.cmbProvicli, var.ui.cmbMunicli, var.ui.txtBajacli]
-
         for i, dato in enumerate(camposPanel):
             if i == 7 or i == 8:
+                pass
+            else:
+                dato.setText("")
+
+            eventos.Eventos.cargarProv(self)
+
+        camposPanel2 = [var.ui.txtCodigoprop,var.ui.txtAltaprop,var.ui.txtBajaprop,var.ui.txtDirprop,
+                       var.ui.cmbProviprop,var.ui.cmbMuniprop,var.ui.cmbTipoprop, var.ui.txtSuperprop,
+                       var.ui.txtPrecioalquilerprop,var.ui.txtPrecioventaprop,
+                       var.ui.txtCodigopostalprop,var.ui.txtObservaprop,var.ui.txtPropietarioprop,var.ui.txtMovilprop]
+        for i, dato in enumerate(camposPanel2):
+            if i == 4 or i == 5 or i == 6:
                 pass
             else:
                 dato.setText("")

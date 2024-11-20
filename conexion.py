@@ -403,7 +403,6 @@ class Conexion:
                     prop=[]
                     for i in range(query.record().count()):
                         prop.append(str(query.value(i)))
-                        print(prop)
                     registro.append(prop)
             return registro
         except Exception as e:
