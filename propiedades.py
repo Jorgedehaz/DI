@@ -117,7 +117,7 @@ class Propiedades():
 
     def modifPropiedad(self):
         try:
-            modifProp = [var.ui.txtCodigoprop.text(),var.ui.txtAltaprop.text(),var.ui.txtBajaprop.text(),var.ui.txtDirprop.text(),
+            modifProp = [var.ui.txtCodigoprop.text(),var.ui.txtAltaprop.text(),var.ui.txtBajaprop.text(),var.ui.txtDirprop.text().title(),
                        var.ui.cmbProviprop.currentText(),var.ui.cmbMuniprop.currentText(),var.ui.cmbTipoprop.currentText(),
                        var.ui.spinHabitaprop.value(),var.ui.spinBanosprop.value(), var.ui.txtSuperprop.text(),
                        var.ui.txtPrecioalquilerprop.text(),var.ui.txtPrecioventaprop.text(),
@@ -142,7 +142,7 @@ class Propiedades():
             else:
                 modifProp.append(None)
 
-            modifProp.append(var.ui.txtPropietarioprop.text())
+            modifProp.append(var.ui.txtPropietarioprop.text().tite())
             modifProp.append(var.ui.txtMovilprop.text())
 
             if conexion.Conexion.modifPropiedad(modifProp):

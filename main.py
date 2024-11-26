@@ -23,6 +23,7 @@ class Main(QtWidgets.QMainWindow):
         var.dlggestion = dlgGestionprop()
         var.dlgabout = dlgAbout()
         conexion.Conexion.db_conexion(self)
+        conexionserver.ConexionServer.crear_conexion(self)
         var.historico = 1
         eventos.Eventos.cargarProv(self)
         clientes.Clientes.cargaTablaClientes(self)

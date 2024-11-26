@@ -4,6 +4,7 @@ from PyQt6 import QtWidgets, QtGui, QtCore
 from PyQt6.QtGui import QIcon
 import clientes
 import conexion
+import conexionserver
 import eventos
 import var
 
@@ -26,11 +27,12 @@ class Clientes:
 
     def altaCliente(self):
         try:
-            nuevocli= [var.ui.txtDnicli.text(), var.ui.txtAltacli.text(), var.ui.txtApelcli.text(), var.ui.txtNomcli.text(),
-                    var.ui.txtEmailcli.text(), var.ui.txtMovilcli.text(), var.ui.txtDircli.text(), var.ui.cmbProvicli.currentText(),
-                    var.ui.cmbMunicli.currentText(),var.ui.txtBajacli.currentText()]
+            nuevocli= [var.ui.txtDnicli.text(), var.ui.txtAltacli.text(), var.ui.txtApelcli.text().title(), var.ui.txtNomcli.text().title(),
+                    var.ui.txtEmailcli.text(), var.ui.txtMovilcli.text(), var.ui.txtDircli.text().title(), var.ui.cmbProvicli.currentText(),
+                    var.ui.cmbMunicli.currentText()]
             if (var.ui.txtDnicli.text()!=""):
-                if conexion.Conexion.altaCliente(nuevocli):
+                #if conexion.Conexion.altaCliente(nuevocli):
+                if conexionserver.ConexionServer.altaCliente(nuevocli):
                     mbox = QtWidgets.QMessageBox()
                     mbox.setIcon(QtWidgets.QMessageBox.Icon.Warning)
                     mbox.setWindowIcon(QtGui.QIcon('./img/iconoInmo.ico'))
@@ -59,9 +61,10 @@ class Clientes:
             modifCli = [var.ui.txtDnicli.text(), var.ui.txtAltacli.text(), var.ui.txtApelcli.text(),
                         var.ui.txtNomcli.text(), var.ui.txtEmailcli.text(), var.ui.txtMovilcli.text(),
                         var.ui.txtDircli.text(),
-                        var.ui.cmbProvicli.currentText(), var.ui.cmbMunicli.currentText(),var.ui.txtBajacli().text()]
+                        var.ui.cmbProvicli.currentText(), var.ui.cmbMunicli.currentText(),var.ui.txtBajacli.text()]
 
-            if conexion.Conexion.modifCliente(modifCli):
+            #if conexion.Conexion.modifCliente(modifCli):
+            if conexionserver.ConexionServer.modifCliente(modifCli):
                 mbox = QtWidgets.QMessageBox()
                 mbox.setWindowIcon(QIcon('./img/iconoInmo.ico'))
                 mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
@@ -96,7 +99,8 @@ class Clientes:
             op = True
             datos = [var.ui.txtDnicli.text(), var.ui.txtBajacli.text()]
 
-            if conexion.Conexion.bajaCliente(datos):
+            #if conexion.Conexion.bajaCliente(datos):
+            if conexionserver.ConexionServer.bajaCliente(datos):
                 mbox = QtWidgets.QMessageBox()
                 mbox.setWindowIcon(QIcon('./img/house.svg'))
                 mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
@@ -144,17 +148,18 @@ class Clientes:
 
     def cargaTablaClientes(self):
         try:
-            listado = conexion.Conexion.listadoClientes(self)
+            #listado = conexion.Conexion.listadoClientes(self)
+            listado = conexionserver.ConexionServer.listadoClientes(self)
             index=0
             for registro in listado:
                 var.ui.tablaClientes.setRowCount(index+1)
-                var.ui.tablaClientes.setItem(index,0, QtWidgets.QTableWidgetItem("  " + registro[0] + "  "))
-                var.ui.tablaClientes.setItem(index,1, QtWidgets.QTableWidgetItem("  " + registro[2] + "  "))
-                var.ui.tablaClientes.setItem(index,2, QtWidgets.QTableWidgetItem("  " + registro[3] + "  "))
-                var.ui.tablaClientes.setItem(index,3, QtWidgets.QTableWidgetItem("   " + registro[5] + "   "))
-                var.ui.tablaClientes.setItem(index,4, QtWidgets.QTableWidgetItem("  " + registro[7] + "  "))
-                var.ui.tablaClientes.setItem(index,5, QtWidgets.QTableWidgetItem("  " + registro[8] + "  "))
-                var.ui.tablaClientes.setItem(index,6, QtWidgets.QTableWidgetItem("  " + registro[9] + "  "))
+                var.ui.tablaClientes.setItem(index,0, QtWidgets.QTableWidgetItem(str(registro[0])))
+                var.ui.tablaClientes.setItem(index,1, QtWidgets.QTableWidgetItem(str("  " + registro[2] + "  ")))
+                var.ui.tablaClientes.setItem(index,2, QtWidgets.QTableWidgetItem(str("  " + registro[3] + "  ")))
+                var.ui.tablaClientes.setItem(index,3, QtWidgets.QTableWidgetItem(str("   " + registro[5] + "   ")))
+                var.ui.tablaClientes.setItem(index,4, QtWidgets.QTableWidgetItem(str("  " + registro[7] + "  ")))
+                var.ui.tablaClientes.setItem(index,5, QtWidgets.QTableWidgetItem(str("  " + registro[8] + "  ")))
+                var.ui.tablaClientes.setItem(index,6, QtWidgets.QTableWidgetItem(registro[9]))
                 '''
                 var.ui.tablaClientes.item(index,0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
                 var.ui.tablaClientes.item(index,1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
@@ -173,7 +178,9 @@ class Clientes:
         try:
             fila = var.ui.tablaClientes.selectedItems()
             datos = [dato.text() for dato in fila]
-            registro = conexion.Conexion.datosOneCliente(str(datos[0]))
+            #registro = conexion.Conexion.datosOneCliente(str(datos[0]))
+            registro = conexionserver.ConexionServer.datosOneCliente(str(datos[0]))
+            registro = [x if x != 'None' else '' for x in registro]
             listado = [var.ui.txtDnicli, var.ui.txtAltacli, var.ui.txtApelcli,
                        var.ui.txtNomcli, var.ui.txtEmailcli, var.ui.txtMovilcli,
                        var.ui.txtDircli,

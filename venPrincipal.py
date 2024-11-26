@@ -585,6 +585,9 @@ class Ui_venPrincipal(object):
         spacerItem18 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Minimum)
         self.gridLayout_5.addItem(spacerItem18, 2, 0, 1, 1)
         self.panPrincipal.addTab(self.pesPropiedades, "")
+        self.pesLoQueSea = QtWidgets.QWidget()
+        self.pesLoQueSea.setObjectName("pesLoQueSea")
+        self.panPrincipal.addTab(self.pesLoQueSea, "")
         self.gridLayout.addWidget(self.panPrincipal, 0, 3, 1, 1)
         venPrincipal.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=venPrincipal)
@@ -659,7 +662,7 @@ class Ui_venPrincipal(object):
         self.toolBar.addAction(self.actionSalir)
 
         self.retranslateUi(venPrincipal)
-        self.panPrincipal.setCurrentIndex(0)
+        self.panPrincipal.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(venPrincipal)
 
     def retranslateUi(self, venPrincipal):
@@ -744,6 +747,7 @@ class Ui_venPrincipal(object):
         item = self.tablaPropiedades.horizontalHeaderItem(8)
         item.setText(_translate("venPrincipal", "Fecha Baja"))
         self.panPrincipal.setTabText(self.panPrincipal.indexOf(self.pesPropiedades), _translate("venPrincipal", "PROPIEDADES"))
+        self.panPrincipal.setTabText(self.panPrincipal.indexOf(self.pesLoQueSea), _translate("venPrincipal", "CurrentTabText"))
         self.menuArchivo.setTitle(_translate("venPrincipal", "Archivo"))
         self.menuHerramientas.setTitle(_translate("venPrincipal", "Herramientas"))
         self.menuExportar_Datos.setTitle(_translate("venPrincipal", "Exportar Datos"))

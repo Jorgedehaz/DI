@@ -5,6 +5,8 @@ import shutil
 import sys
 import time
 import zipfile
+
+import conexionserver
 import eventos
 import clientes
 import var
@@ -40,12 +42,14 @@ class Eventos():
 
     def cargarProv(self):
         var.ui.cmbProvicli.clear()
-        listado=conexion.Conexion.listaProv(self)
+        #listado=conexion.Conexion.listaProv(self)
+        listado=conexionserver.ConexionServer.listaProv(self)
         var.ui.cmbProvicli.addItems(listado)
 
     def cargaMunicli(self):
         provincia= var.ui.cmbProvicli.currentText()
-        listado= conexion.Conexion.listaMuniprov(provincia)
+        #listado= conexion.Conexion.listaMuniprov(provincia)
+        listado= conexionserver.ConexionServer.listaMuniProv(provincia)
         var.ui.cmbMunicli.clear()
         var.ui.cmbMunicli.addItems(listado)
 
