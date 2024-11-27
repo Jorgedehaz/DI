@@ -72,17 +72,31 @@ class ConexionServer():
             conexion = ConexionServer().crear_conexion()
             listadoclientes = []
             cursor = conexion.cursor()
-            cursor.execute("SELECT * FROM clientes ORDER BY apelcli, nomecli ASC")
-            resultados = cursor.fetchall()
-            # Procesar cada fila de los resultados
-            for fila in resultados:
-                # Crear una lista con los valores de la fila
-                listadoclientes.append(list(fila))  # Convierte la tupla en una lista y la añade a listadoclientes
+            if var.historico == 1:
+                cursor.execute("SELECT * FROM clientes WHERE bajacli is NULL or bajacli='' ORDER BY apelcli, nomecli ASC")
+                resultados = cursor.fetchall()
+                # Procesar cada fila de los resultados
+                for fila in resultados:
+                    # Crear una lista con los valores de la fila
+                    listadoclientes.append(list(fila))  # Convierte la tupla en una lista y la añade a listadoclientes
 
-            # Cerrar el cursor y la conexión si no los necesitas más
-            cursor.close()
-            conexion.close()
-            return listadoclientes
+                # Cerrar el cursor y la conexión si no los necesitas más
+                cursor.close()
+                conexion.close()
+                return listadoclientes
+            else:
+                cursor.execute("SELECT * FROM clientes ORDER BY apelcli, nomecli ASC")
+                resultados = cursor.fetchall()
+                # Procesar cada fila de los resultados
+                for fila in resultados:
+                    # Crear una lista con los valores de la fila
+                    listadoclientes.append(list(fila))  # Convierte la tupla en una lista y la añade a listadoclientes
+
+                # Cerrar el cursor y la conexión si no los necesitas más
+                cursor.close()
+                conexion.close()
+                return listadoclientes
+
         except Exception as e:
             print("error listado en conexion", e)
 
@@ -202,61 +216,42 @@ class ConexionServer():
 
     def altaPropiedad(propiedad):
         try:
-            query = QtSql.QSqlQuery()
-            query.prepare("INSERT into PROPIEDADES (altaprop,dirprop,provprop,muniprop,tipoprop, "
-                          " habitaprop,banprop,superprop,prealquiprop,prevenprop,cpprop,observaprop, "
-                          " tipooper,estadoprop,nombreprop,movilprop)"
-                          " VALUES (:altaprop,:dirprop,:provprop,:muniprop,:tipoprop, "
-                          " :habitaprop,:banprop,:superprop,:prealquiprop,:prevenprop,:cpprop,:observaprop, "
-                          " :tipooper,:estadoprop,:nombreprop,:movilprop)")
-            query.bindValue(":altaprop", str(propiedad[0]))
-            query.bindValue(":dirprop", str(propiedad[1]))
-            query.bindValue(":provprop", str(propiedad[2]))
-            query.bindValue(":muniprop", str(propiedad[3]))
-            query.bindValue(":tipoprop", str(propiedad[4]))
-            query.bindValue(":habitaprop", int(propiedad[5]))
-            query.bindValue(":banprop", int(propiedad[6]))
-            query.bindValue(":superprop", float(propiedad[7]))
-            query.bindValue(":prealquiprop", float(propiedad[8]))
-            query.bindValue(":prevenprop", float(propiedad[9]))
-            query.bindValue(":cpprop", str(propiedad[10]))
-            query.bindValue(":observaprop", str(propiedad[11]))
-            query.bindValue(":tipooper", str(propiedad[12]))
-            query.bindValue(":estadoprop", str(propiedad[13]))
-            query.bindValue(":nombreprop", str(propiedad[14]))
-            query.bindValue(":movilprop", str(propiedad[15]))
-
-            if query.exec():
-                print("Propiedad añadida")
+            conexion = ConexionServer().crear_conexion()
+            if conexion:
+                cursor = conexion.cursor()
+                # Definir la consulta de inserción
+                query = """
+                INSERT INTO propiedades (altaprop, dirprop, provprop, muniprop, tipoprop, habprop, banprop, superprop, 
+                prealquiprop, prevenprop, cpprop, obserprop, tipooper, estadoprop, nomeprop, movilprop)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                """
+                cursor.execute(query, propiedad)  # Ejecutar la consulta pasando la lista directamente
+                conexion.commit()  # Confirmar la transacción
+                cursor.close()  # Cerrar el cursor y la conexión
+                conexion.close()
                 return True
+        except Error as e:
+            print(f"Error al insertar propiedad: {e}")
 
-            else:
-                return False
 
-        except Exception as error:
-            print("Error alta propiedad en conexion", error)
 
     def listadoPropiedades(self):
         try:
+            conexion = ConexionServer().crear_conexion()
             listado = []
+            cursor = conexion.cursor()
             if var.historico == 1:
-                query = QtSql.QSqlQuery()
-                query.prepare("SELECT * FROM PROPIEDADES WHERE bajaprop is NULL ORDER BY muniprop ASC")
+                cursor.execute("SELECT * FROM propiedades WHERE bajaprop is NULL ORDER BY muniprop ASC ")
 
-                if query.exec():
-                    while query.next():
-                        fila = [query.value(i) for i in range(query.record().count())]
-                        listado.append(fila)
-                    return listado
-            else:
-                query = QtSql.QSqlQuery()
-                query.prepare("SELECT * FROM PROPIEDADES ORDER BY muniprop ASC")
+            elif var.historico == 0:
+                cursor.execute("SELECT * FROM propiedades ORDER BY muniprop ASC ")
 
-                if query.exec():
-                    while query.next():
-                        fila = [query.value(i) for i in range(query.record().count())]
-                        listado.append(fila)
-                    return listado
+            resultados = cursor.fetchall()
+            for fila in resultados:  # Procesar cada fila de los resultados y crea una lista con valores de la fila
+                listado.append(list(fila))  # Convierte la tupla en una lista y la añade a listadoclientes
+            cursor.close()  # Cerrar el cursor y la conexión si no los necesitas más
+            conexion.close()
+            return listado
 
         except Exception as e:
             print("error listado en conexión", e)
@@ -300,38 +295,56 @@ class ConexionServer():
             print("error modificar propiedad", error)
 
     def bajaPropiedad(datos):
+        conexion = ConexionServer().crear_conexion()
+        cursor = conexion.cursor()
         try:
 
-            query = QtSql.QSqlQuery()
-            query.prepare("UPDATE propiedades SET bajaprop =:bajaprop WHERE codigo = :codigo")
-            query.bindValue(":codigo", str(datos[0]).strip())
-            query.bindValue(":bajaprop", str(datos[1]))
+            # Consulta SQL para dar de baja al cliente
+            consulta = "UPDATE clientes SET bajacli = %s WHERE dnicli = %s"
+            valores = (str(datos[1]), str(datos[0]).strip())
 
+            # Ejecutar la consulta
+            cursor.execute(consulta, valores)
+            conexion.commit()  # Confirmar los cambios
 
-            if query.exec():
+            if cursor.rowcount > 0:
+                print(f"Cliente con DNI {datos[0]} dado de baja correctamente.")
                 return True
             else:
+                print(f"No se encontró un cliente con DNI {datos[0]}.")
                 return False
 
-        except Exception as e:
-            print("Error baja propiedad bd", e)
+        except Error as e:
+            print("Error al dar de baja al cliente:", e)
+            return False
 
-    def datosOnePropiedad(id):
+    def datosOnePropiedad(codigo):
+        registro = []
         try:
-            registro = []
-            query = QtSql.QSqlQuery()
-            query.prepare("SELECT * FROM propiedades WHERE codigo = :codigo")
+            conexion = ConexionServer().crear_conexion()  # Crear la conexión
 
-            query.bindValue(":codigo", str(id))
+            if not conexion:
+                raise Exception("No se pudo establecer la conexión a la base de datos.")
 
-            if query.exec():
-                while query.next():
-                    for i in range(query.record().count()):
-                        registro.append(str(query.value(i)))
+            with conexion.cursor() as cursor:
+                query = '''SELECT * FROM propiedades WHERE codigo = %s'''
+                cursor.execute(query, (codigo,))
+
+                resultados = cursor.fetchall()
+
+                if not resultados:
+                    print(f"No se encontraron datos para el Codigo: {codigo}")
+                    return None
+
+                for row in resultados:
+                    for col in row:
+                        registro.append(str(col))
+
             return registro
 
         except Exception as e:
-            print("Error recuperando datos de clientes", e)
+            print("Error al obtener datos de una propiedad:", e)
+            return None
 
     def buscarProp(datos):
         try:
@@ -350,5 +363,48 @@ class ConexionServer():
         except Exception as e:
             print("Error buscar propiedad", e)
 
+    @staticmethod
+    def cargarTipoProp(self):
+        try:
+            registro = []
+            conexion = ConexionServer().crear_conexion()
+            cursor = conexion.cursor()
+            cursor.execute("SELECT tipo FROM tipopropiedad")
+            resultados = cursor.fetchall()
+            for fila in resultados:
+                registro.append(fila[0])
+            return registro
+        except Exception as e:
+            print("error cargarTipoProp en conexionServer", e)
+
+    def altaTipoProp(tipo):
+        try:
+            conexion = ConexionServer().crear_conexion()
+            if conexion:
+                cursor = conexion.cursor()
+                query = "INSERT INTO tipopropiedad (tipo) VALUES (%s)"
+                cursor.execute(query, (tipo,))
+                conexion.commit()
+                cursor.close()
+                conexion.close()
+                return True
+        except Error as e:
+            print("error altaTipoPropiedad en conexionServer", e)
+            return False
+
+    def bajaTipoProp(tipo):
+        try:
+            conexion = ConexionServer().crear_conexion()
+            if conexion:
+                cursor = conexion.cursor()
+                query = "DELETE FROM tipopropiedad WHERE tipo = %s"
+                cursor.execute(query, (tipo,))
+                conexion.commit()
+                cursor.close()
+                conexion.close()
+                return True
+        except Error as e:
+            print("error bajaTipoPropiedad en conexionServer", e)
+            return False
 
 

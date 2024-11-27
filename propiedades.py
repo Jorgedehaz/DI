@@ -2,6 +2,7 @@ from PyQt6 import QtWidgets, QtGui, QtCore
 from PyQt6.QtGui import QIcon
 import clientes
 import conexion
+import conexionserver
 import eventos
 import propiedades
 import var
@@ -13,7 +14,8 @@ class Propiedades():
     def altaTipopropiedad(self):
         try:
             tipo = var.dlggestion.ui.txtGestipoprop.text().title()
-            registro = conexion.Conexion.altaTipoprop(tipo)
+            #registro = conexion.Conexion.altaTipoprop(tipo)
+            registro = conexionserver.ConexionServer.altaTipoProp(tipo)
             if registro:
                 var.ui.cmbTipoprop.clear()
                 var.ui.cmbTipoprop.addItems(registro)
@@ -32,7 +34,8 @@ class Propiedades():
     def bajaTipopropiedad(self):
         try:
             tipo = var.dlggestion.ui.txtGestipoprop.text().title()
-            if conexion.Conexion.bajaTipoprop(tipo):
+            #if conexion.Conexion.bajaTipoprop(tipo):
+            if conexionserver.ConexionServer.bajaTipoProp():
                 mbox = QtWidgets.QMessageBox()
                 mbox.setWindowTitle("Aviso")
                 mbox.setIcon(QtWidgets.QMessageBox.Icon.Critical)
@@ -48,7 +51,8 @@ class Propiedades():
                 mbox.setText("Propiedad No Existe")
                 mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Cancel)
                 mbox.exec()
-            registro= conexion.Conexion.cargarTipoprop(self)
+            registro = conexionserver.ConexionServer.cargarTipoProp(self)
+            #registro= conexion.Conexion.cargarTipoprop(self)
             var.ui.cmbTipoprop.clear()
             var.ui.cmbTipoprop.addItems(registro)
         except Exception as e:
@@ -81,7 +85,8 @@ class Propiedades():
 
             propiedad.append(var.ui.txtPropietarioprop.text())
             propiedad.append(var.ui.txtMovilprop.text())
-            if conexion.Conexion.altaPropiedad(propiedad):
+            if conexionserver.ConexionServer.altaPropiedad(propiedad):
+            #if conexion.Conexion.altaPropiedad(propiedad):
                 mbox = QtWidgets.QMessageBox()
                 mbox.setWindowTitle("Aviso")
                 mbox.setIcon(QtWidgets.QMessageBox.Icon.Warning)
@@ -96,7 +101,8 @@ class Propiedades():
 
     def cargaTablaPropiedades(self):
         try:
-            listado = conexion.Conexion.listadoPropiedades(self)
+            #listado = conexion.Conexion.listadoPropiedades(self)
+            listado = conexionserver.ConexionServer.listadoPropiedades(self)
             index=0
             for registro in listado:
                 var.ui.tablaPropiedades.setRowCount(index+1)
@@ -219,7 +225,8 @@ class Propiedades():
 
             fila = var.ui.tablaPropiedades.selectedItems()
             datos = [dato.text() for dato in fila]
-            registro = conexion.Conexion.datosOnePropiedad(str(datos[0]))
+            #registro = conexion.Conexion.datosOnePropiedad(str(datos[0]))
+            registro = conexionserver.ConexionServer.datosOnePropiedad(str(datos[0]))
             listado = [var.ui.txtCodigoprop,var.ui.txtAltaprop,var.ui.txtBajaprop,var.ui.txtDirprop,
                        var.ui.cmbProviprop,var.ui.cmbMuniprop,var.ui.cmbTipoprop,
                        var.ui.spinHabitaprop,var.ui.spinBanosprop, var.ui.txtSuperprop,
