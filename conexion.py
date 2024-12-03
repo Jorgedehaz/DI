@@ -73,11 +73,10 @@ class Conexion:
 
     def altaCliente(nuevocli):
         try:
-
             query = QtSql.QSqlQuery()
             query.prepare("INSERT into CLIENTES (dnicli,altacli,apelcli,nomecli,emailcli,movilcli,dircli,"
-                          " provcli,municli,bajacli) VALUES (:dnicli,:altacli,:apelcli,:nomecli,:emailcli,:movilcli,:dircli,"
-                          " :provcli,:municli,:bajacli)")
+                          " provcli,municli) VALUES (:dnicli,:altacli,:apelcli,:nomecli,:emailcli,:movilcli,:dircli,"
+                          " :provcli,:municli)")
             query.bindValue(":dnicli", str(nuevocli[0]))
             query.bindValue(":altacli", str(nuevocli[1]))
             query.bindValue(":apelcli", str(nuevocli[2]))
@@ -87,7 +86,6 @@ class Conexion:
             query.bindValue(":dircli",str(nuevocli[6]))
             query.bindValue(":provcli",str(nuevocli[7]))
             query.bindValue(":municli", str(nuevocli[8]))
-            query.bindValue(":bajacli", str(nuevocli[9]))
 
             if query.exec():
                 print("Cliente añadido")

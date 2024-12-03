@@ -14,8 +14,8 @@ class Propiedades():
     def altaTipopropiedad(self):
         try:
             tipo = var.dlggestion.ui.txtGestipoprop.text().title()
-            #registro = conexion.Conexion.altaTipoprop(tipo)
-            registro = conexionserver.ConexionServer.altaTipoProp(tipo)
+            registro = conexion.Conexion.altaTipoprop(tipo)
+            #registro = conexionserver.ConexionServer.altaTipoProp(tipo)
             if registro:
                 var.ui.cmbTipoprop.clear()
                 var.ui.cmbTipoprop.addItems(registro)
@@ -34,8 +34,8 @@ class Propiedades():
     def bajaTipopropiedad(self):
         try:
             tipo = var.dlggestion.ui.txtGestipoprop.text().title()
-            #if conexion.Conexion.bajaTipoprop(tipo):
-            if conexionserver.ConexionServer.bajaTipoProp():
+            if conexion.Conexion.bajaTipoprop(tipo):
+            #if conexionserver.ConexionServer.bajaTipoProp():
                 mbox = QtWidgets.QMessageBox()
                 mbox.setWindowTitle("Aviso")
                 mbox.setIcon(QtWidgets.QMessageBox.Icon.Critical)
@@ -51,8 +51,8 @@ class Propiedades():
                 mbox.setText("Propiedad No Existe")
                 mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Cancel)
                 mbox.exec()
-            registro = conexionserver.ConexionServer.cargarTipoProp(self)
-            #registro= conexion.Conexion.cargarTipoprop(self)
+            #registro = conexionserver.ConexionServer.cargarTipoProp(self)
+            registro= conexion.Conexion.cargarTipoprop(self)
             var.ui.cmbTipoprop.clear()
             var.ui.cmbTipoprop.addItems(registro)
         except Exception as e:
@@ -85,8 +85,8 @@ class Propiedades():
 
             propiedad.append(var.ui.txtPropietarioprop.text())
             propiedad.append(var.ui.txtMovilprop.text())
-            if conexionserver.ConexionServer.altaPropiedad(propiedad):
-            #if conexion.Conexion.altaPropiedad(propiedad):
+            #if conexionserver.ConexionServer.altaPropiedad(propiedad):
+            if conexion.Conexion.altaPropiedad(propiedad):
                 mbox = QtWidgets.QMessageBox()
                 mbox.setWindowTitle("Aviso")
                 mbox.setIcon(QtWidgets.QMessageBox.Icon.Warning)
@@ -101,10 +101,15 @@ class Propiedades():
 
     def cargaTablaPropiedades(self):
         try:
-            #listado = conexion.Conexion.listadoPropiedades(self)
-            listado = conexionserver.ConexionServer.listadoPropiedades(self)
-            index=0
-            for registro in listado:
+
+            #listado = conexionserver.ConexionServer.listadoPropiedades(self)
+            listado = conexion.Conexion.listadoPropiedades(self)  # Obtén el listado completo
+            inicio = (var.paginaprop - 1) * var.propiedadesxpagina
+            fin = inicio + var.propiedadesxpagina
+            propiedades_pagina = listado[inicio:fin]  # Filtra los clientes según la página actual
+            var.ui.tablaPropiedades.setRowCount(0)
+
+            for index, registro in enumerate(propiedades_pagina):
                 var.ui.tablaPropiedades.setRowCount(index+1)
                 var.ui.tablaPropiedades.setItem(index,0, QtWidgets.QTableWidgetItem("  " + str(registro[0]) + "  "))
                 var.ui.tablaPropiedades.setItem(index,1, QtWidgets.QTableWidgetItem("  " + registro[5] + "  "))
@@ -116,7 +121,7 @@ class Propiedades():
                 var.ui.tablaPropiedades.setItem(index, 7, QtWidgets.QTableWidgetItem("  " + registro[14] + "  "))
                 var.ui.tablaPropiedades.setItem(index, 8, QtWidgets.QTableWidgetItem("  " + str(registro[2]) + "  "))
 
-                index+=1
+            Propiedades.actualizarBotonesPaginacionProp(self)
 
         except Exception as e:
             print("error cargaTablaPropiedades", e)
@@ -225,8 +230,8 @@ class Propiedades():
 
             fila = var.ui.tablaPropiedades.selectedItems()
             datos = [dato.text() for dato in fila]
-            #registro = conexion.Conexion.datosOnePropiedad(str(datos[0]))
-            registro = conexionserver.ConexionServer.datosOnePropiedad(str(datos[0]))
+            registro = conexion.Conexion.datosOnePropiedad(str(datos[0]))
+            #registro = conexionserver.ConexionServer.datosOnePropiedad(str(datos[0]))
             listado = [var.ui.txtCodigoprop,var.ui.txtAltaprop,var.ui.txtBajaprop,var.ui.txtDirprop,
                        var.ui.cmbProviprop,var.ui.cmbMuniprop,var.ui.cmbTipoprop,
                        var.ui.spinHabitaprop,var.ui.spinBanosprop, var.ui.txtSuperprop,
@@ -302,7 +307,7 @@ class Propiedades():
     def checkVenta(self):
         try:
             var.ui.chkVentaprop.setChecked(True)
-            if var.ui.txtVentaprop.text() == "":
+            if var.ui.txtPrecioventaprop.text() == "":
                 var.ui.chkVentaprop.setChecked(False)
         except Exception as e:
             print(e)
@@ -314,3 +319,34 @@ class Propiedades():
                 var.ui.chkAlquilerprop.setChecked(False)
         except Exception as e:
             print(e)
+
+    def nextProp(self):
+        try:
+            listado = conexion.Conexion.listadoPropiedades(self)  # Obtén el listado completo
+            total_paginas = (len(listado) + var.propiedadesxpagina - 1) // var.propiedadesxpagina
+            if var.paginaprop < total_paginas:
+                var.paginaprop += 1
+                Propiedades.cargaTablaPropiedades(self)  # Llama al método de la instancia actual
+        except Exception as e:
+            print("Error en nextCli:", e)
+
+    def prevProp(self):
+        try:
+            if var.paginaprop > 1:  # Verifica si puedes retroceder
+                var.paginaprop -= 1  # Decrementa la página actual
+                Propiedades.cargaTablaPropiedades(self)  # Recarga la tabla con la nueva página
+        except Exception as e:
+            print("Error en prevCli:", e)
+
+    def actualizarBotonesPaginacionProp(self):
+        try:
+            listado = conexion.Conexion.listadoPropiedades(self)
+            total_paginas = (len(listado) + var.propiedadesxpagina - 1) // var.propiedadesxpagina
+
+            # Deshabilita el botón "Anterior" si estás en la primera página
+            var.ui.btnAnteriorProp.setEnabled(var.paginaprop > 1)
+
+            # Deshabilita el botón "Siguiente" si estás en la última página
+            var.ui.btnSiguienteProp.setEnabled(var.paginaprop < total_paginas)
+        except Exception as e:
+            print("Error en actualizarBotonesPaginacion:", e)
