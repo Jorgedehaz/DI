@@ -153,7 +153,7 @@ class Propiedades():
             else:
                 modifProp.append(None)
 
-            modifProp.append(var.ui.txtPropietarioprop.text().tite())
+            modifProp.append(var.ui.txtPropietarioprop.text().title())
             modifProp.append(var.ui.txtMovilprop.text())
 
             if conexion.Conexion.modifPropiedad(modifProp):
@@ -319,6 +319,21 @@ class Propiedades():
                 var.ui.chkAlquilerprop.setChecked(False)
         except Exception as e:
             print(e)
+
+    def checkMovil(movil):
+        try:
+            movil=str(movil).upper()
+            var.ui.txtMovilprop.setText(str(movil))
+            check=eventos.Eventos.validarMovil(movil)
+            if check:
+                var.ui.txtMovilprop.setStyleSheet('background-color: green;')
+            else:
+                var.ui.txtMovilprop.setStyleSheet('background-color: red')
+                var.ui.txtMovilprop.setText(None)
+                var.ui.txtMovilprop.setPlaceholderText("movil no válido")
+                var.ui.txtMovilprop.setFocus()
+        except Exception as e:
+            print("error check movil propietario", e)
 
     def nextProp(self):
         try:

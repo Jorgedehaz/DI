@@ -112,6 +112,12 @@ class Eventos():
         else:
             return False
 
+    def validarMovil(movil):
+        if re.fullmatch(r'\d{9}', movil):  # Valida si son exactamente 9 dígitos
+            return True
+        else:
+            return False
+
     def resizeTablaClientes(self):
         try:
             header = var.ui.tablaClientes.horizontalHeader()

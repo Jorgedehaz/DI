@@ -19,11 +19,41 @@ class Clientes:
             else:
                 var.ui.txtDnicli.setStyleSheet('background-color: red')
                 var.ui.txtDnicli.setText(None)
+                var.ui.txtDnicli.setPlaceholderText("dni no válido")
                 var.ui.txtDnicli.setFocus()
         except Exception as e:
             print("error check cliente", e)
 
+    def checkMovil(movil):
+        try:
+            movil=str(movil).upper()
+            var.ui.txtMovilcli.setText(str(movil))
+            check=eventos.Eventos.validarMovil(movil)
+            if check:
+                var.ui.txtMovilcli.setStyleSheet('background-color: green;')
+            else:
+                var.ui.txtMovilcli.setStyleSheet('background-color: red')
+                var.ui.txtMovilcli.setText(None)
+                var.ui.txtMovilcli.setPlaceholderText("movil no válido")
+                var.ui.txtMovilcli.setFocus()
+        except Exception as e:
+            print("error check movil cliente", e)
 
+    def checkEmail(mail):
+        try:
+            mail = str(var.ui.txtEmailcli.text())
+            if eventos.Eventos.validarMail(mail):
+                var.ui.txtEmailcli.setStyleSheet('background-color: green;')
+                var.ui.txtEmailcli.setText(mail.lower())
+
+            else:
+                var.ui.txtEmailcli.setStyleSheet('background-color:red; font-style: italic;')
+                var.ui.txtEmailcli.setText(None)
+                var.ui.txtEmailcli.setPlaceholderText("correo no válido")
+                var.ui.txtEmailcli.setFocus()
+
+        except Exception as error:
+            print("error check cliente", error)
 
     def altaCliente(self):
         try:
@@ -130,21 +160,7 @@ class Clientes:
         except Exception as e:
             print("Error baja de clientes", e)
 
-    def checkEmail(mail):
-        try:
-            mail = str(var.ui.txtEmailcli.text())
-            if eventos.Eventos.validarMail(mail):
-                var.ui.txtEmailcli.setStyleSheet('background-color: green;')
-                var.ui.txtEmailcli.setText(mail.lower())
 
-            else:
-                var.ui.txtEmailcli.setStyleSheet('background-color:red; font-style: italic;')
-                var.ui.txtEmailcli.setText(None)
-                var.ui.txtEmailcli.setText("correo no válido")
-                var.ui.txtEmailcli.setFocus()
-
-        except Exception as error:
-            print("error check cliente", error)
     '''
     def cargaTablaClientes(self):
         try:
