@@ -18,4 +18,6 @@ global clientesxpagina
 global long
 global paginaprop
 global propiedadesxpagina
+global paginavend
+global vendpxpagina
 

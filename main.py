@@ -1,6 +1,7 @@
 from calendar import Calendar
 
 import conexionserver
+import vendedores
 from venPrincipal import *
 from venAux import *
 
@@ -27,9 +28,11 @@ class Main(QtWidgets.QMainWindow):
         var.historico = 1
         var.paginacli = 1
         var.paginaprop = 1
+        var.paginavend = 1
         var.long= 10
         var.clientesxpagina= 15
         var.propiedadesxpagina = 12
+        var.vendpxpagina = 10
         eventos.Eventos.cargarProv(self)
         clientes.Clientes.cargaTablaClientes(self)
         self.setStyleSheet(styles.load_stylesheet())
@@ -43,6 +46,10 @@ class Main(QtWidgets.QMainWindow):
         eventos.Eventos.resizeTablaPropiedades(self)
         var.ui.tablaClientes.clicked.connect(clientes.Clientes.cargaOneCliente)
         var.ui.tablaPropiedades.clicked.connect(propiedades.Propiedades.cargaOnePropiedad)
+
+        vendedores.Vendedores.cargaTablaVendedores(self)
+        eventos.Eventos.resizeTablaVendedores(self)
+        var.ui.tablaVendedores.clicked.connect(vendedores.Vendedores.cargaOneVendedor)
 
         '''
         zona de eventos del menubar
@@ -63,14 +70,20 @@ class Main(QtWidgets.QMainWindow):
         var.ui.btnBajacli.clicked.connect(lambda: eventos.Eventos.abrirCalendar(1))
         var.ui.btnPubliprop.clicked.connect(lambda: eventos.Eventos.abrirCalendar(2))
         var.ui.btnBajaprop.clicked.connect(lambda: eventos.Eventos.abrirCalendar(3))
+        var.ui.btnAltavend.clicked.connect(lambda: eventos.Eventos.abrirCalendar(4))
         var.ui.btnGrabarprop.clicked.connect(propiedades.Propiedades.altaPropiedad)
         var.ui.btnModificarprop.clicked.connect(propiedades.Propiedades.modifPropiedad)
         var.ui.btnDeleteprop.clicked.connect(propiedades.Propiedades.bajaPropiedades)
         var.ui.btnBuscar.clicked.connect(propiedades.Propiedades.filtrarProp)
+        var.ui.btnBuscarCli_2.clicked.connect(clientes.Clientes.filtrarCliente)
         var.ui.btnAnteriorCli.clicked.connect(clientes.Clientes.prevCli)
         var.ui.btnSiguienteCli.clicked.connect(clientes.Clientes.nextCli)
         var.ui.btnAnteriorProp.clicked.connect(propiedades.Propiedades.prevProp)
         var.ui.btnSiguienteProp.clicked.connect(propiedades.Propiedades.nextProp)
+
+        var.ui.btnGrabarVend.clicked.connect(vendedores.Vendedores.altaVendedor)
+        var.ui.btnModificarVend.clicked.connect(vendedores.Vendedores.modifVendedor)
+        var.ui.btnDeleteVend.clicked.connect(vendedores.Vendedores.bajaVendedor)
 
 
 
@@ -80,6 +93,9 @@ class Main(QtWidgets.QMainWindow):
         var.ui.txtDnicli.editingFinished.connect(lambda: clientes.Clientes.checkDNI(var.ui.txtDnicli.text()))
         var.ui.txtEmailcli.editingFinished.connect(lambda: clientes.Clientes.checkEmail(var.ui.txtEmailcli.text()))
         var.ui.txtMovilcli.editingFinished.connect(lambda : clientes.Clientes.checkMovil(var.ui.txtMovilcli.text()))
+        var.ui.txtDniVend.editingFinished.connect(lambda: vendedores.Vendedores.checkDNI(var.ui.txtDniVend.text()))
+        var.ui.txtEmailVend.editingFinished.connect(lambda: vendedores.Vendedores.checkEmail(var.ui.txtEmailVend.text()))
+        var.ui.txtMovilVend.editingFinished.connect(lambda: vendedores.Vendedores.checkMovil(var.ui.txtMovilVend.text()))
         var.ui.txtMovilprop.editingFinished.connect(lambda: propiedades.Propiedades.checkMovil(var.ui.txtMovilprop.text()))
         var.ui.txtPrecioventaprop.textChanged.connect(propiedades.Propiedades.checkVenta)
         var.ui.txtPrecioalquilerprop.textChanged.connect(propiedades.Propiedades.checkAlquiler)
@@ -91,6 +107,7 @@ class Main(QtWidgets.QMainWindow):
         eventos.Eventos.cargaMunicli(self)
         eventos.Eventos.cargarProvprop(self)
         eventos.Eventos.cargaMuniprop(self)
+        eventos.Eventos.cargarProviVend(self)
         var.ui.cmbProvicli.currentIndexChanged.connect(eventos.Eventos.cargaMunicli)
         var.ui.cmbProviprop.currentIndexChanged.connect(eventos.Eventos.cargaMuniprop)
         eventos.Eventos.cargarTipoprop(self)
@@ -107,6 +124,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui.action_Acercade.triggered.connect(eventos.Eventos.abrirAbout)
 
 
+
         '''
         Eventos Checkbox
         '''
@@ -114,6 +132,8 @@ class Main(QtWidgets.QMainWindow):
         var.ui.chkHosticoprop.stateChanged.connect(propiedades.Propiedades.historicoProp)
         var.ui.chkVentaprop.setEnabled(False)
         var.ui.chkAlquilerprop.setEnabled(False)
+
+        var.ui.chkHistoriaVend.stateChanged.connect(vendedores.Vendedores.historicoVend)
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])

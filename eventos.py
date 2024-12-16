@@ -64,6 +64,11 @@ class Eventos():
         var.ui.cmbMuniprop.clear()
         var.ui.cmbMuniprop.addItems(listado)
 
+    def cargarProviVend(self):
+        var.ui.cmbProviVend.clear()
+        listado=conexion.Conexion.listaProv(self)
+        var.ui.cmbProviVend.addItems(listado)
+
     def validarDNI(dni):
         try:
             dni = str(dni).upper()
@@ -98,6 +103,8 @@ class Eventos():
                 var.ui.txtAltaprop.setText(str(data))
             elif var.ui.panPrincipal.currentIndex() == 1 and var.btn==3:
                 var.ui.txtBajaprop.setText(str(data))
+            elif var.ui.panPrincipal.currentIndex () == 2 and var.btn==4:
+                var.ui.txtAltaVend.setText(str(data))
             time.sleep(0.5)
             var.uiCalendar.hide()
             return data
@@ -139,6 +146,24 @@ class Eventos():
     def resizeTablaPropiedades(self):
         try:
             header = var.ui.tablaPropiedades.horizontalHeader()
+            for i in range(header.count()):
+                if (i==1 or i==2):
+                    header.setSectionResizeMode(i,QtWidgets.QHeaderView.ResizeMode.Stretch)
+                else:
+                    header.setSectionResizeMode(i,QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+                header_items =var.ui.tablaPropiedades.horizontalHeaderItem(i)
+                font=header_items.font()
+                font.setBold(True)
+                header_items.setFont(font)
+
+
+
+        except Exception as e:
+            print("error en resize tabla clientes: ", e)
+
+    def resizeTablaVendedores(self):
+        try:
+            header = var.ui.tablaVendedores.horizontalHeader()
             for i in range(header.count()):
                 if (i==1 or i==2):
                     header.setSectionResizeMode(i,QtWidgets.QHeaderView.ResizeMode.Stretch)
@@ -284,6 +309,7 @@ class Eventos():
 
         except Exception as e:
             print(e)
+
 
     '''
     OTROS

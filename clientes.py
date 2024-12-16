@@ -270,3 +270,31 @@ class Clientes:
         except Exception as e:
             print("Error en actualizarBotonesPaginacion:", e)
 
+
+    def filtrarCliente(self):
+        try:
+            dni = var.ui.txtDnicli.text()
+
+            datos = [dni]
+            listado_filtrado = conexion.Conexion.buscarCliente(datos)
+
+            var.ui.tablaClientes.setRowCount(0)
+            index = 0
+
+            if len(listado_filtrado) == 0:
+                var.ui.tablaClientes.setRowCount(index + 1)
+                var.ui.tablaClientes.setItem(index, 2, QtWidgets.QTableWidgetItem("  No hay resultados  "))
+
+            for registro in listado_filtrado:
+                var.ui.tablaClientes.setItem(index, 0, QtWidgets.QTableWidgetItem(str(registro[0])))
+                var.ui.tablaClientes.setItem(index, 1, QtWidgets.QTableWidgetItem(str("  " + registro[2] + "  ")))
+                var.ui.tablaClientes.setItem(index, 2, QtWidgets.QTableWidgetItem(str("  " + registro[3] + "  ")))
+                var.ui.tablaClientes.setItem(index, 3, QtWidgets.QTableWidgetItem(str("   " + registro[5] + "   ")))
+                var.ui.tablaClientes.setItem(index, 4, QtWidgets.QTableWidgetItem(str("  " + registro[7] + "  ")))
+                var.ui.tablaClientes.setItem(index, 5, QtWidgets.QTableWidgetItem(str("  " + registro[8] + "  ")))
+                var.ui.tablaClientes.setItem(index, 6, QtWidgets.QTableWidgetItem(registro[9]))
+                index += 1
+
+        except Exception as e:
+            print("Error al filtrar clientes:", e)
+

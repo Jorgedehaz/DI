@@ -3,7 +3,7 @@ import sqlite3
 from logging import exception
 from datetime import datetime
 from PyQt6 import QtSql, QtWidgets, QtCore
-
+from PyQt6.QtGui import QIcon
 
 import var
 
@@ -171,15 +171,6 @@ class Conexion:
                         else:
                             query.bindValue(":bajacli", str(registro[9]))
 
-                        fecha_str1 = str(registro[1])
-                        fecha_str2 = str(registro[9])
-
-                        # Convertir cadenas a objetos datetime usando strptime
-                        fecha1 = datetime.strptime(fecha_str1, "%d/%m/%Y")
-                        fecha2 = datetime.strptime(fecha_str2, "%d/%m/%Y")
-
-                        if fecha1>fecha2:
-                            return False
 
                         if query.exec():
                             return True
@@ -207,6 +198,22 @@ class Conexion:
 
         except Exception as e:
             print("Error baja cliente bd", e)
+
+    def buscarCliente(datos):
+        try:
+            registro=[]
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM clientes WHERE dnicli = :dnicli")
+            query.bindValue(":dnicli",str(datos[0]))
+            if query.exec():
+                while query.next():
+                    prop=[]
+                    for i in range(query.record().count()):
+                        prop.append(str(query.value(i)))
+                    registro.append(prop)
+            return registro
+        except Exception as e:
+            print("Error buscar cliente", e)
 
 
     '''
@@ -406,3 +413,130 @@ class Conexion:
         except Exception as e:
             print("Error buscar propiedad", e)
 
+    '''
+    VENDEDORES
+    '''
+
+    def altaVendedor(nuevovend):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("INSERT into COMENTARIOS (dniVendedor,nombreVendedor,altaVendedor,movilVendedor,mailVendedor,"
+                          " delegacionVendedor) VALUES (:dniVendedor,:nombreVendedor,:altaVendedor,:movilVendedor,:mailVendedor,"
+                          ":delegacionVendedor)")
+            query.bindValue(":dniVendedor", str(nuevovend[0]))
+            query.bindValue(":nombreVendedor", str(nuevovend[1]))
+            query.bindValue(":altaVendedor", str(nuevovend[2]))
+            query.bindValue(":movilVendedor", str(nuevovend[3]))
+            query.bindValue(":mailVendedor", str(nuevovend[4]))
+            query.bindValue(":delegacionVendedor", str(nuevovend[5]))
+
+            if query.exec():
+                print("Vendedor añadido")
+                return True
+
+            else:
+                return False
+
+        except Exception as e:
+            print("error alta vendedor", e)
+        except sqlite3.IntegrityError:
+            return False
+
+    def listadoVendedores(self):
+        try:
+            listado = []
+            if var.historico == 1:
+                query = QtSql.QSqlQuery()
+                query.prepare("SELECT * FROM COMENTARIOS WHERE bajaVendedor is NULL ORDER BY idVendedor ASC")
+
+                if query.exec():
+                    while query.next():
+                        fila = [query.value(i) for i in range(query.record().count())]
+                        listado.append(fila)
+                    return listado
+            else:
+                query = QtSql.QSqlQuery()
+                query.prepare("SELECT * FROM COMENTARIOS ORDER BY idVendedor ASC")
+
+                if query.exec():
+                    while query.next():
+                        fila = [query.value(i) for i in range(query.record().count())]
+                        listado.append(fila)
+                    return listado
+        except Exception as e:
+            print("error listado vendedores", e)
+
+        except Exception as e:
+            print("error listado en conexión", e)
+
+    def datosOneVendedor(id):
+        try:
+            registro = []
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM comentarios WHERE idVendedor = :idVendedor")
+
+            query.bindValue(":idVendedor", int(id))
+
+            if query.exec():
+                while query.next():
+                    for i in range(query.record().count()):
+                        registro.append(str(query.value(i)))
+
+            return registro
+
+        except Exception as e:
+            print("Error recuperando datos de vendedor", e)
+
+
+    def modifVendedor(registro):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("select count(*) from coemntarios where idVendedor = :id")
+            query.bindValue(":id", int(registro[0]))
+            if query.exec():
+                if query.next() and query.value(0) > 0:
+                    if query.exec():
+                        query = QtSql.QSqlQuery()
+                        query.prepare("UPDATE comentarios set nombreVendedor = :nombreVendedor,"
+                                      "altaVendedor = :altaVendedor,bajaVendedor = :bajaVendedor, movilVendedor = :movilVendedor,"
+                                      "mailVendedor =: mailVendedor,"
+                                      "delegacionVendedor = :delegacionVendedor where idVendedor = :idVendedor")
+                        query.bindValue(":nombreVendedor", str(registro[0]))
+                        query.bindValue(":altaVendedor", str(registro[1]))
+                        if registro[2] == "":
+                            query.bindValue(":bajaVendedor", QtCore.QVariant())
+                        else:
+                            query.bindValue(":bajaVendedor", str(registro[2]))
+
+                        query.bindValue(":movilVendedor", str(registro[3]))
+                        query.bindValue(":mailVendedor", str(registro[4]))
+                        query.bindValue(":delegacionVendedor", str(registro[5]))
+
+
+                        if query.exec():
+                            return True
+                        else:
+                            return False
+                    else:
+                        return False
+                else:
+                    return False
+        except Exception as error:
+            print("error modificar cliente", error)
+
+    def bajaVendedor(datos):
+        try:
+
+            query = QtSql.QSqlQuery()
+            query.prepare("UPDATE COMENTARIOS SET bajaVendedor =:bajaVend WHERE dniVendedor =:dniVendedor")
+
+            query.bindValue(":dniVendedor", str(datos[0]).strip())
+            query.bindValue(":bajaVend", str(datos[1]))
+
+            if query.exec():
+                return True
+            else:
+                return False
+
+        except Exception as e:
+            print("Error baja cliente bd", e)
