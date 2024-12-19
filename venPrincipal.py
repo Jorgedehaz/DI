@@ -795,6 +795,8 @@ class Ui_venPrincipal(object):
         self.menuGestion.setObjectName("menuGestion")
         self.menuAyuda = QtWidgets.QMenu(parent=self.menubar)
         self.menuAyuda.setObjectName("menuAyuda")
+        self.menuInformes = QtWidgets.QMenu(parent=self.menubar)
+        self.menuInformes.setObjectName("menuInformes")
         venPrincipal.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(parent=venPrincipal)
         self.statusbar.setObjectName("statusbar")
@@ -834,6 +836,8 @@ class Ui_venPrincipal(object):
         self.actionGestion.setObjectName("actionGestion")
         self.action_Acercade = QtGui.QAction(parent=venPrincipal)
         self.action_Acercade.setObjectName("action_Acercade")
+        self.actionListado_Clientes = QtGui.QAction(parent=venPrincipal)
+        self.actionListado_Clientes.setObjectName("actionListado_Clientes")
         self.menuArchivo.addAction(self.actionSalir)
         self.menuExportar_Datos.addAction(self.actionExportar_Propiedades_CSV)
         self.menuExportar_Datos.addAction(self.actionExportar_Propiedades_Json)
@@ -843,9 +847,11 @@ class Ui_venPrincipal(object):
         self.menuHerramientas.addAction(self.menuExportar_Datos.menuAction())
         self.menuGestion.addAction(self.actionTipo_Propiedades)
         self.menuAyuda.addAction(self.action_Acercade)
+        self.menuInformes.addAction(self.actionListado_Clientes)
         self.menubar.addAction(self.menuArchivo.menuAction())
         self.menubar.addAction(self.menuGestion.menuAction())
         self.menubar.addAction(self.menuHerramientas.menuAction())
+        self.menubar.addAction(self.menuInformes.menuAction())
         self.menubar.addAction(self.menuAyuda.menuAction())
         self.toolBar.addAction(self.actionGestion)
         self.toolBar.addAction(self.actionBorrar)
@@ -854,7 +860,7 @@ class Ui_venPrincipal(object):
         self.toolBar.addAction(self.actionSalir)
 
         self.retranslateUi(venPrincipal)
-        self.panPrincipal.setCurrentIndex(2)
+        self.panPrincipal.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(venPrincipal)
 
     def retranslateUi(self, venPrincipal):
@@ -965,6 +971,7 @@ class Ui_venPrincipal(object):
         self.menuExportar_Datos.setTitle(_translate("venPrincipal", "Exportar Datos"))
         self.menuGestion.setTitle(_translate("venPrincipal", "Gestion"))
         self.menuAyuda.setTitle(_translate("venPrincipal", "Ayuda"))
+        self.menuInformes.setTitle(_translate("venPrincipal", "Informes"))
         self.toolBar.setWindowTitle(_translate("venPrincipal", "toolBar"))
         self.actionSalir.setText(_translate("venPrincipal", "Salir"))
         self.actionSalir.setShortcut(_translate("venPrincipal", "Alt+S"))
@@ -984,3 +991,4 @@ class Ui_venPrincipal(object):
         self.actionGestion.setToolTip(_translate("venPrincipal", "Gestion"))
         self.action_Acercade.setText(_translate("venPrincipal", "\n"
 "Acerca de"))
+        self.actionListado_Clientes.setText(_translate("venPrincipal", "Listado Clientes"))

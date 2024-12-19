@@ -20,4 +20,5 @@ global paginaprop
 global propiedadesxpagina
 global paginavend
 global vendpxpagina
+global report
 

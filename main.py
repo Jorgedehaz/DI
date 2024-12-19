@@ -1,6 +1,7 @@
 from calendar import Calendar
 
 import conexionserver
+import informes
 import vendedores
 from venPrincipal import *
 from venAux import *
@@ -58,6 +59,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui.actionCrear_Backup.triggered.connect(eventos.Eventos.crearBackup)
         var.ui.actionRestaurar_Backup.triggered.connect(eventos.Eventos.restauraraBackup)
         var.ui.actionTipo_Propiedades.triggered.connect(eventos.Eventos.abrirTipoprop)
+        var.ui.actionListado_Clientes.triggered.connect(informes.Informes.reportClientes)
 
         '''
         eventos de botones
