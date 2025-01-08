@@ -3,6 +3,8 @@ from datetime import datetime
 from PIL import Image
 import os, shutil
 import var
+import sqlite3
+from PyQt6 import QtSql, QtWidgets, QtCore
 
 class Informes:
     @staticmethod
@@ -17,6 +19,12 @@ class Informes:
             pdf_path = os.path.join(rootPath, nomepdfcli)   #también esto
             var.report = canvas.Canvas(pdf_path)
             titulo = "Listado Clientes"
+            query0=QtSql.QSqlQuery()
+            query0.exec("select count(*) from clientes")
+            if query0.next():
+                print(query0.value(0))
+                registros = int(query0.value(0))
+                paginas = int (registros/ 20) # quitar 1 porque si es exacto suma 1 más
             Informes.topInforme(titulo)
             Informes.footInforme(titulo)
             items = ['DNI', 'APELLIDOS', 'NOMBRE', 'MOVIL', 'PROVINCIA', 'MUNICIPIO']
@@ -25,9 +33,44 @@ class Informes:
             var.report.drawString(100, 650, str(items[1]))
             var.report.drawString(190, 650, str(items[2]))
             var.report.drawString(280, 650, str(items[3]))
-            var.report.drawString(360, 650, str(items[4]))
-            var.report.drawString(450, 650, str(items[5]))
+            var.report.drawString(355, 650, str(items[4]))
+            var.report.drawString(440, 650, str(items[5]))
             var.report.line(50, 645, 525, 645)
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT dnicli, apelcli, nomecli, movilcli, provcli, municli from"
+                          " clientes order by apelcli")
+            if query.exec():
+                x = 55
+                y = 630
+                while query.next():
+                    if y <= 90:
+                        var.report.setFont('Helvetica-Oblique', size=8)
+                        var.report.drawString(450, 70, 'Página siguiente...')
+                        var.report.showPage() #Crea una pag nueva
+                        Informes.topInforme(titulo)
+                        Informes.footInforme(titulo)
+                        items = ['DNI', 'APELLIDOS', 'NOMBRE', 'MOVIL', 'PROVINCIA', 'MUNICIPIO']
+                        var.report.setFont('Helvetica-Bold', size=10)
+                        var.report.drawString(55, 650, str(items[0]))
+                        var.report.drawString(100, 650, str(items[1]))
+                        var.report.drawString(190, 650, str(items[2]))
+                        var.report.drawString(280, 650, str(items[3]))
+                        var.report.drawString(355, 650, str(items[4]))
+                        var.report.drawString(440, 650, str(items[5]))
+                        var.report.line(50, 645, 525, 645)
+                        x = 55
+                        y = 630
+
+                    var.report.setFont('Helvetica', size=8)
+                    dni = '****' + str(query.value(0)[4:7] + '***')
+                    var.report.drawCentredString(x + 10, y, str(dni))
+                    var.report.drawString(x + 50 , y, str(query.value(1)))
+                    var.report.drawString(x + 140, y, str(query.value(2)))
+                    var.report.drawString(x + 220, y, str(query.value(3)))
+                    var.report.drawString(x + 305, y, str(query.value(4)))
+                    var.report.drawString(x + 390, y, str(query.value(5)))
+                    y = y - 25
+
             var.report.save()
             for file in os.listdir(rootPath):
                 if file.endswith(nomepdfcli):
@@ -46,7 +89,7 @@ class Informes:
                 var.report.line(50, 800, 525, 800)
                 var.report.setFont('Helvetica-Bold', size=14)
                 var.report.drawString(55, 785, 'Inmobiliaria Teis')
-                var.report.drawString(230, 670, titulo)
+                var.report.drawString(230, 675, titulo)
                 var.report.line(50, 665, 525, 665)
 
                 # Dibuja la imagen en el informe
