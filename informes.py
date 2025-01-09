@@ -24,7 +24,7 @@ class Informes:
             if query0.next():
                 print(query0.value(0))
                 registros = int(query0.value(0))
-                paginas = int (registros/ 20) # quitar 1 porque si es exacto suma 1 más
+                paginas = int (registros/ 20) + 1 # quitar 1 porque si es exacto suma 1 más
             Informes.topInforme(titulo)
             Informes.footInforme(titulo)
             items = ['DNI', 'APELLIDOS', 'NOMBRE', 'MOVIL', 'PROVINCIA', 'MUNICIPIO']

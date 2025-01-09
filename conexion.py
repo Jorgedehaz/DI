@@ -23,6 +23,19 @@ class Conexion:
 
     @staticmethod
     def db_conexion(self):
+
+        """
+
+        :param self: None
+        :type self: None
+        :return: False or True
+        :rtype: bool
+
+        Módulo de conexion con la base de datos.
+        Si éxito devuelve true , en caso  contrario devuelve False.
+
+        """
+
         # Verifica si el archivo de base de datos existe
         if not os.path.isfile('bbdd.sqlite'):
             QtWidgets.QMessageBox.critical(None, 'Error', 'El archivo de la base de datos no existe.',
@@ -52,6 +65,18 @@ class Conexion:
 
     @staticmethod
     def listaProv(self):
+
+        """
+
+        :param self: None
+        :type self: None
+        :return: lista provincias
+        :rtype: bytearray
+
+        Metodo que obtiene listado de provincias en la base de datos.
+
+        """
+
         listaprov = []
         query = QtSql.QSqlQuery()
         query.prepare("SELECT * FROM provincias")
@@ -62,6 +87,18 @@ class Conexion:
         return listaprov
 
     def listaMuniprov(provincia):
+        """
+
+        :param provincia: nombre provincia
+        :type provincia: str
+        :return: lista municipios
+        :rtype: bytearray
+
+        Módulo de conexion con la base de datos.
+        Si éxito devuelve true , en caso  contrario devuelve False.
+
+        """
+
         listamunicipios = []
         query = QtSql.QSqlQuery()
         query.prepare("SELECT * FROM municipios where idprov = (select idprov from provincias  where provincia = ?)")
@@ -72,6 +109,16 @@ class Conexion:
         return listamunicipios
 
     def altaCliente(nuevocli):
+        """
+
+        :param nuevocli: array con datos cliente
+        :type nuevocli: list
+        :return: true o false
+        :rtype: bool
+
+        Metodo que inserta datos nuevo cliente en la bbdd
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare("INSERT into CLIENTES (dnicli,altacli,apelcli,nomecli,emailcli,movilcli,dircli,"
@@ -100,6 +147,14 @@ class Conexion:
             return False
 
     def listadoClientes(self):
+        """
+
+        :return: devuelve listado clientes
+        :rtype: list
+
+        Metodo que devuelve todos los clientes ordenados por apellidos y nombre
+
+        """
         try:
             listado = []
             if var.historico == 1:
@@ -127,6 +182,15 @@ class Conexion:
             print("error listado en conexión", e)
 
     def datosOneCliente(dni):
+        """
+        :param dni: dni cliente
+        :type dni: str
+        :return: datos cliente
+        :rtype: list
+
+        Metodo que devuelve los datos de un cliente cuyo dni coincida con el dado
+
+        """
         try:
             registro = []
             query = QtSql.QSqlQuery()
@@ -145,6 +209,15 @@ class Conexion:
             print("Error recuperando datos de clientes", e)
 
     def modifCliente(registro):
+        """
+        :param registro: array con datos cliente
+        :type registro: list
+        :return: true o false
+        :rtype: bool
+
+        Metodo que modifica los datos del cliente pasados por parametro
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare("select count(*) from clientes where dnicli = :dni")
@@ -184,6 +257,16 @@ class Conexion:
             print("error modificar cliente", error)
 
     def bajaCliente(datos):
+        """
+
+        :param datos: array con datos de cliente
+        :type datos: list
+        :return: true o false
+        :rtype: bool
+
+        Metodo que elimina a un cliente en funcion de los datos pasados por parametro
+
+        """
         try:
 
             query = QtSql.QSqlQuery()
@@ -200,6 +283,16 @@ class Conexion:
             print("Error baja cliente bd", e)
 
     def buscarCliente(datos):
+        """
+
+        :param datos: array con datos de cliente
+        :type datos: list
+        :return: true o false
+        :rtype: bool
+
+        Metodo que devuelve los datos de un lciente cuyo dni coincida con el dado
+
+        """
         try:
             registro=[]
             query = QtSql.QSqlQuery()
@@ -220,6 +313,16 @@ class Conexion:
     BLOQUE METODOS CONEXION PROPIEDADES
     '''
     def altaTipoprop(tipo):
+        """
+
+        :param tipo: array con datos tipo propiedad
+        :type tipo: list
+        :return: true o false
+        :rtype: bool
+
+        Metodo que inserta un nuevo tipo propiedad en la bbdd
+
+        """
         try:
             registro = []
             query = QtSql.QSqlQuery()
@@ -234,6 +337,15 @@ class Conexion:
             print("error alta tipoprop", error)
 
     def bajaTipoprop(tipo):
+        """
+        :param tipo: array con datos tipo propiedad
+        :type tipo: list
+        :return: true or false
+        :rtype: bool
+
+        Metodo que borra un tipo propiedad en la bbdd
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare("SELECT count(*) from TIPOPROPIEDAD WHERE tipo = :tipo")
@@ -252,6 +364,13 @@ class Conexion:
             print("Error baja tipoprop", e)
 
     def cargarTipoprop(self):
+        """
+        :return: devuelve listado de tipos propiedad
+        :rtype: list
+
+        Metodo que devuelve todos los tipos de propiedad
+
+        """
         try:
             registro = []
             query = QtSql.QSqlQuery()
@@ -264,6 +383,15 @@ class Conexion:
             print("Error cargar tipoprop", error)
 
     def altaPropiedad(propiedad):
+        """
+        :param propiedad: array con datos de propiedad
+        :type propiedad: list
+        :return: true o false
+        :rtype: bool
+
+        Metodo que da de alta una propiedad pasando su datos a la bbdd
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare("INSERT into PROPIEDADES (altaprop,dirprop,provprop,muniprop,tipoprop, "
@@ -300,6 +428,14 @@ class Conexion:
             print("Error alta propiedad en conexion", error)
 
     def listadoPropiedades(self):
+        """
+
+        :return: devuelve listado propiedades
+        :rtype: list
+
+        Metodo que devuelve todas las propiedades ordenadas por municipio
+
+        """
         try:
             listado = []
             if var.historico == 1:
@@ -325,6 +461,16 @@ class Conexion:
             print("error listado en conexión", e)
 
     def modifPropiedad(registro):
+        """
+
+        :param registro: array con datos de propiedad
+        :type registro: list
+        :return: true o false
+        :rtype: bool
+
+        Metodo que modifica propiedad pasando su datos a la bbdd
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare( "UPDATE propiedades set altaprop = :altaprop, bajaprop = :bajaprop, dirprop = :dirprop, provprop = :provprop,"
@@ -363,6 +509,17 @@ class Conexion:
             print("error modificar propiedad", error)
 
     def bajaPropiedad(datos):
+        """
+
+        :param datos: array con datos de propiedad
+        :type datos: list
+        :return: true o false
+        :rtype: bool
+
+        Metodo que elimina una propiedad pasando su datos a la bbdd
+
+        """
+
         try:
 
             query = QtSql.QSqlQuery()
@@ -380,6 +537,15 @@ class Conexion:
             print("Error baja propiedad bd", e)
 
     def datosOnePropiedad(id):
+        """
+        :param id: array con datos de propiedad
+        :type id: list
+        :return: true o false
+        :rtype: bool
+
+        Metodo que elimina una propiedad pasando su datos a la bbdd
+
+        """
         try:
             registro = []
             query = QtSql.QSqlQuery()
