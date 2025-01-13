@@ -8,6 +8,7 @@ from PyQt6 import QtSql, QtWidgets, QtCore
 
 class Informes:
     @staticmethod
+    #Informe de clientes
     def reportClientes(self):
         try:
             rootPath = '.\\informes'
@@ -26,7 +27,7 @@ class Informes:
                 registros = int(query0.value(0))
                 paginas = int (registros/ 20) + 1 # quitar 1 porque si es exacto suma 1 más
             Informes.topInforme(titulo)
-            Informes.footInforme(titulo)
+            Informes.footInforme(titulo, paginas)
             items = ['DNI', 'APELLIDOS', 'NOMBRE', 'MOVIL', 'PROVINCIA', 'MUNICIPIO']
             var.report.setFont('Helvetica-Bold', size=10)
             var.report.drawString(55, 650, str(items[0]))
@@ -40,6 +41,8 @@ class Informes:
             query.prepare("SELECT dnicli, apelcli, nomecli, movilcli, provcli, municli from"
                           " clientes order by apelcli")
             if query.exec():
+                registros= query.value(0)
+                print(registros)
                 x = 55
                 y = 630
                 while query.next():
@@ -48,7 +51,7 @@ class Informes:
                         var.report.drawString(450, 70, 'Página siguiente...')
                         var.report.showPage() #Crea una pag nueva
                         Informes.topInforme(titulo)
-                        Informes.footInforme(titulo)
+                        Informes.footInforme(titulo,paginas)
                         items = ['DNI', 'APELLIDOS', 'NOMBRE', 'MOVIL', 'PROVINCIA', 'MUNICIPIO']
                         var.report.setFont('Helvetica-Bold', size=10)
                         var.report.drawString(55, 650, str(items[0]))
@@ -106,7 +109,7 @@ class Informes:
         except Exception as error:
             print('Error en cabecera informe:', error)
 
-    def footInforme(titulo):
+    def footInforme(titulo,paginas):
         try:
             total_pages = 0
             var.report.line(50, 50, 525, 50)
@@ -115,7 +118,9 @@ class Informes:
             var.report.setFont('Helvetica-Oblique', size=7)
             var.report.drawString(50, 40, str(fecha))
             var.report.drawString(250, 40, str(titulo))
-            var.report.drawString(490, 40, str('Página %s' % var.report.getPageNumber()))
+            var.report.drawString(490, 40, str('Página %s' % var.report.getPageNumber() + '/' + str(paginas)))
 
         except Exception as error:
             print('Error en pie informe de cualquier tipo: ', error)
+
+

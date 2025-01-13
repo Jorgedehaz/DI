@@ -1,6 +1,8 @@
 from datetime import datetime
 from fileinput import close
 
+from PyQt6.QtWidgets import QComboBox
+
 from dlgAbout import Ui_dlgAbout
 from dlgCalendar import *
 import var
@@ -43,5 +45,19 @@ class dlgAbout(QtWidgets.QDialog):
         self.ui = Ui_dlgAbout()
         self.ui.setupUi(self)
         self.ui.btnAceptarabout.clicked.connect(self.close)
+
+class dlgLocalidad(QtWidgets.QDialog):
+    def __init__(self):
+        super(dlgLocalidad, self).__init__()
+        layout = QtWidgets.QVBoxLayout()
+        self.combo = QComboBox()
+        self.ui.setupUi(self)
+        self.ui.btnCerrarAbout.clicked.connect(self.close)
+
+class dlgLocalidades(QtWidgets.QDialog):
+    def __init__(self):
+        super(dlgLocalidades, self).__init__()
+        self.ui.Ui_dlgBuscaProp.setupUi(self)
+
 
 

@@ -838,6 +838,8 @@ class Ui_venPrincipal(object):
         self.action_Acercade.setObjectName("action_Acercade")
         self.actionListado_Clientes = QtGui.QAction(parent=venPrincipal)
         self.actionListado_Clientes.setObjectName("actionListado_Clientes")
+        self.actionListado_Propiedades = QtGui.QAction(parent=venPrincipal)
+        self.actionListado_Propiedades.setObjectName("actionListado_Propiedades")
         self.menuArchivo.addAction(self.actionSalir)
         self.menuExportar_Datos.addAction(self.actionExportar_Propiedades_CSV)
         self.menuExportar_Datos.addAction(self.actionExportar_Propiedades_Json)
@@ -848,6 +850,7 @@ class Ui_venPrincipal(object):
         self.menuGestion.addAction(self.actionTipo_Propiedades)
         self.menuAyuda.addAction(self.action_Acercade)
         self.menuInformes.addAction(self.actionListado_Clientes)
+        self.menuInformes.addAction(self.actionListado_Propiedades)
         self.menubar.addAction(self.menuArchivo.menuAction())
         self.menubar.addAction(self.menuGestion.menuAction())
         self.menubar.addAction(self.menuHerramientas.menuAction())
@@ -860,7 +863,7 @@ class Ui_venPrincipal(object):
         self.toolBar.addAction(self.actionSalir)
 
         self.retranslateUi(venPrincipal)
-        self.panPrincipal.setCurrentIndex(0)
+        self.panPrincipal.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(venPrincipal)
 
     def retranslateUi(self, venPrincipal):
@@ -992,3 +995,4 @@ class Ui_venPrincipal(object):
         self.action_Acercade.setText(_translate("venPrincipal", "\n"
 "Acerca de"))
         self.actionListado_Clientes.setText(_translate("venPrincipal", "Listado Clientes"))
+        self.actionListado_Propiedades.setText(_translate("venPrincipal", "Listado Propiedades"))

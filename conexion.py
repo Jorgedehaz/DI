@@ -579,6 +579,15 @@ class Conexion:
         except Exception as e:
             print("Error buscar propiedad", e)
 
+    def cargaBuscarProp(self):
+        registros = []
+        query = QtSql.QSqlQuery()
+        query.prepare("SELECT muniprop FROM propiedades")
+        if query.exec():
+            while query.next():
+                registros.append(str(query.value(0)))
+        return registros
+
     '''
     VENDEDORES
     '''

@@ -87,7 +87,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="pesClientes">
        <attribute name="title">
@@ -2195,6 +2195,7 @@
      <string>Informes</string>
     </property>
     <addaction name="actionListado_Clientes"/>
+    <addaction name="actionListado_Propiedades"/>
    </widget>
    <addaction name="menuArchivo"/>
    <addaction name="menuGestion"/>
@@ -2312,6 +2313,11 @@ Acerca de</string>
   <action name="actionListado_Clientes">
    <property name="text">
     <string>Listado Clientes</string>
+   </property>
+  </action>
+  <action name="actionListado_Propiedades">
+   <property name="text">
+    <string>Listado Propiedades</string>
    </property>
   </action>
  </widget>
