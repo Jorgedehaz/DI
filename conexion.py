@@ -582,7 +582,7 @@ class Conexion:
     def cargaBuscarProp(self):
         registros = []
         query = QtSql.QSqlQuery()
-        query.prepare("SELECT muniprop FROM propiedades")
+        query.prepare("SELECT municipio FROM municipios")
         if query.exec():
             while query.next():
                 registros.append(str(query.value(0)))

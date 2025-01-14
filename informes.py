@@ -137,14 +137,14 @@ class Informes:
             var.report = canvas.Canvas(pdf_path)
             titulo = "Listado Propiedades por Localidad"
             query0=QtSql.QSqlQuery()
-            query0.exec("select count(*) from propiedades")
+            query0.exec("select count(*) from propiedades where muniprop = :localidad")
             if query0.next():
                 print(query0.value(0))
                 registros = int(query0.value(0))
                 paginas = int (registros/ 20) + 1 # quitar 1 porque si es exacto suma 1 más
             Informes.topInforme(titulo)
             Informes.footInforme(titulo, paginas)
-            items = ['CODIGO', 'DIRECCION', 'OPERACION', 'PRECIO ALQUILER', 'PRECIO VENTA']
+            items = ['CODIGO', 'DIRECCION', 'TIPO', 'OPERACION', 'PRECIO ALQUILER', 'PRECIO VENTA']
             var.report.setFont('Helvetica-Bold', size=10)
             var.report.drawString(55, 650, str(items[0]))
             var.report.drawString(100, 650, str(items[1]))
@@ -154,8 +154,8 @@ class Informes:
             var.report.drawString(440, 650, str(items[5]))
             var.report.line(50, 645, 525, 645)
             query = QtSql.QSqlQuery()
-            query.prepare("SELECT  codigo, dirprop, tipooper, pralquiprop, prevenprop from"
-                          " propiedades order by muniprop")
+            query.prepare("SELECT  codigo, dirprop, tipoprop, tipooper, pralquiprop, prevenprop from"
+                          " propiedades order by codigo")
             if query.exec():
                 registros= query.value(0)
                 print(registros)
@@ -181,8 +181,7 @@ class Informes:
                         y = 630
 
                     var.report.setFont('Helvetica', size=8)
-                    dni = '****' + str(query.value(0)[4:7] + '***')
-                    var.report.drawCentredString(x + 10, y, str(dni))
+                    var.report.drawString(x + 10, y, str(query.value(0)))
                     var.report.drawString(x + 50 , y, str(query.value(1)))
                     var.report.drawString(x + 140, y, str(query.value(2)))
                     var.report.drawString(x + 220, y, str(query.value(3)))

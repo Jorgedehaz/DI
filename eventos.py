@@ -363,3 +363,9 @@ class Eventos():
             var.dlgabout.show()
         except Exception as error:
             print ("error en abrir About", error)
+
+    def abrirBuscarProp(self):
+        try:
+            var.dlgbuscarprop.show()
+        except Exception as error:
+            print("error abriendo BuscarProp : ", error)

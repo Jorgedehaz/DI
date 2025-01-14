@@ -71,15 +71,15 @@ class dlgBuscarProp(QtWidgets.QDialog):
         super(dlgBuscarProp, self).__init__()
         self.ui = Ui_dlgBuscaProp()
         self.ui.setupUi(self)
-        self.cmbLocalidad.addItem("")
-        self.ui.cmbLocalidad.addItem(propiedades)
+        self.ui.cmbLocalidad.addItem("")
+        self.ui.cmbLocalidad.addItems(propiedades)
 
         #Crear un QCompleter para habilitar el autocompletado
         completer = QCompleter(propiedades,self)
         completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
 
         #Asignar el QCompleter al QComboBox
-        self.ui.cmbLocalidad.addItem(completer)
+        self.ui.cmbLocalidad.setCompleter(completer)
         #Conectar el botón con el método
         self.ui.btnAceptarLocalidad.clicked.disconnect()
         self.ui.btnAceptarLocalidad.clicked.connect(self.on_btnAceptarLocalidad_clicked)
@@ -87,6 +87,6 @@ class dlgBuscarProp(QtWidgets.QDialog):
     def on_btnAceptarLocalidad_clicked(self):
         localidad = self.ui.cmbLocalidad.currentText()
         informes.Informes.reportPropiedades(localidad)
-
+        self.accept()
 
 
