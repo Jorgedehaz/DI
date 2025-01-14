@@ -1,15 +1,22 @@
 from datetime import datetime
 from fileinput import close
 
+from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QComboBox
+from PyQt6.QtWidgets import QCompleter
 
+import informes
 from dlgAbout import Ui_dlgAbout
 from dlgCalendar import *
 import var
 import eventos
+import conexion
 from dlgGestion import *
 import propiedades
 from dlgAbout import *
+from dlgBuscaProp import *
+
+
 
 
 
@@ -58,6 +65,28 @@ class dlgLocalidades(QtWidgets.QDialog):
     def __init__(self):
         super(dlgLocalidades, self).__init__()
         self.ui.Ui_dlgBuscaProp.setupUi(self)
+
+class dlgBuscarProp(QtWidgets.QDialog):
+    def __init__(self, propiedades):
+        super(dlgBuscarProp, self).__init__()
+        self.ui = Ui_dlgBuscaProp()
+        self.ui.setupUi(self)
+        self.cmbLocalidad.addItem("")
+        self.ui.cmbLocalidad.addItem(propiedades)
+
+        #Crear un QCompleter para habilitar el autocompletado
+        completer = QCompleter(propiedades,self)
+        completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
+
+        #Asignar el QCompleter al QComboBox
+        self.ui.cmbLocalidad.addItem(completer)
+        #Conectar el botón con el método
+        self.ui.btnAceptarLocalidad.clicked.disconnect()
+        self.ui.btnAceptarLocalidad.clicked.connect(self.on_btnAceptarLocalidad_clicked)
+
+    def on_btnAceptarLocalidad_clicked(self):
+        localidad = self.ui.cmbLocalidad.currentText()
+        informes.Informes.reportPropiedades(localidad)
 
 
 

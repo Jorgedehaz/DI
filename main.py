@@ -24,6 +24,7 @@ class Main(QtWidgets.QMainWindow):
         var.dlgabrir = FileDialogAbrir()
         var.dlggestion = dlgGestionprop()
         var.dlgabout = dlgAbout()
+        var.dlgbuscarprop = dlgBuscarProp()
         conexion.Conexion.db_conexion(self)
         #conexionserver.ConexionServer.crear_conexion(self)
         var.historico = 1
@@ -60,6 +61,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui.actionRestaurar_Backup.triggered.connect(eventos.Eventos.restauraraBackup)
         var.ui.actionTipo_Propiedades.triggered.connect(eventos.Eventos.abrirTipoprop)
         var.ui.actionListado_Clientes.triggered.connect(informes.Informes.reportClientes)
+        var.ui.actionListado_Propiedades.triggered.connect(informes.Informes.reportPropiedades)
 
         '''
         eventos de botones

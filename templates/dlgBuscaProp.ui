@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>dlgBuscarPropiedad</class>
- <widget class="QDialog" name="dlgBuscarPropiedad">
+ <class>dlgBuscaProp</class>
+ <widget class="QDialog" name="dlgBuscaProp">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -38,7 +38,7 @@
      <x>90</x>
      <y>60</y>
      <width>228</width>
-     <height>156</height>
+     <height>165</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -61,7 +61,6 @@
      <widget class="QLabel" name="label">
       <property name="font">
        <font>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -77,14 +76,8 @@
       </property>
      </widget>
     </item>
-    <item alignment="Qt::AlignHCenter">
+    <item>
      <widget class="QPushButton" name="btnAceptarLocalidad">
-      <property name="maximumSize">
-       <size>
-        <width>100</width>
-        <height>25</height>
-       </size>
-      </property>
       <property name="text">
        <string>Aceptar</string>
       </property>

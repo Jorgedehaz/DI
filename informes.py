@@ -124,3 +124,76 @@ class Informes:
             print('Error en pie informe de cualquier tipo: ', error)
 
 
+
+    def reportPropiedades(self):
+        try:
+            rootPath = '.\\informes'
+            if not os.path.exists(rootPath):
+                os.makedirs(rootPath)
+            fecha = datetime.today()
+            fecha = fecha.strftime("%Y_%m_%d_%H_%M_%S")
+            nomepdfprop = fecha + "_listadopropiedades.pdf"
+            pdf_path = os.path.join(rootPath, nomepdfprop)   #también esto
+            var.report = canvas.Canvas(pdf_path)
+            titulo = "Listado Propiedades por Localidad"
+            query0=QtSql.QSqlQuery()
+            query0.exec("select count(*) from propiedades")
+            if query0.next():
+                print(query0.value(0))
+                registros = int(query0.value(0))
+                paginas = int (registros/ 20) + 1 # quitar 1 porque si es exacto suma 1 más
+            Informes.topInforme(titulo)
+            Informes.footInforme(titulo, paginas)
+            items = ['CODIGO', 'DIRECCION', 'OPERACION', 'PRECIO ALQUILER', 'PRECIO VENTA']
+            var.report.setFont('Helvetica-Bold', size=10)
+            var.report.drawString(55, 650, str(items[0]))
+            var.report.drawString(100, 650, str(items[1]))
+            var.report.drawString(190, 650, str(items[2]))
+            var.report.drawString(280, 650, str(items[3]))
+            var.report.drawString(355, 650, str(items[4]))
+            var.report.drawString(440, 650, str(items[5]))
+            var.report.line(50, 645, 525, 645)
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT  codigo, dirprop, tipooper, pralquiprop, prevenprop from"
+                          " propiedades order by muniprop")
+            if query.exec():
+                registros= query.value(0)
+                print(registros)
+                x = 55
+                y = 630
+                while query.next():
+                    if y <= 90:
+                        var.report.setFont('Helvetica-Oblique', size=8)
+                        var.report.drawString(450, 70, 'Página siguiente...')
+                        var.report.showPage() #Crea una pag nueva
+                        Informes.topInforme(titulo)
+                        Informes.footInforme(titulo,paginas)
+                        items = ['CODIGO', 'DIRECCION', 'OPERACION', 'PRECIO ALQUILER', 'PRECIO VENTA']
+                        var.report.setFont('Helvetica-Bold', size=10)
+                        var.report.drawString(55, 650, str(items[0]))
+                        var.report.drawString(100, 650, str(items[1]))
+                        var.report.drawString(190, 650, str(items[2]))
+                        var.report.drawString(280, 650, str(items[3]))
+                        var.report.drawString(355, 650, str(items[4]))
+                        var.report.drawString(440, 650, str(items[5]))
+                        var.report.line(50, 645, 525, 645)
+                        x = 55
+                        y = 630
+
+                    var.report.setFont('Helvetica', size=8)
+                    dni = '****' + str(query.value(0)[4:7] + '***')
+                    var.report.drawCentredString(x + 10, y, str(dni))
+                    var.report.drawString(x + 50 , y, str(query.value(1)))
+                    var.report.drawString(x + 140, y, str(query.value(2)))
+                    var.report.drawString(x + 220, y, str(query.value(3)))
+                    var.report.drawString(x + 305, y, str(query.value(4)))
+                    var.report.drawString(x + 390, y, str(query.value(5)))
+                    y = y - 25
+
+            var.report.save()
+            for file in os.listdir(rootPath):
+                if file.endswith(nomepdfprop):
+                    os.startfile(pdf_path)
+
+        except Exception as error:
+            print(error)

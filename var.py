@@ -21,4 +21,5 @@ global propiedadesxpagina
 global paginavend
 global vendpxpagina
 global report
+global dlgbuscarprop
 
