@@ -218,6 +218,8 @@ class Clientes:
                        var.ui.txtDircli,
                        var.ui.cmbProvicli, var.ui.cmbMunicli,var.ui.txtBajacli]
 
+            var.ui.txtdnifac.setText(str(datos[0]))
+
             for i in range(len(listado)):
                 if i == 7 or i == 8:
                     listado[i].setCurrentText(registro[i])

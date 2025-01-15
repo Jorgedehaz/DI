@@ -8,6 +8,7 @@ from venAux import *
 
 import var
 import clientes
+import facturas
 import conexion
 import eventos
 import styles
@@ -75,6 +76,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui.btnPubliprop.clicked.connect(lambda: eventos.Eventos.abrirCalendar(2))
         var.ui.btnBajaprop.clicked.connect(lambda: eventos.Eventos.abrirCalendar(3))
         var.ui.btnAltavend.clicked.connect(lambda: eventos.Eventos.abrirCalendar(4))
+        var.ui.btnfechafac.clicked.connect(lambda: eventos.Eventos.abrirCalendar(5))
         var.ui.btnGrabarprop.clicked.connect(propiedades.Propiedades.altaPropiedad)
         var.ui.btnModificarprop.clicked.connect(propiedades.Propiedades.modifPropiedad)
         var.ui.btnDeleteprop.clicked.connect(propiedades.Propiedades.bajaPropiedades)
@@ -88,6 +90,8 @@ class Main(QtWidgets.QMainWindow):
         var.ui.btnGrabarVend.clicked.connect(vendedores.Vendedores.altaVendedor)
         var.ui.btnModificarVend.clicked.connect(vendedores.Vendedores.modifVendedor)
         var.ui.btnDeleteVend.clicked.connect(vendedores.Vendedores.bajaVendedor)
+
+        var.ui.btnGrabarVenta.clicked.connect(facturas.Facturas.altaFactura)
 
 
 

@@ -715,3 +715,20 @@ class Conexion:
 
         except Exception as e:
             print("Error baja cliente bd", e)
+
+    '''
+    ZONA FACTURACION
+    '''
+
+    def altaFactura(nuevafactura):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("INSERT into facturas (fechafac,dnifac) VALUES (:fechafac,:dnifac)")
+            query.bindValue(":fechafac", str(nuevafactura[0]))
+            query.bindValue(":dnifac", str(nuevafactura[1]))
+            if query.exec():
+                return True
+            else:
+                return False
+        except Exception as e:
+            print("Error alta factura", e)

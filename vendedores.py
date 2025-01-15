@@ -124,9 +124,10 @@ class Vendedores:
     def bajaVendedor(self):
         try:
             op = True
-            fecha= date.today()
+            fecha= datetime.now().strftime("%d/%m/%Y")
             var.ui.txtBajaVend = str(fecha)
 
+            print(str(fecha))
 
             datos = [var.ui.txtDniVend ,var.ui.txtBajaVend]
 
