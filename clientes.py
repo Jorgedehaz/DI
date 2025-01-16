@@ -218,7 +218,10 @@ class Clientes:
                        var.ui.txtDircli,
                        var.ui.cmbProvicli, var.ui.cmbMunicli,var.ui.txtBajacli]
 
+            #Carga de datos en la pag Ventas
             var.ui.txtdnifac.setText(str(datos[0]))
+            var.ui.txtApellidoFac.setText(str(datos[1]))
+            var.ui.txtNombreFac.setText(str(datos[2]))
 
             for i in range(len(listado)):
                 if i == 7 or i == 8:

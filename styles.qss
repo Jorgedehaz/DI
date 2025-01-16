@@ -58,7 +58,6 @@ QLineEdit{
 QLabel {
     background-color: #d7eff6; /* Mismo color que el fondo del QMainWindow para que se integre */
     color: black;
-    font-size: 12px;
 }
 QGridLayout{
     background-color: whitesmoke;

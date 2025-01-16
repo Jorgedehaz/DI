@@ -238,6 +238,7 @@ class Propiedades():
                        var.ui.txtPrecioalquilerprop,var.ui.txtPrecioventaprop,
                        var.ui.txtCodigopostalprop,var.ui.txtObservaprop]
 
+
             for i in range(len(listado)):
                 if i == 4 or i == 5 or i==6:
                     listado[i].setCurrentText(str(registro[i]))
@@ -260,6 +261,15 @@ class Propiedades():
 
             var.ui.txtPropietarioprop.setText(str(registro[16]))
             var.ui.txtMovilprop.setText(str(registro[17]))
+
+
+            #Volcar datos propiedad a pag Ventas
+            var.ui.txtDirFac.setText(str(registro[3]))
+            var.ui.txtCodigoFac.setText(str(registro[0]))
+            var.ui.txtTipoFac.setText(str(registro[6]))
+            var.ui.txtLocalidadFac.setText(str(registro[5]))
+            var.ui.txtPrecioFac.setText(str(registro[11]))
+
         except Exception as error:
             print("Error cargando datos de la Propiedad", error)
 

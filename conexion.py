@@ -697,7 +697,7 @@ class Conexion:
                 else:
                     return False
         except Exception as error:
-            print("error modificar cliente", error)
+            print("error modificar vendedor", error)
 
     def bajaVendedor(datos):
         try:
@@ -714,7 +714,7 @@ class Conexion:
                 return False
 
         except Exception as e:
-            print("Error baja cliente bd", e)
+            print("Error baja vendedor bd", e)
 
     '''
     ZONA FACTURACION
