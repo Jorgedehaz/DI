@@ -195,6 +195,9 @@ class Vendedores:
                 else:
                     listado[i].setText(registro[i])
 
+            # Volcar datos vendedor a pag Ventas
+            var.ui.txtVendedorFac.setText(str(registro[0]))
+
         except Exception as error:
             print("Error cargando datos del vendedor", error)
 

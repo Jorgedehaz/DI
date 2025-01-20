@@ -2394,7 +2394,7 @@
          <property name="geometry">
           <rect>
            <x>40</x>
-           <y>40</y>
+           <y>30</y>
            <width>601</width>
            <height>71</height>
           </rect>
@@ -2739,7 +2739,7 @@
          </property>
          <layout class="QGridLayout" name="gridLayout_10">
           <item row="1" column="1">
-           <widget class="QLineEdit" name="txtPrecioFac_2">
+           <widget class="QLineEdit" name="txtVendedorFac">
             <property name="enabled">
              <bool>false</bool>
             </property>
