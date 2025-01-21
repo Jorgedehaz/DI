@@ -40,6 +40,7 @@ class Main(QtWidgets.QMainWindow):
         clientes.Clientes.cargaTablaClientes(self)
         self.setStyleSheet(styles.load_stylesheet())
 
+
         '''
         Eventos de Tablas
         '''
@@ -53,6 +54,8 @@ class Main(QtWidgets.QMainWindow):
         vendedores.Vendedores.cargaTablaVendedores(self)
         eventos.Eventos.resizeTablaVendedores(self)
         var.ui.tablaVendedores.clicked.connect(vendedores.Vendedores.cargaOneVendedor)
+
+        facturas.Facturas.mostrarTablaFactura(self)
 
         '''
         zona de eventos del menubar
@@ -91,7 +94,8 @@ class Main(QtWidgets.QMainWindow):
         var.ui.btnModificarVend.clicked.connect(vendedores.Vendedores.modifVendedor)
         var.ui.btnDeleteVend.clicked.connect(vendedores.Vendedores.bajaVendedor)
 
-        var.ui.btnGrabarVenta.clicked.connect(facturas.Facturas.altaFactura)
+        var.ui.btnGrabarFactura.clicked.connect(facturas.Facturas.altaFactura)
+
 
 
 

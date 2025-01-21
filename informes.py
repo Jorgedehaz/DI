@@ -124,8 +124,8 @@ class Informes:
             print('Error en pie informe de cualquier tipo: ', error)
 
 
-
-    def reportPropiedades(self):
+    @staticmethod
+    def reportPropiedades(localidad):
         try:
             rootPath = '.\\informes'
             if not os.path.exists(rootPath):
@@ -138,6 +138,7 @@ class Informes:
             titulo = "Listado Propiedades por Localidad"
             query0=QtSql.QSqlQuery()
             query0.exec("select count(*) from propiedades where muniprop = :localidad")
+            query0.bindValue(":localidad", localidad)
             if query0.next():
                 print(query0.value(0))
                 registros = int(query0.value(0))

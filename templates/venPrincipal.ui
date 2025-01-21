@@ -2151,7 +2151,7 @@
          <rect>
           <x>40</x>
           <y>40</y>
-          <width>431</width>
+          <width>411</width>
           <height>281</height>
          </rect>
         </property>
@@ -2287,9 +2287,9 @@
            </widget>
           </item>
           <item row="3" column="1" alignment="Qt::AlignHCenter">
-           <widget class="QPushButton" name="btnGrabarVenta">
+           <widget class="QPushButton" name="btnGrabarFactura">
             <property name="text">
-             <string>Grabar Venta</string>
+             <string>Grabar Factura</string>
             </property>
            </widget>
           </item>
@@ -2308,7 +2308,7 @@
          <rect>
           <x>40</x>
           <y>330</y>
-          <width>431</width>
+          <width>411</width>
           <height>511</height>
          </rect>
         </property>
@@ -2318,15 +2318,18 @@
         <property name="frameShadow">
          <enum>QFrame::Plain</enum>
         </property>
-        <widget class="QTableWidget" name="tableWidget">
+        <widget class="QTableWidget" name="tablaFacturas">
          <property name="geometry">
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>431</width>
+           <width>411</width>
            <height>511</height>
           </rect>
          </property>
+         <attribute name="verticalHeaderVisible">
+          <bool>false</bool>
+         </attribute>
          <column>
           <property name="text">
            <string>Factura</string>
@@ -2352,9 +2355,9 @@
        <widget class="QFrame" name="frame_3">
         <property name="geometry">
          <rect>
-          <x>490</x>
+          <x>480</x>
           <y>40</y>
-          <width>1291</width>
+          <width>1301</width>
           <height>281</height>
          </rect>
         </property>
@@ -2802,7 +2805,7 @@
           </item>
          </layout>
         </widget>
-        <widget class="QPushButton" name="btnGrabarVenta_2">
+        <widget class="QPushButton" name="btnGrabarVenta">
          <property name="geometry">
           <rect>
            <x>690</x>
@@ -2819,9 +2822,9 @@
        <widget class="QFrame" name="frame_4">
         <property name="geometry">
          <rect>
-          <x>490</x>
+          <x>480</x>
           <y>330</y>
-          <width>1291</width>
+          <width>1301</width>
           <height>411</height>
          </rect>
         </property>

@@ -22,4 +22,5 @@ global paginavend
 global vendpxpagina
 global report
 global dlgbuscarprop
+global botondel
 

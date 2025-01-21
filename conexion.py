@@ -723,7 +723,7 @@ class Conexion:
     def altaFactura(nuevafactura):
         try:
             query = QtSql.QSqlQuery()
-            query.prepare("INSERT into facturas (fechafac,dnifac) VALUES (:fechafac,:dnifac)")
+            query.prepare("INSERT into FACTURAS (fechafac,dnifac) VALUES (:fechafac,:dnifac)")
             query.bindValue(":fechafac", str(nuevafactura[0]))
             query.bindValue(":dnifac", str(nuevafactura[1]))
             if query.exec():
@@ -732,3 +732,40 @@ class Conexion:
                 return False
         except Exception as e:
             print("Error alta factura", e)
+
+    def listadoFacturas(self):
+        try:
+            registros = []
+
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM facturas")
+            if query.exec():
+                while query.next():
+                    # Crear una lista para la fila completa
+                    fila = [str(query.value(i)) for i in range(query.record().count())]
+                    registros.append(fila)  # Agregar la fila completa como un elemento
+
+            return registros
+
+        except Exception as e:
+            print("Error listado factura", e)
+            return []
+
+    def delFactura (datos):
+        try:
+
+            query = QtSql.QSqlQuery()
+            query.prepare("DELETE * FROM facturas where id=:idfactura")
+
+            query.bindValue(":idfactura", datos)
+
+            if query.exec():
+                return True
+            else:
+                return False
+
+        except Exception as e:
+            print ("Error eliminando factura", e)
+
+
+
