@@ -751,21 +751,20 @@ class Conexion:
             print("Error listado factura", e)
             return []
 
-    def delFactura (datos):
+    def delFactura(idfactura):
         try:
-
+            print(idfactura)
             query = QtSql.QSqlQuery()
-            query.prepare("DELETE * FROM facturas where id=:idfactura")
-
-            query.bindValue(":idfactura", datos)
+            query.prepare("DELETE FROM facturas WHERE id = :idfactura")
+            query.bindValue(":idfactura", idfactura)
 
             if query.exec():
                 return True
             else:
                 return False
-
         except Exception as e:
-            print ("Error eliminando factura", e)
+            print("Error eliminando factura:", e)
+
 
 
 

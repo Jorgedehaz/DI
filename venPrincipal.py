@@ -850,6 +850,7 @@ class Ui_venPrincipal(object):
         self.frame_2.setObjectName("frame_2")
         self.tablaFacturas = QtWidgets.QTableWidget(parent=self.frame_2)
         self.tablaFacturas.setGeometry(QtCore.QRect(0, 0, 411, 511))
+        self.tablaFacturas.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectionBehavior.SelectRows)
         self.tablaFacturas.setObjectName("tablaFacturas")
         self.tablaFacturas.setColumnCount(4)
         self.tablaFacturas.setRowCount(0)

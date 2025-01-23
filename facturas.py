@@ -41,38 +41,59 @@ class Facturas:
             var.ui.tablaFacturas.setRowCount(len(listado))
             index = 0
             for registro in listado:
+                # Crear un botón con una propiedad 'row' que almacena el índice de la fila
                 container = QWidget()
                 layout = QVBoxLayout()
                 var.botondel = QPushButton()
                 var.botondel.setFixedSize(30, 20)
                 var.botondel.setIcon(QIcon("./img/borrar.ico"))
                 var.botondel.setStyleSheet("background-color: #efefef;")
+
+                # Asignar la fila actual como propiedad 'row' del botón
+                var.botondel.setProperty("row", int(registro[0]))
+
+                # Conectar el botón a la función deleteFactura
                 var.botondel.clicked.connect(Facturas.deleteFactura)
+
                 layout.addWidget(var.botondel)
                 layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
                 layout.setContentsMargins(0, 0, 0, 0)
                 layout.setSpacing(0)
                 container.setLayout(layout)
+
+                # Llenar las celdas de la tabla
                 var.ui.tablaFacturas.setItem(index, 0, QTableWidgetItem(str(registro[0])))
                 var.ui.tablaFacturas.setItem(index, 1, QTableWidgetItem(registro[1]))
                 var.ui.tablaFacturas.setItem(index, 2, QTableWidgetItem(registro[2]))
                 var.ui.tablaFacturas.setCellWidget(index, 3, container)
 
+                # Alinear el texto de las celdas
                 var.ui.tablaFacturas.item(index, 0).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                 var.ui.tablaFacturas.item(index, 1).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                 var.ui.tablaFacturas.item(index, 2).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
 
+                # Incrementar el índice de la fila
                 index += 1
-            #eventos.Eventos.resizeTablaFacturas()
+
         except Exception as e:
-            print("Error al cargar la tabla de facturas", e)
+            print("Error al cargar la tabla de facturas:", e)
 
-    def deleteFactura(self):
+    @staticmethod
+    def deleteFactura():
         try:
-            sender = var.ui.tablaFacturas.sender(self)
-            row = sender.property("row")
+            sender = QtWidgets.QApplication.instance().focusWidget()  # Obtener el botón que disparó la acción
+            if sender is None:
+                raise Exception("No se pudo identificar el botón que disparó la acción.")
 
-            if conexion.Conexion.delFactura(row[0]):
+            row = sender.property("row")  # Obtener el ID de la factura
+            if row is None:
+                raise Exception("No se encontró la propiedad 'row' en el botón.")
+
+            if not isinstance(row, int):
+                raise Exception(f"Se esperaba un entero para 'row', pero se obtuvo {type(row)}.")
+
+            # Eliminar la factura de la base de datos
+            if conexion.Conexion.delFactura(row):  # Pasar el ID directamente
                 msgbox = QtWidgets.QMessageBox()
                 msgbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
                 msgbox.setWindowIcon(QtGui.QIcon('./img/iconoInmo.ico'))
@@ -81,6 +102,10 @@ class Facturas:
                 msgbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
                 msgbox.button(QtWidgets.QMessageBox.StandardButton.Ok).setText("Aceptar")
                 msgbox.exec()
+            else:
+                print(f"Error al eliminar la factura con ID {row}.")
 
         except Exception as error:
-            print ("eliminar factura", error)
+            print("Error al eliminar factura:", error)
+
+
