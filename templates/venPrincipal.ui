@@ -50,6 +50,22 @@
       </property>
      </spacer>
     </item>
+    <item row="0" column="0">
+     <spacer name="horizontalSpacer_24">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Fixed</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
     <item row="0" column="1">
      <widget class="QTabWidget" name="panPrincipal">
       <property name="sizePolicy">
@@ -2542,19 +2558,6 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_15">
-            <property name="maximumSize">
-             <size>
-              <width>55</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Dirección:</string>
-            </property>
-           </widget>
-          </item>
           <item row="1" column="1">
            <widget class="QLabel" name="label_16">
             <property name="maximumSize">
@@ -2594,16 +2597,16 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="4">
-           <widget class="QLabel" name="label_19">
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_15">
             <property name="maximumSize">
              <size>
-              <width>40</width>
+              <width>55</width>
               <height>16777215</height>
              </size>
             </property>
             <property name="text">
-             <string>Precio:</string>
+             <string>Dirección:</string>
             </property>
            </widget>
           </item>
@@ -2615,6 +2618,31 @@
             <property name="minimumSize">
              <size>
               <width>280</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>150</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color:rgb(246, 255, 187);</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="QLineEdit" name="txtTipoFac">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>150</width>
               <height>0</height>
              </size>
             </property>
@@ -2657,8 +2685,21 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="2">
-           <widget class="QLineEdit" name="txtTipoFac">
+          <item row="1" column="4">
+           <widget class="QLabel" name="label_19">
+            <property name="maximumSize">
+             <size>
+              <width>40</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Precio:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="4">
+           <widget class="QLineEdit" name="txtPrecioFac">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -2707,28 +2748,35 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="4">
-           <widget class="QLineEdit" name="txtPrecioFac">
-            <property name="enabled">
-             <bool>false</bool>
+          <item row="2" column="5">
+           <widget class="QPushButton" name="btnlimpiarfac">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
             </property>
             <property name="minimumSize">
              <size>
-              <width>150</width>
-              <height>0</height>
+              <width>25</width>
+              <height>25</height>
              </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>150</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color:rgb(246, 255, 187);</string>
             </property>
             <property name="text">
              <string/>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>../img/borrar.ico</normaloff>../img/borrar.ico</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="flat">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -2828,7 +2876,7 @@
           <x>480</x>
           <y>330</y>
           <width>1301</width>
-          <height>411</height>
+          <height>401</height>
          </rect>
         </property>
         <property name="frameShape">
@@ -2837,25 +2885,181 @@
         <property name="frameShadow">
          <enum>QFrame::Plain</enum>
         </property>
+        <widget class="QTableWidget" name="tablaVentas">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>1301</width>
+           <height>401</height>
+          </rect>
+         </property>
+         <property name="selectionBehavior">
+          <enum>QAbstractItemView::SelectRows</enum>
+         </property>
+         <attribute name="verticalHeaderVisible">
+          <bool>false</bool>
+         </attribute>
+         <column>
+          <property name="text">
+           <string>ID Venta</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>ID Propiedad </string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Direccion</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Localidad</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Tipo</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Precio</string>
+          </property>
+         </column>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="">
+        <property name="geometry">
+         <rect>
+          <x>1486</x>
+          <y>760</y>
+          <width>222</width>
+          <height>74</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_11">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_11">
+           <property name="text">
+            <string>Precio Venta:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="txtPrecioVentaFac">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>150</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color:rgb(246, 255, 187);</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="placeholderText">
+            <string>0,00€</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_23">
+           <property name="text">
+            <string>Impuestos:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="txtImpuestos">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>150</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color:rgb(246, 255, 187);</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="placeholderText">
+            <string>0,00€</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_24">
+           <property name="text">
+            <string>Total:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="txtPrecioTotal">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>150</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color:rgb(246, 255, 187);</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="placeholderText">
+            <string>0,00€</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </widget>
      </widget>
-    </item>
-    <item row="0" column="0">
-     <spacer name="horizontalSpacer_24">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Fixed</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
     </item>
    </layout>
   </widget>

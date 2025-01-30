@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html lang="es" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>main &#8212; documentación de inmoteis - 29/1/2025</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=80b20481"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=f85f4cfb"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Código fuente para main</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">calendar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Calendar</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">conexionserver</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">informes</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">vendedores</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ventas</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">venPrincipal</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">venAux</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">var</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">clientes</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">facturas</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">conexion</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">eventos</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">styles</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">propiedades</span>
+
+<div class="viewcode-block" id="Main">
+<a class="viewcode-back" href="../src/main.html#main.Main">[documentos]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Main</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMainWindow</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Main</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">=</span><span class="n">Ui_venPrincipal</span><span class="p">()</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">uiCalendar</span> <span class="o">=</span> <span class="n">Calendar</span><span class="p">()</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">dlgabrir</span> <span class="o">=</span> <span class="n">FileDialogAbrir</span><span class="p">()</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">dlggestion</span> <span class="o">=</span> <span class="n">dlgGestionprop</span><span class="p">()</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">dlgabout</span> <span class="o">=</span> <span class="n">dlgAbout</span><span class="p">()</span>
+        <span class="n">conexion</span><span class="o">.</span><span class="n">Conexion</span><span class="o">.</span><span class="n">db_conexion</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">dlgbuscarprop</span> <span class="o">=</span> <span class="n">dlgBuscarProp</span><span class="p">(</span><span class="n">conexion</span><span class="o">.</span><span class="n">Conexion</span><span class="o">.</span><span class="n">cargaBuscarProp</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+        <span class="c1">#conexionserver.ConexionServer.crear_conexion(self)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">historico</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">paginacli</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">paginaprop</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">paginavend</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">long</span><span class="o">=</span> <span class="mi">10</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">clientesxpagina</span><span class="o">=</span> <span class="mi">15</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">propiedadesxpagina</span> <span class="o">=</span> <span class="mi">12</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">vendpxpagina</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">cargarProv</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">clientes</span><span class="o">.</span><span class="n">Clientes</span><span class="o">.</span><span class="n">cargaTablaClientes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">(</span><span class="n">styles</span><span class="o">.</span><span class="n">load_stylesheet</span><span class="p">())</span>
+
+
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Eventos de Tablas</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">clientes</span><span class="o">.</span><span class="n">Clientes</span><span class="o">.</span><span class="n">cargaTablaClientes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">propiedades</span><span class="o">.</span><span class="n">Propiedades</span><span class="o">.</span><span class="n">cargaTablaPropiedades</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">resizeTablaClientes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">resizeTablaPropiedades</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">resizeTablaFacturas</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">resizeTablaVentas</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tablaClientes</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">clientes</span><span class="o">.</span><span class="n">Clientes</span><span class="o">.</span><span class="n">cargaOneCliente</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tablaPropiedades</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">propiedades</span><span class="o">.</span><span class="n">Propiedades</span><span class="o">.</span><span class="n">cargaOnePropiedad</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tablaFacturas</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">facturas</span><span class="o">.</span><span class="n">Facturas</span><span class="o">.</span><span class="n">cargarOneFactura</span><span class="p">)</span>
+
+        <span class="n">vendedores</span><span class="o">.</span><span class="n">Vendedores</span><span class="o">.</span><span class="n">cargaTablaVendedores</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">resizeTablaVendedores</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">tablaVendedores</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">vendedores</span><span class="o">.</span><span class="n">Vendedores</span><span class="o">.</span><span class="n">cargaOneVendedor</span><span class="p">)</span>
+
+        <span class="n">facturas</span><span class="o">.</span><span class="n">Facturas</span><span class="o">.</span><span class="n">mostrarTablaFactura</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="n">ventas</span><span class="o">.</span><span class="n">Ventas</span><span class="o">.</span><span class="n">cargarTablaVentas</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        zona de eventos del menubar</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionSalir</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">mensajeSalir</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionCrear_Backup</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">crearBackup</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionRestaurar_Backup</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">restauraraBackup</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionTipo_Propiedades</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">abrirTipoprop</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionListado_Clientes</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">informes</span><span class="o">.</span><span class="n">Informes</span><span class="o">.</span><span class="n">reportClientes</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionListado_Propiedades</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">abrirBuscarProp</span><span class="p">)</span>
+
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        eventos de botones</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">btnGrabarcli</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">clientes</span><span class="o">.</span><span class="n">Clientes</span><span class="o">.</span><span class="n">altaCliente</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">btnModifcli</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">clientes</span><span class="o">.</span><span class="n">Clientes</span><span class="o">.</span><span class="n">modifCliente</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">btnDelecli</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">clientes</span><span class="o">.</span><span class="n">Clientes</span><span class="o">.</span><span class="n">bajaCliente</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">btnAltacli</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">abrirCalendar</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">btnBajacli</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">abrirCalendar</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">btnPubliprop</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">abrirCalendar</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">btnBajaprop</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">abrirCalendar</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">btnAltavend</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">abrirCalendar</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">btnfechafac</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">abrirCalendar</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">btnGrabarprop</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">propiedades</span><span class="o">.</span><span class="n">Propiedades</span><span class="o">.</span><span class="n">altaPropiedad</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">btnModificarprop</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">propiedades</span><span class="o">.</span><span class="n">Propiedades</span><span class="o">.</span><span class="n">modifPropiedad</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">btnDeleteprop</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">propiedades</span><span class="o">.</span><span class="n">Propiedades</span><span class="o">.</span><span class="n">bajaPropiedades</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">btnBuscar</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">propiedades</span><span class="o">.</span><span class="n">Propiedades</span><span class="o">.</span><span class="n">filtrarProp</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">btnBuscarCli_2</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">clientes</span><span class="o">.</span><span class="n">Clientes</span><span class="o">.</span><span class="n">filtrarCliente</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">btnAnteriorCli</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">clientes</span><span class="o">.</span><span class="n">Clientes</span><span class="o">.</span><span class="n">prevCli</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">btnSiguienteCli</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">clientes</span><span class="o">.</span><span class="n">Clientes</span><span class="o">.</span><span class="n">nextCli</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">btnAnteriorProp</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">propiedades</span><span class="o">.</span><span class="n">Propiedades</span><span class="o">.</span><span class="n">prevProp</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">btnSiguienteProp</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">propiedades</span><span class="o">.</span><span class="n">Propiedades</span><span class="o">.</span><span class="n">nextProp</span><span class="p">)</span>
+
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">btnGrabarVend</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">vendedores</span><span class="o">.</span><span class="n">Vendedores</span><span class="o">.</span><span class="n">altaVendedor</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">btnModificarVend</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">vendedores</span><span class="o">.</span><span class="n">Vendedores</span><span class="o">.</span><span class="n">modifVendedor</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">btnDeleteVend</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">vendedores</span><span class="o">.</span><span class="n">Vendedores</span><span class="o">.</span><span class="n">bajaVendedor</span><span class="p">)</span>
+
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">btnGrabarFactura</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">facturas</span><span class="o">.</span><span class="n">Facturas</span><span class="o">.</span><span class="n">altaFactura</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">btnlimpiarfac</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">limpiarPanFacturas</span><span class="p">)</span>
+
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">btnGrabarVenta</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ventas</span><span class="o">.</span><span class="n">Ventas</span><span class="o">.</span><span class="n">altaVenta</span><span class="p">)</span>
+
+
+
+
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        eventos de cajas de texto</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtDnicli</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">clientes</span><span class="o">.</span><span class="n">Clientes</span><span class="o">.</span><span class="n">checkDNI</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtDnicli</span><span class="o">.</span><span class="n">text</span><span class="p">()))</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtEmailcli</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">clientes</span><span class="o">.</span><span class="n">Clientes</span><span class="o">.</span><span class="n">checkEmail</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtEmailcli</span><span class="o">.</span><span class="n">text</span><span class="p">()))</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtMovilcli</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="k">lambda</span> <span class="p">:</span> <span class="n">clientes</span><span class="o">.</span><span class="n">Clientes</span><span class="o">.</span><span class="n">checkMovil</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtMovilcli</span><span class="o">.</span><span class="n">text</span><span class="p">()))</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtDniVend</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">vendedores</span><span class="o">.</span><span class="n">Vendedores</span><span class="o">.</span><span class="n">checkDNI</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtDniVend</span><span class="o">.</span><span class="n">text</span><span class="p">()))</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtEmailVend</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">vendedores</span><span class="o">.</span><span class="n">Vendedores</span><span class="o">.</span><span class="n">checkEmail</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtEmailVend</span><span class="o">.</span><span class="n">text</span><span class="p">()))</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtMovilVend</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">vendedores</span><span class="o">.</span><span class="n">Vendedores</span><span class="o">.</span><span class="n">checkMovil</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtMovilVend</span><span class="o">.</span><span class="n">text</span><span class="p">()))</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtMovilprop</span><span class="o">.</span><span class="n">editingFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">propiedades</span><span class="o">.</span><span class="n">Propiedades</span><span class="o">.</span><span class="n">checkMovil</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtMovilprop</span><span class="o">.</span><span class="n">text</span><span class="p">()))</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtPrecioventaprop</span><span class="o">.</span><span class="n">textChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">propiedades</span><span class="o">.</span><span class="n">Propiedades</span><span class="o">.</span><span class="n">checkVenta</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">txtPrecioalquilerprop</span><span class="o">.</span><span class="n">textChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">propiedades</span><span class="o">.</span><span class="n">Propiedades</span><span class="o">.</span><span class="n">checkAlquiler</span><span class="p">)</span>
+
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        eventos de comobox</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">cargarProv</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">cargaMunicli</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">cargarProvprop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">cargaMuniprop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">cargarProviVend</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">cmbProvicli</span><span class="o">.</span><span class="n">currentIndexChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">cargaMunicli</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">cmbProviprop</span><span class="o">.</span><span class="n">currentIndexChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">cargaMuniprop</span><span class="p">)</span>
+        <span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">cargarTipoprop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Eventos ToolBar</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionSalir</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">mensajeSalir</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionBorrar</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">limpiarPanel</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionBuscar</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">propiedades</span><span class="o">.</span><span class="n">Propiedades</span><span class="o">.</span><span class="n">filtrarProp</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionGestion</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">abrirTipoprop</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionExportar_Propiedades_CSV</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">exportCSVprop</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">actionExportar_Propiedades_Json</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">exportJSONprop</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">action_Acercade</span><span class="o">.</span><span class="n">triggered</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">eventos</span><span class="o">.</span><span class="n">Eventos</span><span class="o">.</span><span class="n">abrirAbout</span><span class="p">)</span>
+
+
+
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Eventos Checkbox</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">chkHistoriacli</span><span class="o">.</span><span class="n">stateChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">clientes</span><span class="o">.</span><span class="n">Clientes</span><span class="o">.</span><span class="n">historicoCli</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">chkHosticoprop</span><span class="o">.</span><span class="n">stateChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">propiedades</span><span class="o">.</span><span class="n">Propiedades</span><span class="o">.</span><span class="n">historicoProp</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">chkVentaprop</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">chkAlquilerprop</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">var</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">chkHistoriaVend</span><span class="o">.</span><span class="n">stateChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">vendedores</span><span class="o">.</span><span class="n">Vendedores</span><span class="o">.</span><span class="n">historicoVend</span><span class="p">)</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QApplication</span><span class="p">([])</span>
+    <span class="n">window</span><span class="o">=</span><span class="n">Main</span><span class="p">()</span>
+    <span class="n">window</span><span class="o">.</span><span class="n">showMaximized</span><span class="p">()</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">exec</span><span class="p">())</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">inmoteis</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Ir a" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navegación</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Código de módulo</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, jorgedehaz.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

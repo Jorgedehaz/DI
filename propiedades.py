@@ -100,6 +100,9 @@ class Propiedades():
             print("error alta propiedad" + str(e))
 
     def cargaTablaPropiedades(self):
+
+        
+
         try:
 
             #listado = conexionserver.ConexionServer.listadoPropiedades(self)

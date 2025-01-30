@@ -5,6 +5,8 @@ from PyQt6.QtWidgets import QTableWidgetItem, QWidget, QVBoxLayout, QPushButton
 
 import var
 import conexion
+import ventas
+
 
 class Facturas:
     def altaFactura(self):
@@ -31,12 +33,16 @@ class Facturas:
                 mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Cancel)
                 mbox.exec()
 
+            Facturas.mostrarTablaFactura(self)
+
         except Exception as e:
             print("error alta factura", e)
 
     @staticmethod
     def mostrarTablaFactura(self):
         try:
+            var.ui.tablaFacturas.clearContents()
+            var.ui.tablaFacturas.setRowCount(0)
             listado = conexion.Conexion.listadoFacturas(self)
             var.ui.tablaFacturas.setRowCount(len(listado))
             index = 0
@@ -63,8 +69,8 @@ class Facturas:
 
                 # Llenar las celdas de la tabla
                 var.ui.tablaFacturas.setItem(index, 0, QTableWidgetItem(str(registro[0])))
-                var.ui.tablaFacturas.setItem(index, 1, QTableWidgetItem(registro[1]))
-                var.ui.tablaFacturas.setItem(index, 2, QTableWidgetItem(registro[2]))
+                var.ui.tablaFacturas.setItem(index, 1, QTableWidgetItem(registro[2]))
+                var.ui.tablaFacturas.setItem(index, 2, QTableWidgetItem(registro[1]))
                 var.ui.tablaFacturas.setCellWidget(index, 3, container)
 
                 # Alinear el texto de las celdas
@@ -79,7 +85,7 @@ class Facturas:
             print("Error al cargar la tabla de facturas:", e)
 
     @staticmethod
-    def deleteFactura():
+    def deleteFactura(self):
         try:
             sender = QtWidgets.QApplication.instance().focusWidget()  # Obtener el botón que disparó la acción
             if sender is None:
@@ -105,7 +111,22 @@ class Facturas:
             else:
                 print(f"Error al eliminar la factura con ID {row}.")
 
+            Facturas.mostrarTablaFactura(self)
+
         except Exception as error:
             print("Error al eliminar factura:", error)
 
+    def cargarOneFactura(self):
+        try:
+            fila = var.ui.tablaFacturas.selectedItems()
+            datos = [dato.text() for dato in fila]
+            registro = conexion.Conexion.datosOneFactura(str(datos[0]))
+            listado = [var.ui.txtidfac, var.ui.txtFechafac, var.ui.txtdnifac]
 
+            for i in range(len(listado)):
+                listado[i].setText(str(registro[i]))
+
+            ventas.Ventas.cargarTablaVentas(self)
+
+        except Exception as error:
+            print("Error cargando datos de la factura", error)

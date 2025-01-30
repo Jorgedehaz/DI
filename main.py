@@ -3,6 +3,7 @@ from calendar import Calendar
 import conexionserver
 import informes
 import vendedores
+import ventas
 from venPrincipal import *
 from venAux import *
 
@@ -48,14 +49,19 @@ class Main(QtWidgets.QMainWindow):
         propiedades.Propiedades.cargaTablaPropiedades(self)
         eventos.Eventos.resizeTablaClientes(self)
         eventos.Eventos.resizeTablaPropiedades(self)
+        eventos.Eventos.resizeTablaFacturas(self)
+        eventos.Eventos.resizeTablaVentas(self)
         var.ui.tablaClientes.clicked.connect(clientes.Clientes.cargaOneCliente)
         var.ui.tablaPropiedades.clicked.connect(propiedades.Propiedades.cargaOnePropiedad)
+        var.ui.tablaFacturas.clicked.connect(facturas.Facturas.cargarOneFactura)
+        var.ui.tablaVentas.clicked.connect(ventas.Ventas.cargarOneVenta)
 
         vendedores.Vendedores.cargaTablaVendedores(self)
         eventos.Eventos.resizeTablaVendedores(self)
         var.ui.tablaVendedores.clicked.connect(vendedores.Vendedores.cargaOneVendedor)
 
         facturas.Facturas.mostrarTablaFactura(self)
+
 
         '''
         zona de eventos del menubar
@@ -95,6 +101,9 @@ class Main(QtWidgets.QMainWindow):
         var.ui.btnDeleteVend.clicked.connect(vendedores.Vendedores.bajaVendedor)
 
         var.ui.btnGrabarFactura.clicked.connect(facturas.Facturas.altaFactura)
+        var.ui.btnlimpiarfac.clicked.connect(eventos.Eventos.limpiarPanFacturas)
+
+        var.ui.btnGrabarVenta.clicked.connect(ventas.Ventas.altaVenta)
 
 
 

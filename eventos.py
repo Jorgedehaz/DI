@@ -167,7 +167,7 @@ class Eventos():
         try:
             header = var.ui.tablaVendedores.horizontalHeader()
             for i in range(header.count()):
-                if (i==1 or i==2):
+                if (i==1 or i==2 or i==3):
                     header.setSectionResizeMode(i,QtWidgets.QHeaderView.ResizeMode.Stretch)
                 else:
                     header.setSectionResizeMode(i,QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
@@ -180,6 +180,42 @@ class Eventos():
 
         except Exception as e:
             print("error en resize tabla clientes: ", e)
+
+    def resizeTablaFacturas(self):
+        try:
+            header = var.ui.tablaFacturas.horizontalHeader()
+            for i in range(header.count()):
+                if (i==1 or i==2):
+                    header.setSectionResizeMode(i,QtWidgets.QHeaderView.ResizeMode.Stretch)
+                else:
+                    header.setSectionResizeMode(i,QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+                header_items =var.ui.tablaFacturas.horizontalHeaderItem(i)
+                font=header_items.font()
+                font.setBold(True)
+                header_items.setFont(font)
+
+
+
+        except Exception as e:
+            print("error en resize tabla facturas: ", e)
+
+    def resizeTablaVentas(self):
+        try:
+            header = var.ui.tablaVentas.horizontalHeader()
+            for i in range(header.count()):
+                if (i==2 or i==3 or i==4 or i==5):
+                    header.setSectionResizeMode(i,QtWidgets.QHeaderView.ResizeMode.Stretch)
+                else:
+                    header.setSectionResizeMode(i,QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+                header_items =var.ui.tablaVentas.horizontalHeaderItem(i)
+                font=header_items.font()
+                font.setBold(True)
+                header_items.setFont(font)
+
+
+
+        except Exception as e:
+            print("error en resize tabla facturas: ", e)
 
     def abrirTipoprop(self):
         try:
@@ -371,3 +407,11 @@ class Eventos():
             var.dlgbuscarprop.show()
         except Exception as error:
             print("error abriendo BuscarProp : ", error)
+
+    def limpiarPanFacturas(self):
+        camposPanelFac=[var.ui.txtidfac, var.ui.txtFechafac, var.ui.txtdnifac, var.ui.txtApellidoFac, var.ui.txtNombreFac,
+                        var.ui.txtDirFac, var.ui.txtCodigoFac, var.ui.txtTipoFac, var.ui.txtLocalidadFac, var.ui.txtPrecioFac,
+                        var.ui.txtVendedorFac]
+
+        for i, dato in enumerate(camposPanelFac):
+            dato.setText("")

@@ -1,9 +1,10 @@
 import os
 import sqlite3
 from logging import exception
-from datetime import datetime
+from datetime import datetime, date
 from PyQt6 import QtSql, QtWidgets, QtCore
 from PyQt6.QtGui import QIcon
+
 
 import var
 
@@ -764,6 +765,91 @@ class Conexion:
                 return False
         except Exception as e:
             print("Error eliminando factura:", e)
+
+    def datosOneFactura(id):
+        try:
+            registro = []
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM facturas WHERE id = :idFactura")
+
+            query.bindValue(":idFactura", int(id))
+
+            if query.exec():
+                while query.next():
+                    for i in range(query.record().count()):
+                        registro.append(str(query.value(i)))
+
+            return registro
+
+        except Exception as e:
+            print("Error recuperando datos de vendedor", e)
+
+
+
+    '''
+    ZONA VENTAS
+    '''
+
+    def altaVenta(nuevaVenta):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("INSERT INTO VENTAS (facventa, codprop, agente) VALUES (:fechaventa, :codprop, :agente)")
+            query.bindValue(":fechaventa", str(nuevaVenta[0]))
+            query.bindValue(":codprop", str(nuevaVenta[1]))
+            query.bindValue(":agente", str(nuevaVenta[2]))
+
+            # Obtener la fecha de hoy sin la hora
+            fechabaja = date.today().strftime("%Y-%m-%d")  # Formato estándar YYYY-MM-DD
+
+            query2 = QtSql.QSqlQuery()
+            query2.prepare("UPDATE propiedades SET bajaprop = :bajaprop WHERE codigo = :codigo")
+            query2.bindValue(":bajaprop", fechabaja)
+            query2.bindValue(":codigo", str(nuevaVenta[3]))
+
+            if query.exec() and query2.exec():
+                return True
+            else:
+                return False
+
+        except Exception as e:
+            print("Error alta venta:", e)
+
+    def listadoVentas(factura):
+        try:
+            registros = []
+
+            query = QtSql.QSqlQuery()
+            query.prepare("""
+                SELECT v.idventa AS "ID Venta",
+                       p.codigo AS "ID Propiedad",
+                       p.dirprop AS "Dirección de la propiedad",
+                       p.muniprop AS "Localidad",
+                       p.tipoprop AS "Tipo propiedad",
+                       p.prevenprop AS "Precio de venta"
+                FROM ventas AS v
+                INNER JOIN propiedades AS p ON v.codprop = p.codigo
+                WHERE v.facventa = :factura
+            """)
+            query.bindValue(":factura", factura)
+
+            if query.exec():
+                while query.next():
+                    fila = []
+                    for i in range(query.record().count()):
+                        valor = query.value(i)
+                        # Convertir valores nulos a cadena vacía para evitar errores en la UI
+                        fila.append("" if valor is None else str(valor))
+                    registros.append(fila)
+
+            return registros
+
+        except Exception as e:
+            print("Error listado ventas:", e)
+            return []
+
+
+
+
 
 
 
