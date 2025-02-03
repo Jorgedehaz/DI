@@ -125,6 +125,7 @@ class Informes:
 
 
     @staticmethod
+    #informePropiedades
     def reportPropiedades(localidad):
         try:
             rootPath = '.\\informes'
@@ -139,8 +140,7 @@ class Informes:
             Informes.topInforme(titulo)
 
             # Calculate total pages
-
-            paginas = 0
+            paginas = 1
             query0 = QtSql.QSqlQuery()
             query0.exec("select count(*) from propiedades where muniProp = :localidad")
             query0.bindValue(':localidad', localidad)
@@ -196,5 +196,88 @@ class Informes:
             for file in os.listdir(rootPath):
                 if file.endswith(nomepdfProp):
                     os.startfile(pdf_path)
+        except Exception as error:
+            print(error)
+
+    @staticmethod
+    # Informe de ventas
+    def reportVentas(self):
+        try:
+            rootPath = '.\\informes'
+            if not os.path.exists(rootPath):
+                os.makedirs(rootPath)
+            fecha = datetime.today()
+            fecha = fecha.strftime("%Y_%m_%d_%H_%M_%S")
+            nomepdfcli = fecha + "_listadoventas.pdf"
+            pdf_path = os.path.join(rootPath, nomepdfcli)  # también esto
+            var.report = canvas.Canvas(pdf_path)
+            titulo = "Listado Ventas Factura" + var.ui.txtidfac.text()
+
+            paginas = 1
+            query0 = QtSql.QSqlQuery()
+            query0.prepare("SELECT COUNT(*) FROM facturas WHERE id = :id")
+            query0.bindValue(":id", var.ui.txtidfac.text())
+            if query0.exec() and query0.next():
+                print(query0.value(0))
+                registros = int(query0.value(0))
+                paginas = int(registros / 20) + 1  # quitar 1 porque si es exacto suma 1 más
+            Informes.topInforme(titulo)
+            Informes.footInforme(titulo, paginas)
+            items = ['ID VENTA', 'ID PROPIEDAD', "DIRECCION", 'LOCALIDAD', 'TIPO', 'PRECIO VENTA']
+            var.report.setFont('Helvetica-Bold', size=10)
+            var.report.drawString(50, 650, str(items[0]))
+            var.report.drawString(110, 650, str(items[1]))
+            var.report.drawString(210, 650, str(items[2]))
+            var.report.drawString(300, 650, str(items[3]))
+            var.report.drawString(390, 650, str(items[4]))
+            var.report.drawString(450, 650, str(items[5]))
+            var.report.line(50, 645, 525, 645)
+            query = QtSql.QSqlQuery()
+            query.prepare("""
+                SELECT v.idventa, p.codigo, p.dirprop, p.muniprop, p.tipoprop, p.prevenprop
+                FROM ventas AS v
+                INNER JOIN propiedades AS p ON v.codprop = p.codigo
+                WHERE v.facventa = :factura
+            """)
+            query.bindValue(":factura", var.ui.txtidfac.text())
+
+            if query.exec():
+                registros = query.value(0)
+                print(registros)
+                x = 55
+                y = 630
+                while query.next():
+                    if y <= 90:
+                        var.report.setFont('Helvetica-Oblique', size=8)
+                        var.report.drawString(450, 70, 'Página siguiente...')
+                        var.report.showPage()  # Crea una pag nueva
+                        Informes.topInforme(titulo)
+                        Informes.footInforme(titulo, paginas)
+                        items = ['ID VENTA', 'ID PROPIEDAD', "DIRECCION", 'LOCALIDAD', 'TIPO', 'PRECIO VENTA']
+                        var.report.setFont('Helvetica-Bold', size=10)
+                        var.report.drawString(50, 650, str(items[0]))
+                        var.report.drawString(110, 650, str(items[1]))
+                        var.report.drawString(210, 650, str(items[2]))
+                        var.report.drawString(300, 650, str(items[3]))
+                        var.report.drawString(390, 650, str(items[4]))
+                        var.report.drawString(450, 650, str(items[5]))
+                        var.report.line(50, 645, 525, 645)
+                        x = 55
+                        y = 630
+
+                    var.report.setFont('Helvetica', size=8)
+                    var.report.drawCentredString(70, y, str(query.value(0)))
+                    var.report.drawString(150, y, str(query.value(1)))
+                    var.report.drawString(210, y, str(query.value(2)))
+                    var.report.drawString(300, y, str(query.value(3)))
+                    var.report.drawString(390, y, str(query.value(4)))
+                    var.report.drawString(470, y, str(query.value(5)))
+                    y = y - 25
+
+            var.report.save()
+            for file in os.listdir(rootPath):
+                if file.endswith(nomepdfcli):
+                    os.startfile(pdf_path)
+
         except Exception as error:
             print(error)
