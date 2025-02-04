@@ -1,4 +1,4 @@
-from PyQt6 import QtWidgets, QtGui, QtCore
+from PyQt6 import QtWidgets, QtGui, QtCore, QtSql
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QTableWidgetItem, QWidget, QVBoxLayout, QPushButton
@@ -125,6 +125,25 @@ class Facturas:
 
             for i in range(len(listado)):
                 listado[i].setText(str(registro[i]))
+
+            query = QtSql.QSqlQuery()
+            query.prepare("""
+                SELECT SUM(p.prevenprop) AS "Total Venta"
+                FROM ventas AS v
+                INNER JOIN propiedades AS p ON v.codprop = p.codigo
+                WHERE v.facventa = :factura
+            """)
+            query.bindValue(":factura", var.ui.txtidfac.text())
+
+            if query.exec() and query.next():  # Ejecuta la consulta y mueve el cursor al primer resultado
+                precio_venta = query.value(0)  # Obtiene el valor de la columna SUM
+
+            impuestos = float(query.value(0)) * 0.10
+            precio_total = float(precio_venta) + float(impuestos)
+
+            var.ui.txtPrecioVentaFac.setText(f"{precio_venta:.2f} €")
+            var.ui.txtImpuestos.setText(f"{impuestos:.2f} €")
+            var.ui.txtPrecioTotal.setText(f"{precio_total:.2f} €")
 
             ventas.Ventas.cargarTablaVentas(self)
 

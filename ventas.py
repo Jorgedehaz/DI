@@ -72,7 +72,7 @@ class Ventas:
             print("Error al cargar la tabla de ventas:", e)
 
     def cargarOneVenta(self):
-        try:
+
             fila = var.ui.tablaVentas.selectedItems()
 
             datos = [dato.text() for dato in fila]
@@ -85,7 +85,4 @@ class Ventas:
             var.ui.txtImpuestos.setText(f"{impuestos:.2f}")
             var.ui.txtPrecioTotal.setText(f"{precio_total:.2f}")
 
-        except ValueError as ve:
-            print("Error en los datos:", ve)
-        except Exception as error:
-            print("Error cargando datos de la venta:", error)
+

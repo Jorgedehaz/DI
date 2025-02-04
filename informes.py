@@ -272,6 +272,12 @@ class Informes:
                     var.report.drawString(300, y, str(query.value(3)))
                     var.report.drawString(390, y, str(query.value(4)))
                     var.report.drawString(470, y, str(query.value(5)))
+                    var.report.drawString(430, 130, "Precio: ")
+                    var.report.drawString(430, 110, "Impuestos: ")
+                    var.report.drawString(430, 90, "Total: ")
+                    var.report.drawString(490, 130, str(var.ui.txtPrecioVentaFac.text()))
+                    var.report.drawString(490, 110, str(var.ui.txtImpuestos.text()))
+                    var.report.drawString(490, 90, str(var.ui.txtPrecioTotal.text()))
                     y = y - 25
 
             var.report.save()
