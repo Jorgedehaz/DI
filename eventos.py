@@ -107,6 +107,12 @@ class Eventos():
                 var.ui.txtAltaVend.setText(str(data))
             elif var.ui.panPrincipal.currentIndex() == 3 and var.btn==5:
                 var.ui.txtFechafac.setText(str(data))
+            elif var.ui.panPrincipal.currentIndex() == 4 and var.btn==6:
+                var.ui.txtfechaalquiler.setText(str(data))
+            elif var.ui.panPrincipal.currentIndex() == 4 and var.btn==7:
+                var.ui.txtFechaini.setText(str(data))
+            elif var.ui.panPrincipal.currentIndex() == 4 and var.btn==8:
+                var.ui.txtFechafin.setText(str(data))
             time.sleep(0.5)
             var.uiCalendar.hide()
             return data
