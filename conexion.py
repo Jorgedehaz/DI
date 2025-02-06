@@ -799,7 +799,7 @@ class Conexion:
             query.bindValue(":agente", str(nuevaVenta[2]))
 
             # Obtener la fecha de hoy sin la hora
-            fechabaja = date.today().strftime("%Y-%m-%d")  # Formato estándar YYYY-MM-DD
+            fechabaja = date.today().strftime("%d/%m/%Y")  # Formato estándar YYYY-MM-DD
 
             query2 = QtSql.QSqlQuery()
             query2.prepare("UPDATE propiedades SET bajaprop = :bajaprop WHERE codigo = :codigo")
@@ -848,6 +848,40 @@ class Conexion:
             return []
 
 
+    '''
+    ZONA ALQUILERES
+    '''
+
+    def altaAlquiler(nuevoAlquiler):
+        try:
+
+            fechainicio = date.today().strftime("%d/%m/%Y")  # Formato estándar YYYY-MM-DD
+
+            query = QtSql.QSqlQuery()
+            query.prepare("INSERT INTO ALQUILERES (propiedadid, clientedni, agenteid, fechainicio,fechafin,preciodealquiler) "
+                          "VALUES (:propiedadid, :clientedni, :agenteid, :fechainicio, :fechafin, :preciodealquiler)")
+            query.bindValue(":propiedadid", str(nuevoAlquiler[0]))
+            query.bindValue(":clientedni", str(nuevoAlquiler[1]))
+            query.bindValue(":agenteid", str(nuevoAlquiler[2]))
+            query.bindValue(":fechainicio", fechainicio)
+            query.bindValue(":fechafin", str(nuevoAlquiler[3]))
+            query.bindValue(":precioalquiler", var.ui.txtPrecioalquilerprop.text())
+
+            # Obtener la fecha de hoy sin la hora
+            fechabaja = date.today().strftime("%d/%m/%Y")  # Formato estándar YYYY-MM-DD
+
+            query2 = QtSql.QSqlQuery()
+            query2.prepare("UPDATE propiedades SET bajaprop = :bajaprop WHERE codigo = :codigo")
+            query2.bindValue(":bajaprop", fechabaja)
+            query2.bindValue(":codigo", str(nuevoAlquiler[3]))
+
+            if query.exec() and query2.exec():
+                return True
+            else:
+                return False
+
+        except Exception as e:
+            print("Error alta venta:", e)
 
 
 
