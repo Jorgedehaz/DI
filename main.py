@@ -3,6 +3,7 @@ from calendar import Calendar
 import alquileres
 import conexionserver
 import informes
+import mensualidades
 import vendedores
 import ventas
 from venPrincipal import *
@@ -123,6 +124,9 @@ class Main(QtWidgets.QMainWindow):
         # Botones ventas
 
         var.ui.btnGrabarContrato.clicked.connect(alquileres.Alquileres.altaAlquiler)
+
+
+
 
 
 

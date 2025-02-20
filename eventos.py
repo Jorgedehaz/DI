@@ -435,6 +435,12 @@ class Eventos():
 
             eventos.Eventos.cargarProv(self)
 
+        camposPanel3 = [var.ui.txtidalquiler,var.ui.txtfechaalquiler,var.ui.txtdniclialqui,var.ui.txtPropiedadalqui,
+                        var.ui.txtVendedoralqui,var.ui.txtFechaini,var.ui.txtFechafin]
+
+        for i, dato in enumerate(camposPanel3):
+            dato.setText("")
+
     def abrirTipoprop(self):
         try:
             var.dlggestion.show()

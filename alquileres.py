@@ -4,6 +4,7 @@ from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QTableWidgetItem, QWidget, QVBoxLayout, QPushButton
 
 import alquileres
+import mensualidades
 import propiedades
 import var
 import conexion
@@ -156,6 +157,7 @@ class Alquileres:
                     listado[i].setText(registro[i])
 
             alquileres.Alquileres.cargarTablaAlquileres(self)
+            mensualidades.Mensualidades.cargaTablaMensualidades(self)
 
         except Exception as error:
             print("Error cargando datos del alquiler", error)

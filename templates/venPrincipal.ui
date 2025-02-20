@@ -3506,13 +3506,6 @@
            </property>
           </widget>
          </item>
-         <item row="4" column="2" colspan="2">
-          <widget class="QPushButton" name="btnCargarmensualidad">
-           <property name="text">
-            <string>Cargar Mensualidad</string>
-           </property>
-          </widget>
-         </item>
          <item row="2" column="4">
           <widget class="QLineEdit" name="txtFechafin">
            <property name="enabled">

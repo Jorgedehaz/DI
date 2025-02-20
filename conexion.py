@@ -3,9 +3,11 @@ import sqlite3
 from logging import exception
 from datetime import datetime, timedelta
 from datetime import date
+import calendar
 from PyQt6 import QtSql, QtWidgets, QtCore
+from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon
-
+from PyQt6.QtWidgets import QTableWidgetItem, QCheckBox, QWidget, QVBoxLayout
 
 import var
 
@@ -853,6 +855,21 @@ class Conexion:
     ZONA ALQUILERES
     '''
 
+    def add_one_month(fecha):
+        """Suma un mes a la fecha dada, ajustando el día si es necesario."""
+        year, month, day = fecha.year, fecha.month, fecha.day
+        if month == 12:
+            new_year = year + 1
+            new_month = 1
+        else:
+            new_year = year
+            new_month = month + 1
+
+        last_day = calendar.monthrange(new_year, new_month)[1]
+        new_day = min(day, last_day)
+
+        return fecha.replace(year=new_year, month=new_month, day=new_day)
+
     def altaAlquiler(nuevoAlquiler):
         try:
             # 1. Guardar el alquiler en la tabla ALQUILERES
@@ -872,28 +889,38 @@ class Conexion:
                 print("Error dando de alta alquiler:", query.lastError().text())
                 return False
 
-            # 2. Obtener las fechas de inicio y fin
-            fecha_inicio = datetime.strptime(nuevoAlquiler[3], "%Y-%m-%d")  # Ajusta el formato según tu base de datos
-            fecha_fin = datetime.strptime(nuevoAlquiler[4], "%Y-%m-%d")
+            # 2. Obtener el ID del contrato insertado
+            contrato_id = query.lastInsertId()
+            if contrato_id is None:
+                # En caso de no funcionar, consulta la tabla correcta (asegúrate de usar ALQUILERES y no contratos)
+                query_contrato = QtSql.QSqlQuery()
+                query_contrato.prepare("SELECT max(idalquiler) FROM ALQUILERES")
 
-            # 3. Calcular las mensualidades
+                if query_contrato.next():
+                    contrato_id = query_contrato.value(0)
+
+            # 3. Convertir las fechas usando el formato correcto (con barras '/')
+            fecha_inicio = datetime.strptime(nuevoAlquiler[3], "%d/%m/%Y")
+            fecha_fin = datetime.strptime(nuevoAlquiler[4], "%d/%m/%Y")
+
+            # 4. Calcular las mensualidades
             mensualidades = []
             while fecha_inicio <= fecha_fin:
-                mensualidades.append(fecha_inicio.strftime("%Y-%m-%d"))
-                # Sumar un mes a la fecha de inicio
-                next_month = fecha_inicio + timedelta(days=30)  # Sumar aproximadamente un mes
-                fecha_inicio = next_month.replace(day=1)  # Ir al primer día del mes siguiente
+                mensualidades.append(fecha_inicio.strftime("%d/%m/%Y"))
+                fecha_inicio = Conexion.add_one_month(fecha_inicio)
+            print("Mensualidades calculadas:", mensualidades)
 
-            # 4. Guardar las mensualidades en la tabla correspondiente
+            # 5. Guardar las mensualidades en la tabla correspondiente
             for fecha in mensualidades:
                 query_mensualidad = QtSql.QSqlQuery()
-                query_mensualidad.prepare("INSERT INTO MENSUALIDADES (propiedad, contrato, mensualidad, importe, pago) "
-                                          "VALUES (:propiedad, :contrato, :mensualidad, :importe, :pago)")
+                query_mensualidad.prepare(
+                    "INSERT INTO MENSUALIDADES (propiedad, contrato, mensualidad, importe, pago) "
+                    "VALUES (:propiedad, :contrato, :mensualidad, :importe, :pago)")
                 query_mensualidad.bindValue(":propiedad", str(nuevoAlquiler[0]))
-                query_mensualidad.bindValue(":contrato", str(nuevoAlquiler[0]))
+                query_mensualidad.bindValue(":contrato", str(contrato_id))
                 query_mensualidad.bindValue(":mensualidad", fecha)
                 query_mensualidad.bindValue(":importe", str(nuevoAlquiler[5]))
-                query_mensualidad.bindValue(":pago", )
+                query_mensualidad.bindValue(":pago", "0")  # Por defecto, no pagado
                 if not query_mensualidad.exec():
                     print("Error al insertar mensualidad:", query_mensualidad.lastError().text())
                     return False
@@ -930,8 +957,8 @@ class Conexion:
         try:
             query = QtSql.QSqlQuery()
             query.prepare(
-                "DELETE FROM ALQUILERES WHERE id = :idalquiler")
-            query.bindValue(":idFactura", idAlquiler)
+                "DELETE FROM ALQUILERES WHERE idalquiler = :idalquiler")
+            query.bindValue(":idalquiler", idAlquiler)
             return query.exec()
         except Exception as exec:
             print("Error eliminando el alquiler", exec)
@@ -963,6 +990,54 @@ class Conexion:
     '''
     ZONA MENSUALIDADES
     '''
+
+    @staticmethod
+    def cargarTablaMensualidades(contrato_id):
+        """
+        Consulta en la base de datos las mensualidades para el contrato indicado y
+        retorna una lista de tuplas con los siguientes datos:
+          (codmes, direccion, propiedad_id, importe, mes, pago)
+        """
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("""
+                SELECT codmes, propiedad, mensualidad, importe, pago 
+                FROM mensualidades 
+                WHERE contrato = :contrato
+                ORDER BY codmes
+            """)
+            query.bindValue(":contrato", int(contrato_id))
+            if not query.exec():
+                print("Error en consulta de mensualidades:", query.lastError().text())
+                return []
+
+            registros = []
+            while query.next():
+                codmes = query.value(0)
+                propiedad_id = query.value(1)
+                mes = query.value(2)
+                importe = query.value(3)
+                pago = query.value(4)
+
+                # Consultar la dirección de la propiedad
+                query_prop = QtSql.QSqlQuery()
+                query_prop.prepare("SELECT direccion FROM propiedades WHERE codigo = :codigo")
+                query_prop.bindValue(":codigo", propiedad_id)
+                direccion = ""
+                if query_prop.exec():
+                    if query_prop.next():
+                        direccion = query_prop.value(0)
+                else:
+                    print("Error al obtener la dirección de la propiedad:", query_prop.lastError().text())
+
+                registros.append((codmes, direccion, propiedad_id, importe, mes, pago))
+
+            return registros
+
+        except Exception as e:
+            print("Error en cargarTablaMensualidades (Conexion):", e)
+            return []
+
 
 
 
