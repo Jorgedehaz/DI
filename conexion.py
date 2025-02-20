@@ -1,7 +1,8 @@
 import os
 import sqlite3
 from logging import exception
-from datetime import datetime, date
+from datetime import datetime, timedelta
+from datetime import date
 from PyQt6 import QtSql, QtWidgets, QtCore
 from PyQt6.QtGui import QIcon
 
@@ -854,37 +855,114 @@ class Conexion:
 
     def altaAlquiler(nuevoAlquiler):
         try:
-
-            fechainicio = date.today().strftime("%d/%m/%Y")  # Formato estándar YYYY-MM-DD
-
+            # 1. Guardar el alquiler en la tabla ALQUILERES
             query = QtSql.QSqlQuery()
-            query.prepare("INSERT INTO ALQUILERES (propiedadid, clientedni, agenteid, fechainicio,fechafin,preciodealquiler) "
-                          "VALUES (:propiedadid, :clientedni, :agenteid, :fechainicio, :fechafin, :preciodealquiler)")
+            query.prepare(
+                "INSERT INTO ALQUILERES (propiedadid, clientedni, agenteid, fechainicio, fechafin, preciodealquiler, fecha) "
+                "VALUES (:propiedadid, :clientedni, :agenteid, :fechainicio, :fechafin, :preciodealquiler, :fecha)")
             query.bindValue(":propiedadid", str(nuevoAlquiler[0]))
             query.bindValue(":clientedni", str(nuevoAlquiler[1]))
             query.bindValue(":agenteid", str(nuevoAlquiler[2]))
-            query.bindValue(":fechainicio", fechainicio)
-            query.bindValue(":fechafin", str(nuevoAlquiler[3]))
-            query.bindValue(":precioalquiler", var.ui.txtPrecioalquilerprop.text())
+            query.bindValue(":fechainicio", str(nuevoAlquiler[3]))
+            query.bindValue(":fechafin", str(nuevoAlquiler[4]))
+            query.bindValue(":preciodealquiler", int(str(nuevoAlquiler[5])))
+            query.bindValue(":fecha", str(nuevoAlquiler[6]))
 
-            # Obtener la fecha de hoy sin la hora
-            fechabaja = date.today().strftime("%d/%m/%Y")  # Formato estándar YYYY-MM-DD
-
-            query2 = QtSql.QSqlQuery()
-            query2.prepare("UPDATE propiedades SET bajaprop = :bajaprop WHERE codigo = :codigo")
-            query2.bindValue(":bajaprop", fechabaja)
-            query2.bindValue(":codigo", str(nuevoAlquiler[3]))
-
-            if query.exec() and query2.exec():
-                return True
-            else:
+            if not query.exec():
+                print("Error dando de alta alquiler:", query.lastError().text())
                 return False
 
+            # 2. Obtener las fechas de inicio y fin
+            fecha_inicio = datetime.strptime(nuevoAlquiler[3], "%Y-%m-%d")  # Ajusta el formato según tu base de datos
+            fecha_fin = datetime.strptime(nuevoAlquiler[4], "%Y-%m-%d")
+
+            # 3. Calcular las mensualidades
+            mensualidades = []
+            while fecha_inicio <= fecha_fin:
+                mensualidades.append(fecha_inicio.strftime("%Y-%m-%d"))
+                # Sumar un mes a la fecha de inicio
+                next_month = fecha_inicio + timedelta(days=30)  # Sumar aproximadamente un mes
+                fecha_inicio = next_month.replace(day=1)  # Ir al primer día del mes siguiente
+
+            # 4. Guardar las mensualidades en la tabla correspondiente
+            for fecha in mensualidades:
+                query_mensualidad = QtSql.QSqlQuery()
+                query_mensualidad.prepare("INSERT INTO MENSUALIDADES (propiedad, contrato, mensualidad, importe, pago) "
+                                          "VALUES (:propiedad, :contrato, :mensualidad, :importe, :pago)")
+                query_mensualidad.bindValue(":propiedad", str(nuevoAlquiler[0]))
+                query_mensualidad.bindValue(":contrato", str(nuevoAlquiler[0]))
+                query_mensualidad.bindValue(":mensualidad", fecha)
+                query_mensualidad.bindValue(":importe", str(nuevoAlquiler[5]))
+                query_mensualidad.bindValue(":pago", )
+                if not query_mensualidad.exec():
+                    print("Error al insertar mensualidad:", query_mensualidad.lastError().text())
+                    return False
+
+            return True
+
         except Exception as e:
-            print("Error alta venta:", e)
+            print("Error alta alquiler:", e)
+            return False
+
+    def listadoAlquileres(self):
+        try:
+            registros = []
+
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM alquileres")
+            if query.exec():
+                while query.next():
+                    fila = []
+                    for i in range(query.record().count()):
+                        valor = query.value(i)
+                        # Convertir valores nulos a cadena vacía para evitar errores en la UI
+                        fila.append("" if valor is None else str(valor))
+                    registros.append(fila)
+
+            return registros
+
+        except Exception as e:
+            print("Error listado alquileres", e)
+            return []
+
+    @staticmethod
+    def delAqluiler(idAlquiler):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare(
+                "DELETE FROM ALQUILERES WHERE id = :idalquiler")
+            query.bindValue(":idFactura", idAlquiler)
+            return query.exec()
+        except Exception as exec:
+            print("Error eliminando el alquiler", exec)
+
+    def datosOneAlquiler(id):
+        try:
+            registro = []
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM alquileres WHERE idalquiler = :idalquiler")
+
+            if not id.isdigit():
+                print("ID de alquiler no válido")
+                return []
+
+            query.bindValue(":idalquiler", int(id))
+
+            if query.exec():
+                while query.next():
+                    for i in range(query.record().count()):
+                        registro.append(str(query.value(i)))
+
+            return registro
+
+        except Exception as e:
+            print("Error recuperando datos de alquiler", e)
+            return []
 
 
-
+    '''
+    ZONA MENSUALIDADES
+    '''
 
 
 

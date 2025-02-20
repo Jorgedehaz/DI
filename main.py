@@ -1,5 +1,6 @@
 from calendar import Calendar
 
+import alquileres
 import conexionserver
 import informes
 import vendedores
@@ -51,16 +52,20 @@ class Main(QtWidgets.QMainWindow):
         eventos.Eventos.resizeTablaPropiedades(self)
         eventos.Eventos.resizeTablaFacturas(self)
         eventos.Eventos.resizeTablaVentas(self)
+        eventos.Eventos.resizeTablaAlquileres(self)
+        eventos.Eventos.resizeTablaMensualidades(self)
         var.ui.tablaClientes.clicked.connect(clientes.Clientes.cargaOneCliente)
         var.ui.tablaPropiedades.clicked.connect(propiedades.Propiedades.cargaOnePropiedad)
         var.ui.tablaFacturas.clicked.connect(facturas.Facturas.cargarOneFactura)
         var.ui.tablaVentas.clicked.connect(ventas.Ventas.cargarOneVenta)
+        var.ui.tablaContrato.clicked.connect(alquileres.Alquileres.cargarOneAlquiler)
 
         vendedores.Vendedores.cargaTablaVendedores(self)
         eventos.Eventos.resizeTablaVendedores(self)
         var.ui.tablaVendedores.clicked.connect(vendedores.Vendedores.cargaOneVendedor)
 
         facturas.Facturas.mostrarTablaFactura(self)
+        alquileres.Alquileres.cargarTablaAlquileres(self)
 
 
         '''
@@ -100,14 +105,24 @@ class Main(QtWidgets.QMainWindow):
         var.ui.btnAnteriorProp.clicked.connect(propiedades.Propiedades.prevProp)
         var.ui.btnSiguienteProp.clicked.connect(propiedades.Propiedades.nextProp)
 
+        #Botones ventas
+
         var.ui.btnGrabarVend.clicked.connect(vendedores.Vendedores.altaVendedor)
         var.ui.btnModificarVend.clicked.connect(vendedores.Vendedores.modifVendedor)
         var.ui.btnDeleteVend.clicked.connect(vendedores.Vendedores.bajaVendedor)
 
+        # Botones ventas
+
         var.ui.btnGrabarFactura.clicked.connect(facturas.Facturas.altaFactura)
         var.ui.btnlimpiarfac.clicked.connect(eventos.Eventos.limpiarPanFacturas)
 
+        # Botones ventas
+
         var.ui.btnGrabarVenta.clicked.connect(ventas.Ventas.altaVenta)
+
+        # Botones ventas
+
+        var.ui.btnGrabarContrato.clicked.connect(alquileres.Alquileres.altaAlquiler)
 
 
 

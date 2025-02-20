@@ -229,6 +229,10 @@ class Clientes:
                 else:
                     listado[i].setText(registro[i])
 
+
+            #Cargar datos en pag Alquileres
+            var.ui.txtdniclialqui.setText(str(datos[0]))
+
         except Exception as error:
             print("Error cargando datos del cliente", error)
 

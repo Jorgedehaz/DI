@@ -198,6 +198,9 @@ class Vendedores:
             # Volcar datos vendedor a pag Ventas
             var.ui.txtVendedorFac.setText(str(registro[0]))
 
+            #Volvar datos vendedor a pag Alquileres
+            var.ui.txtVendedoralqui.setText(str(registro[0]))
+
         except Exception as error:
             print("Error cargando datos del vendedor", error)
 

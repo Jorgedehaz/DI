@@ -273,6 +273,9 @@ class Propiedades():
             var.ui.txtLocalidadFac.setText(str(registro[5]))
             var.ui.txtPrecioFac.setText(str(registro[11]))
 
+            #Volcar datos propiedad a pag Alquileres
+            var.ui.txtPropiedadalqui.setText(str(registro[0]))
+
         except Exception as error:
             print("Error cargando datos de la Propiedad", error)
 

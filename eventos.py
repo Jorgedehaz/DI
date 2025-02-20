@@ -223,11 +223,55 @@ class Eventos():
         except Exception as e:
             print("error en resize tabla facturas: ", e)
 
+    def resizeTablaAlquileres(self):
+        try:
+            header = var.ui.tablaContrato.horizontalHeader()
+            for i in range(header.count()):
+                if (i==1 or i==2):
+                    header.setSectionResizeMode(i,QtWidgets.QHeaderView.ResizeMode.Stretch)
+                else:
+                    header.setSectionResizeMode(i,QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+                header_items =var.ui.tablaContrato.horizontalHeaderItem(i)
+                font=header_items.font()
+                font.setBold(True)
+                header_items.setFont(font)
+
+
+
+        except Exception as e:
+            print("error en resize tabla Alquileres: ", e)
+
+    def resizeTablaMensualidades(self):
+        try:
+            header = var.ui.tablaMensualidades.horizontalHeader()
+            for i in range(header.count()):
+                if (i == 1 or i == 2 or i == 3):
+                    header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.Stretch)
+                else:
+                    header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+                header_items = var.ui.tablaMensualidades.horizontalHeaderItem(i)
+                font = header_items.font()
+                font.setBold(True)
+                header_items.setFont(font)
+
+
+
+        except Exception as e:
+            print("error en resize tabla Alquileres: ", e)
+
     def abrirTipoprop(self):
         try:
             var.dlggestion.show()
         except Exception as error:
             print("error en abrir gestión propiedades: ", error)
+
+    def abrirTipoprop(self):
+        try:
+            var.dlggestion.show()
+        except Exception as error:
+            print("error en abrir gestión propiedades: ", error)
+
+
 
 
 
