@@ -996,13 +996,13 @@ class Conexion:
         """
         Consulta en la base de datos las mensualidades para el contrato indicado y
         retorna una lista de tuplas con los siguientes datos:
-          (codmes, direccion, propiedad_id, importe, mes, pago)
+          (codmes, propiedad_id, mensualidad, importe, pago)
         """
         try:
             query = QtSql.QSqlQuery()
             query.prepare("""
                 SELECT codmes, propiedad, mensualidad, importe, pago 
-                FROM mensualidades 
+                FROM MENSUALIDADES 
                 WHERE contrato = :contrato
                 ORDER BY codmes
             """)
@@ -1018,25 +1018,31 @@ class Conexion:
                 mes = query.value(2)
                 importe = query.value(3)
                 pago = query.value(4)
-
-                # Consultar la dirección de la propiedad
-                query_prop = QtSql.QSqlQuery()
-                query_prop.prepare("SELECT direccion FROM propiedades WHERE codigo = :codigo")
-                query_prop.bindValue(":codigo", propiedad_id)
-                direccion = ""
-                if query_prop.exec():
-                    if query_prop.next():
-                        direccion = query_prop.value(0)
-                else:
-                    print("Error al obtener la dirección de la propiedad:", query_prop.lastError().text())
-
-                registros.append((codmes, direccion, propiedad_id, importe, mes, pago))
+                registros.append((codmes, propiedad_id, mes, importe, pago))
 
             return registros
 
         except Exception as e:
             print("Error en cargarTablaMensualidades (Conexion):", e)
             return []
+
+    @staticmethod
+    def actualizarPago(codmes, state):
+        """
+        Actualiza el campo 'pago' de la mensualidad con id 'codmes' según el estado del checkbox.
+        Si el checkbox está marcado (state == 2), se pone 1; si no, se pone 0.
+        """
+        try:
+            # En PyQt6, state es un entero: 0 (Unchecked), 2 (Checked)
+            pago = 1 if state == 2 else 0
+            query = QtSql.QSqlQuery()
+            query.prepare("UPDATE MENSUALIDADES SET pago = :pago WHERE codmes = :codmes")
+            query.bindValue(":pago", pago)
+            query.bindValue(":codmes", codmes)
+            if not query.exec():
+                print("Error al actualizar el pago:", query.lastError().text())
+        except Exception as e:
+            print("Error en actualizarPago:", e)
 
 
 

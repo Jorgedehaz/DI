@@ -3578,11 +3578,6 @@
            </column>
            <column>
             <property name="text">
-             <string>Propiedad</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
              <string>ID Propiedad</string>
             </property>
            </column>
@@ -3599,6 +3594,11 @@
            <column>
             <property name="text">
              <string>Gestion</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Imprimir</string>
             </property>
            </column>
           </widget>

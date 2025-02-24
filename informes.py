@@ -287,3 +287,8 @@ class Informes:
 
         except Exception as error:
             print(error)
+
+    '''
+    RECIBO MENSUALIDAD
+    '''
+
