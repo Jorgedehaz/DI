@@ -80,7 +80,7 @@ class Mensualidades:
                 btnReport.setFixedSize(30, 20)
                 btnReport.setIcon(QIcon("./img/recibo.ico"))
                 btnReport.setStyleSheet("background-color: #efefef;")
-                btnReport.clicked.connect(lambda checked, cod=codmes: informes.reportMensualidad(cod))
+                btnReport.clicked.connect(lambda checked, cod=codmes: informes.Informes.reportMensualidad(cod))
 
                 containerReport = QWidget()
                 layoutReport = QtWidgets.QHBoxLayout(containerReport)
