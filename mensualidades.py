@@ -21,6 +21,11 @@ class Mensualidades:
           3: Mes (mensualidad)
           4: Gestión (checkbox que refleja y permite actualizar el campo 'pago')
           5: Reporte (botón para generar el reporte de la mensualidad)
+
+          :param self:
+          :type self:
+
+          Carga en la tabla mensualidades los datos o objetos asignandolos a la columna correspondiente
         """
         try:
             # Limpiar la tabla

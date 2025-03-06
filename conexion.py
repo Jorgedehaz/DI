@@ -567,6 +567,14 @@ class Conexion:
             print("Error recuperando datos de clientes", e)
 
     def buscarProp(datos):
+        """
+        :param datos: array con datos de propiedad
+        :type datos: list
+        :return: array con propiedades
+        :rtype: array
+
+        Devuelve un array de propiedades que coincida con los parametro de busqueda
+        """
         try:
             registro=[]
             query = QtSql.QSqlQuery()

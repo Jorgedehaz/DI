@@ -10,6 +10,12 @@ import conexion
 class Ventas:
 
     def altaVenta(self):
+        """
+        :param self: self
+        :return: mbox con mensaje de exito o error
+
+        Recoge los datos de los txt para pasarlos al metodo que ejecuta el alta en la BD en la clase conexion.py
+        """
         try:
             nuevaVenta = [var.ui.txtidfac.text(),var.ui.txtCodigoFac.text(),var.ui.txtVendedorFac.text(),var.ui.txtCodigoFac.text()]
             if conexion.Conexion.altaVenta(nuevaVenta):
@@ -41,6 +47,12 @@ class Ventas:
 
     @staticmethod
     def cargarTablaVentas(self):
+        """
+        :param self:
+        :type self:
+
+        Carga en la tabla ventas los datos o objetos asignandolos a la columna correspondiente
+        """
         try:
             var.ui.tablaVentas.clearContents()
             var.ui.tablaVentas.setRowCount(0)
@@ -72,7 +84,12 @@ class Ventas:
             print("Error al cargar la tabla de ventas:", e)
 
     def cargarOneVenta(self):
+            """
+            :param self:
+            :type self:
 
+            Carga en los campos txt de ventas los datos de la venta seleccionada
+            """
             fila = var.ui.tablaVentas.selectedItems()
 
             datos = [dato.text() for dato in fila]
