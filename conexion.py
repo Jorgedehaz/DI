@@ -542,12 +542,12 @@ class Conexion:
 
     def datosOnePropiedad(id):
         """
-        :param id: array con datos de propiedad
-        :type id: list
+        :param id: id de la propiedad
+        :type id: int
         :return: true o false
         :rtype: bool
 
-        Metodo que elimina una propiedad pasando su datos a la bbdd
+        Metodo que carga los datos de una propiedad en los campos de texto
 
         """
         try:
@@ -592,6 +592,12 @@ class Conexion:
             print("Error buscar propiedad", e)
 
     def cargaBuscarProp(self):
+        """
+        :return: array de municipios
+        :rtype: array
+
+        Devulve una lista de municipios para poder filtrar las propiedades
+        """
         registros = []
         query = QtSql.QSqlQuery()
         query.prepare("SELECT municipio FROM municipios")
@@ -605,6 +611,15 @@ class Conexion:
     '''
 
     def altaVendedor(nuevovend):
+        """
+        :param nuevovend: array con datos de vendedor
+        :type nuevovend: list
+        :return: true o false
+        :rtype: bool
+
+        Metodo que da de alta un vendedor pasando su datos a la bbdd
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare("INSERT into COMENTARIOS (dniVendedor,nombreVendedor,altaVendedor,movilVendedor,mailVendedor,"
@@ -630,6 +645,14 @@ class Conexion:
             return False
 
     def listadoVendedores(self):
+        """
+
+        :return: devuelve listado vendedores
+        :rtype: list
+
+        Metodo que devuelve todas los vendedores
+
+        """
         try:
             listado = []
             if var.historico == 1:
@@ -657,6 +680,15 @@ class Conexion:
             print("error listado en conexión", e)
 
     def datosOneVendedor(id):
+        """
+        :param id: id del vendedor
+        :type id: int
+        :return: true o false
+        :rtype: bool
+
+        Metodo que elimina una propiedad pasando su datos a la bbdd
+
+        """
         try:
             registro = []
             query = QtSql.QSqlQuery()
@@ -676,6 +708,15 @@ class Conexion:
 
 
     def modifVendedor(registro):
+        """
+        :param registro: array con datos de vendedor
+        :type registro: list
+        :return: true o false
+        :rtype: bool
+
+        Metodo que modifica un vendedor pasando su datos a la bbdd
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare("select count(*) from coemntarios where idVendedor = :id")
@@ -712,6 +753,15 @@ class Conexion:
             print("error modificar vendedor", error)
 
     def bajaVendedor(datos):
+        """
+        :param datos: array con datos de vendedor
+        :type datos: list
+        :return: true o false
+        :rtype: bool
+
+        Metodo que da de baja un vendedor pasando su datos a la bbdd
+
+        """
         try:
 
             query = QtSql.QSqlQuery()
@@ -733,6 +783,15 @@ class Conexion:
     '''
 
     def altaFactura(nuevafactura):
+        """
+        :param nuevafactura: array con datos de factura
+        :type nuevafactura: list
+        :return: true o false
+        :rtype: bool
+
+        Metodo que da de alta una factura pasando su datos a la bbdd
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare("INSERT into FACTURAS (fechafac,dnifac) VALUES (:fechafac,:dnifac)")
@@ -746,6 +805,14 @@ class Conexion:
             print("Error alta factura", e)
 
     def listadoFacturas(self):
+        """
+
+        :return: devuelve listado facturas
+        :rtype: list
+
+        Metodo que devuelve todas las facturas en la tabla facturas
+
+        """
         try:
             registros = []
 
@@ -764,6 +831,15 @@ class Conexion:
             return []
 
     def delFactura(idfactura):
+        """
+        :param idfactura: id factura
+        :type idfactura: int
+        :return: true o false
+        :rtype: bool
+
+        Metodo que da de baja una factura pasando su datos a la bbdd
+
+        """
         try:
             print(idfactura)
             query = QtSql.QSqlQuery()
@@ -778,6 +854,15 @@ class Conexion:
             print("Error eliminando factura:", e)
 
     def datosOneFactura(id):
+        """
+        :param id: id de la factura
+        :type id: int
+        :return: registro
+        :rtype: array
+
+        Metodo que carga los datos de una factura en los campos de texto
+
+        """
         try:
             registro = []
             query = QtSql.QSqlQuery()
